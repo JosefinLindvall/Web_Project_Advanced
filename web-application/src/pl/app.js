@@ -16,10 +16,10 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-app.get('/', function(request, response){
+app.get('/', function (request, response) {
     response.render("home.hbs")
 })
 
-app.listen(8080, function(){
+app.listen(8080, function () {
     console.log('Web application listening on port 8080')
 })
