@@ -1,3 +1,9 @@
-.hello {
-  color: blue;
+.friendy-headline {
+  margin-bottom: 2em;
+  color: lightcoral;
+}
+
+#main-text {
+  margin: auto;
+  width: 60%;
 }
