@@ -1,0 +1,15 @@
+.rounded_large_image {
+    margin-top: 1em;
+    margin-left: 1em;
+    border-radius: 50%;
+    height: 400px;
+    width: 400px;
+}
+
+.center-align {
+    margin: 2em;
+}
+
+.about-us-text {
+    margin-right: 2em;
+}

@@ -1,25 +1,30 @@
--- CREATE TABLE IF NOT EXISTS Account (
---     firstName varchar(255),
---     lastName varchar(255),
---     email VARCHAR(255) PRIMARY KEY,
---     password VARCHAR(255),
---     birthDate DATE(255),
---     gender VARCHAR(255),
---     flag VARCHAR(255)
--- );
+USE `webAppDb`;
 
--- CREATE TABLE IF NOT EXISTS Post (
---     email VARCHAR(255) FOREIGN KEY ON Account email,
---     title VARCHAR(255),
---     content VARCHAR(255),
---     email + title PRIMARY KEY  
--- );
+CREATE TABLE IF NOT EXISTS `Account` (
+    `firstName` VARCHAR(255) NOT NULL,
+    `lastName` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `birthDate` DATE NOT NULL,
+    `gender` VARCHAR(255) NOT NULL,
+    `flag` VARCHAR(255), 
+    PRIMARY KEY(`email`)
+);
 
--- CREATE TABLE IF NOT EXISTS ContactMessage (
---     title VARCHAR(255),
---     content VARCHAR(255),
---     email VARCHAR(255), 
---     email + title PRIMARY KEY
--- );
+CREATE TABLE IF NOT EXISTS Post (
+    email VARCHAR(255),
+    title VARCHAR(255),
+    content VARCHAR(255),
+    FOREIGN KEY(email) REFERENCES Account(email),
+    PRIMARY KEY(email, title)
+);
 
--- INSERT INTO accounts (username, password) VALUES ("Alice", "abc123")
+CREATE TABLE IF NOT EXISTS ContactMessage (
+    title VARCHAR(255),
+    content VARCHAR(255),
+    email VARCHAR(255), 
+    PRIMARY KEY(email, title)
+);
+
+INSERT INTO Account (`firstName`, `lastName`, `email`, `password`, `birthDate`, `gender`, `flag`) VALUES ('Dennis', 'Andersson', 'dennisfram@hotmail.com', '5555', '1996-04-28', 'male', 'admin');
+INSERT INTO Account (`firstName`, `lastName`, `email`, `password`, `birthDate`, `gender`, `flag`) VALUES ('Josefin', 'Lindvall', 'josefin.margareta.lindvall@gmail.com', '1234', '1997-12-26', 'female', 'admin');

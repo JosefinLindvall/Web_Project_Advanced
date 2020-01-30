@@ -40,6 +40,26 @@ app.get('/profile', function(request, response) {
     response.render("profile.hbs")
 })
 
+
+app.get('/about-us', function(request, response) {
+    response.render("about.hbs")
+})
+
+
+app.get('/support', function(request, response) {
+    response.render("support.hbs")
+})
+
+
+app.get('/view-messages', function(request, response) {
+    response.render("viewMessages.hbs")
+})
+
+
+app.get('/search-posts', function(request, response) {
+    response.render("searchPosts.hbs")
+})
+
 app.listen(8080, function () {
     console.log('Web application listening on port 8080')
 })
