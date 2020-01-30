@@ -9,31 +9,58 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     {{!--  Compiled and minified CSS from Materialize  --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    {{!-- Put this script into an appropriate JS file --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+              M.AutoInit();
+        });
+  </script>
+
 </head>
 
 <body>
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><img class="sizeable-image" src="/images/pink_hands.png"></a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#">Search Post</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Log In</a></li>
-                    <li><a href="#">Sign Up</a></li>
-                </ul>
+                <div class="container">
+                    <a href="/home" class="brand-logo"><img class="sizeable-image" src="/images/pink_hands.png"></a>
+                    <a href="#" data-target="menu-responsive" class="sidenav-trigger">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="#">Search Post</a></li>
+                        <li><a href="/create-post">Create Post</a></li>{{!-- Dölj denna för användare utan account --}}
+                        <li><a href="/profile">Profile</a></li>{{!-- Dölj denna för användare utan account --}} 
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="/login">Log In</a></li>
+                        <li><a href="/signup">Sign Up</a></li>
+                    </ul>
+                </div>
             </div>
         </nav>
+
+        <ul class="sidenav" id="menu-responsive">
+            <li><a href="#">Search Post</a></li>
+            <li><a href="/create-post">Create Post</a></li>{{!-- Dölj denna för användare utan account --}}
+            <li><a href="/profile">Profile</a></li>{{!-- Dölj denna för användare utan account --}} 
+            <li><a href="#">Support</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="/login">Log In</a></li>
+            <li><a href="/signup">Sign Up</a></li>
+        </ul>
+
     </header>
 
     <main>
         {{{body}}}
     </main>
 
-    <footer>
-    </footer>
+    <footer></footer>
 </body>
 
 </html>
