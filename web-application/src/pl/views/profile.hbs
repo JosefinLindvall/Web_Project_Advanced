@@ -1,49 +1,39 @@
 
 <link rel="stylesheet" href="css/profile.css">
 
+<div class="container">
+    <h1 class="center-align">Profile</h1>
+</div>
+
 {{!-- add an if statement or some kind to determine if this is a boy or a girl --}}
 {{!-- first fix the database access --}}
 <div class="container">
-        <div class="row">
-            <div class="col s3">
-            <img class="materialboxed avatar-profile" src="/images/boy_avatar.png">
-        </div>
-        <div class="col s3">
-            <img class="materialboxed avatar-profile" src="/images/girl_avatar.png">
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col s12 m6">
-            <div class="card blue-grey darken-1">
+        <div class="row content">
+            <div class="col s4">
+                <img class="materialboxed avatar-profile" src="/images/boy_avatar.png">
+            </div>
+    
+        <div class="col s2 m6 right">
+            <div class="card purple darken-1">
+                <span class="card-title white-text">Full Name</span>
                 <div class="card-content white-text">
-                    <span class="card-title">Card Title</span>
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
-                </div>
-                <div class="card-action">
-                    <a href="#">This is a link</a>
-                    <a href="#">This is a link</a>
+                    <span class="card-content">Full Name: __________</span>
+                    <span class="card-content">Age: _________</span>
+                    <span class="card-content">Gender: _________</span>
                 </div>
             </div>
         </div>
-    </div>
 
-<div class="row">
-    <div class="col s12 m6">
-        <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
+        <div class="col s2 m6 right">
+            <div class="card purple darken-1">
+                <span class="card-title white-text">Contact Information</span>    
+                <div class="card-content white-text">
+                    <span class="card-content">Email: __________</span>
+                    <span class="card-content">Telephone: _________</span>
+                </div>
             </div>
         </div>
     </div>
-</div> 
 </div>
+
+

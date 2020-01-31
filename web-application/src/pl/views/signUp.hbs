@@ -10,39 +10,66 @@
 
             <div class="card-content">
                 <div class="row">
-                    <form class="col s12">
+                    <form method="POST" action="/account/signup" class="col s12">
                     
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input placeholder="Placeholder" id="first_name" type="text" class="validate">
-                            <label for="first_name">First Name</label>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="first_name" type="text" class="validate" name="firstName">
+                                <label for="first_name">First Name</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="last_name" type="text" class="validate" name="lastName">
+                                <label for="last_name">Last Name</label>
+                            </div>
                         </div>
-                        <div class="input-field col s6">
-                            <input id="last_name" type="text" class="validate">
-                            <label for="last_name">Last Name</label>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input id="password" type="password" class="validate">
-                            <label for="password">Password</label>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="password" type="password" class="validate" name="password">
+                                <label for="password">Password</label>
+                            </div>
+                    
+                            <div class="input-field col s6">
+                                <input id="email" type="email" class="validate" name="email">
+                                <label for="email">Email</label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="input-field col s12">
-                        <input id="email" type="email" class="validate">
-                        <label for="email">Email</label>
+                        <div class="row">
+                            <div class="input-field col s12">
+                            <input id="phone" type="text" class="validate" name="phoneNumber">
+                            <label for="phone">Phone Number</label>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                            <input id="birthday" type="date" class="validate" name="birthday">
+                            <label for="birthday">BirthDay</label>
+                            </div>
+                        </div>
+                        
+
+                        <div class="row">
+                            <p>
+                                <label>
+                                    <input type="radio" name="male"/>
+                                    <span>Male</span>
+                                </label>
+                            </p>
+                            
+                            <p>
+                                <label>
+                                    <input name="group1" type="radio" name="female"/>
+                                    <span>Female</span>
+                                </label>
+                            </p>
+                        </div>
+                        
+                        <div class="form-field">
+                            <button class="btn-large wave-effect waves-dark red lighten-2 login-button" type="submit">Register</button>
                     </form>
                 </div>
-        
-                <div class="form-field">
-                    <button class="btn-large wave-effect waves-dark red lighten-2 login-button">Register</button>
-                </div><br>
-                
             </div>
         </div>
     </div>

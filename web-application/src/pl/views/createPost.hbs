@@ -7,23 +7,30 @@
             <div class="card-action  red lighten-2 white-text"></div>
             <div class="card-content">
                 <div class="row">
-                    <form class="col s12">
+                    <form method="POST" action="/create-post" class="col s12">
                         <div class="row">
                             <div class="input-field col s6">
-                                <input id="title" type="text" class="validate">
+                                <input id="title" type="text" class="validate" name="title">
                                 <label for="title">Title</label>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="content" type="text" class="validate">
-                                <label for="content">Content</label>
+                                <input id="email" type="email" class="validate" name="email">
+                                <label for="email">email</label>
                             </div>                           
                         </div>  
-                        </div><br>
+                        
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="content" type="text" class="validate" name="content">
+                                <label for="content">Content</label>
+                            </div>                           
+                        </div>
+
                         <div class="form-field">
-                            <button class="btn-large wave-effect waves-dark red lighten-2 ">Submit</button>
+                            <button class="btn-large wave-effect waves-dark red lighten-2 " type="submit">Submit</button>
                         </div><br>
                     </form>
                 </div>

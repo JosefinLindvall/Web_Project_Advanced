@@ -1,19 +1,18 @@
-const mysql = require("mysql")
+const db = require('./db')
 
-const db = mysql.createConnection({
-    host: "db", 
-    user: "root", 
-    password: "abc5555",
-    database: "webAppDb"
-})
+exports.createPost = function(post, callback) {
 
-exports.getSpecificNrOfPosts = function( nrOfPosts, callback) {
+    const query = "INSERT INTO Post (title, email, content) VALUES (?, ?, ?)"
+    const values = [post[0], post[1], post[2]]
 
-    // db.query("SELECT * FROM posts 
-    // WHERE timestamp = (SELECT MAX(timestamp) FROM sensorTable s2 WHERE s1.sensorID = s2.sensorID)
-    // ORDER BY sensorID, timestamp;")
+	db.query(query, values, function(error, results) {
+        
+        if(error) {
+			// TODO: Look for some violation maybe?.
+			callback(['databaseError'], null)
+        }
+        else {
+			callback(null, results.insertId)
+		}
+	})
 }
-
-//lägg require i en db fil och kalla därifrån
-
-getPostsWithSpecificCategory

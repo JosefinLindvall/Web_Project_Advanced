@@ -4,8 +4,14 @@ const bodyParser = require("body-parser")
 
 const app = express()
 
+const accountRouter = require('./routers/account-router')
+const variousRouter = require('./routers/various-router')
+const postRouter = require('./routers/post-router')
+
+// Handle static files in the public folder.
 app.use(express.static(__dirname + "/public"))
 
+// Setup express-handlebars.
 app.set("views", "src/pl/views")
 
 app.engine("hbs", expressHandlebars({
@@ -16,50 +22,28 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-app.get('/', function (request, response) {
-    response.render("home.hbs")
-})
-
-app.get('/home', function (request, response) {
-    response.render("home.hbs")
-})
-
-app.get('/login', function(request, response) {
-    response.render("login.hbs")
-})
-
-app.get('/signup', function(request, response) {
-    response.render("signUp.hbs")
-})
-
-app.get('/create-post', function(request, response) {
-    response.render("createPost.hbs")
-})
+// Attach all routers.
+app.use("/account", accountRouter)
+app.use("/", variousRouter)
+app.use("/create-post", postRouter)
 
 app.get('/profile', function(request, response) {
     response.render("profile.hbs")
 })
 
-
-app.get('/about-us', function(request, response) {
-    response.render("about.hbs")
-})
-
-
 app.get('/support', function(request, response) {
     response.render("support.hbs")
 })
-
 
 app.get('/view-messages', function(request, response) {
     response.render("viewMessages.hbs")
 })
 
-
 app.get('/search-posts', function(request, response) {
     response.render("searchPosts.hbs")
 })
 
+// Start listening for incoming HTTP requests!
 app.listen(8080, function () {
     console.log('Web application listening on port 8080')
 })
