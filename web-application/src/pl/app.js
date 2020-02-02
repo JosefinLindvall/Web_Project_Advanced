@@ -7,6 +7,7 @@ const app = express()
 const accountRouter = require('./routers/account-router')
 const variousRouter = require('./routers/various-router')
 const postRouter = require('./routers/post-router')
+const contactMessageRouter = require('./routers/contact-message-router')
 
 // Handle static files in the public folder.
 app.use(express.static(__dirname + "/public"))
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use("/account", accountRouter)
 app.use("/", variousRouter)
 app.use("/create-post", postRouter)
+app.use("/contact-messages", contactMessageRouter)
 
 app.get('/support', function (request, response) {
     response.render("support.hbs")
@@ -37,6 +39,18 @@ app.get('/view-messages', function (request, response) {
 
 app.get('/search-posts', function (request, response) {
     response.render("searchPosts.hbs")
+})
+
+app.get('/search-posts', function (request, response) {
+
+    const categories = ["hiking", "fishing", "bowling"] //where to store this array??
+    const locations = ["Eksjö", "Jönköping", "Örebro"] //where to store this array??
+
+    const model = {
+        categories,
+        locations
+    }
+    response.render("searchPosts.hbs", model)
 })
 
 // Start listening for incoming HTTP requests!

@@ -1,0 +1,43 @@
+{{#if databaseError.length}}
+<p>There was a database error, cannot fetch contact messages :( </p>
+{{/if}}
+
+
+
+
+{{#if contactMessages.length}}
+
+<div="search-result-div">
+    <div class="row">
+
+
+        {{#each contactMessages}}
+
+        <div class="col s3">
+            <div class="card">
+
+                <div class="card-image">
+                    <img class="responsive-img profile-image" src="/images/question_mark.png">
+                </div>
+
+                <div class="card-content">
+                    <p class="contact-message-title-paragraph">{{title}}</p>
+                    <br>
+                    <p class="contact-message-content-paragraph">{{content}}.</p>
+                    <br>
+                    <p class="contact-message-email-paragraph">{{email}}.</p>
+                </div>
+
+            </div>
+        </div>
+
+        {{/each}}
+
+    </div>
+    </div>
+
+    {{else}}
+
+    <p>No contact messages available!</p>
+
+    {{/if}}

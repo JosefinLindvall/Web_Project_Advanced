@@ -32,3 +32,14 @@ CREATE TABLE IF NOT EXISTS ContactMessage (
 
 -- INSERT INTO Account (`firstName`, `lastName`, `email`, `password`, `birthDate`, `gender`, `flag`) VALUES ('Dennis', 'Andersson', 'dennisfram@hotmail.com', '5555', '1996-04-28', 'male', 'admin');
 -- INSERT INTO Account (`firstName`, `lastName`, `email`, `password`, `birthDate`, `gender`, `flag`) VALUES ('Josefin', 'Lindvall', 'josefin.margareta.lindvall@gmail.com', '1234', '1997-12-26', 'female', 'admin');
+
+
+
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang utbilding', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'Lisa@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('a', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'pelle@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang blåbär', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'sara@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang kärlek', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'prutt@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang gräshoppor', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'sten@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang en stol', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'filt@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang livets mening', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'citronte@gmail.com');
+INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Fråga ang droger', 'Hej, jag undrar om ni ens ä utbildade programmerare? Mvh Lisa', 'nemenhej@gmail.com');
