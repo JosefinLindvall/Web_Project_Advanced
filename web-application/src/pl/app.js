@@ -27,19 +27,15 @@ app.use("/account", accountRouter)
 app.use("/", variousRouter)
 app.use("/create-post", postRouter)
 
-app.get('/profile', function(request, response) {
-    response.render("profile.hbs")
-})
-
-app.get('/support', function(request, response) {
+app.get('/support', function (request, response) {
     response.render("support.hbs")
 })
 
-app.get('/view-messages', function(request, response) {
+app.get('/view-messages', function (request, response) {
     response.render("viewMessages.hbs")
 })
 
-app.get('/search-posts', function(request, response) {
+app.get('/search-posts', function (request, response) {
     response.render("searchPosts.hbs")
 })
 

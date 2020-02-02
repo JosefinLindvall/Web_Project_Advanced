@@ -3,21 +3,22 @@ const postManager = require('../../bll/post-manager')
 
 const router = express.Router()
 
-router.get('/', function(request, response) {
-    response.render("createPost.hbs")
+router.get('/', function (request, response) {
+	response.render("createPost.hbs")
 })
 
-//Hör huruvida vi ska göra med location och category när man skapar en ny post
-router.post('/', function(request, response) {
+router.post('/', function (request, response) {
 
-    const title = request.body.title
-    const email = request.body.email
-    const content = request.body.content
-    
-    const post = [title, email, content]
-    
-	postManager.createPost(post, function(error) {
-		
+	const title = request.body.title
+	const email = request.body.email
+	const content = request.body.content
+	const category = request.body.category
+	const location = request.body.location
+
+	const post = [title, email, content, category, location]
+
+	postManager.createPost(post, function (error) {
+
 		if (error) {
 			const model = {
 				somethingWentWrong: true,

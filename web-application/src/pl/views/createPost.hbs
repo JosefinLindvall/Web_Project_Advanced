@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/createPost.css">
+
 <h3 class="center-align create-post-title">Create a post and make friends today!</h3>
 
 <div class="row align-form">
@@ -19,18 +20,43 @@
                             <div class="input-field col s12">
                                 <input id="email" type="email" class="validate" name="email">
                                 <label for="email">email</label>
-                            </div>                           
-                        </div>  
-                        
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="content" type="text" class="validate" name="content">
                                 <label for="content">Content</label>
-                            </div>                           
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <select name="category">
+                                    <option value="" disabled selected>Choose your option</option>
+                                    <option value="hiking">hiking</option>
+                                    <option value="fishing">fishing</option>
+                                    <option value="bowling">bowling</option>
+                                </select>
+                                <label>Category</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <select name="location">
+                                    <option value="" disabled selected>Choose your option</option>
+                                    <option value="Eksjo">Eksjö</option>
+                                    <option value="Jonkoping">Jönköping</option>
+                                    <option value="Orebro">Örebro</option>
+                                </select>
+                                <label>Location</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <button class="btn-large wave-effect waves-dark red lighten-2 " type="submit">Submit</button>
+                            <button class="btn-large wave-effect waves-dark red lighten-2 "
+                                type="submit">Submit</button>
                         </div><br>
                     </form>
                 </div>

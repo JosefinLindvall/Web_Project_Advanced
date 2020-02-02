@@ -3,16 +3,22 @@ const accountManager = require('../../bll/account-manager')
 
 const router = express.Router()
 
-router.get('/login', function(request, response) {
-    response.render("login.hbs")
+
+//LOG IN
+//////////////////////////////////////////////////////////////////////////////////////////
+router.get('/login', function (request, response) {
+	response.render("login.hbs")
 })
 
-router.get('/signup', function(request, response) {
-    response.render("signUp.hbs")
+
+
+//SIGN UP
+//////////////////////////////////////////////////////////////////////////////////////////
+router.get('/signup', function (request, response) {
+	response.render("signUp.hbs")
 })
 
-// Discuss how we should do when we send female and male ????
-router.post('/signup', function(request, response) {
+router.post('/signup', function (request, response) {
 
 	const firstName = request.body.firstName
 	const lastName = request.body.lastName
@@ -20,13 +26,12 @@ router.post('/signup', function(request, response) {
 	const email = request.body.email
 	const phoneNumber = request.body.phoneNumber
 	const birthDay = request.body.birthday
-	const male = request.body.male
-	//const female = request.body.female
+	const gender = request.body.gender
 
-	const account = [firstName, lastName, password, email, phoneNumber, birthDay, male]
+	const account = [firstName, lastName, password, email, phoneNumber, birthDay, gender]
 
-	accountManager.createAccount(account, function(error) {
-		
+	accountManager.createAccount(account, function (error) {
+
 		if (error) {
 			const model = {
 				somethingWentWrong: true,
@@ -40,6 +45,38 @@ router.post('/signup', function(request, response) {
 				account,
 			}
 			response.render("signUp.hbs", model)
+		}
+	})
+})
+
+
+
+//PROFILE
+//////////////////////////////////////////////////////////////////////////////////////////
+router.get('/profile', function (request, response) {
+	response.render("profile.hbs")
+})
+
+
+router.get('/profile/:email', function (request, response) {
+
+	const email = request.body.email
+	console.log(email)
+	accountManager.getAccountByEmail(email, function (error, account) {
+
+		if (error) {
+			const model = {
+				somethingWentWrong: true,
+				account,
+			}
+			response.render("profile.hbs", model)
+		}
+		else {
+			const model = {
+				somethingWentWrong: false,
+				account,
+			}
+			response.render("profile.hbs", model)
 		}
 	})
 })

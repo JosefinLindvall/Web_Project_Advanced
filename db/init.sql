@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS ContactMessage (
     title VARCHAR(255),
     content VARCHAR(255),
     email VARCHAR(255), 
+    timeWhenSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     PRIMARY KEY(email, title)
 );
 
