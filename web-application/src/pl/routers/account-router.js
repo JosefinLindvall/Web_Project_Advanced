@@ -3,14 +3,11 @@ const accountManager = require('../../bll/account-manager')
 
 const router = express.Router()
 
-
 //LOG IN
 //////////////////////////////////////////////////////////////////////////////////////////
 router.get('/login', function (request, response) {
 	response.render("login.hbs")
 })
-
-
 
 //SIGN UP
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -20,31 +17,19 @@ router.get('/signup', function (request, response) {
 
 router.post('/signup', function (request, response) {
 
-	const firstName = request.body.firstName
-	const lastName = request.body.lastName
-	const password = request.body.password
-	const email = request.body.email
-	const phoneNumber = request.body.phoneNumber
-	const birthDay = request.body.birthday
-	const gender = request.body.gender
-
-	const account = [firstName, lastName, password, email, phoneNumber, birthDay, gender]
+	const account = request.body
 
 	accountManager.createAccount(account, function (error) {
 
 		if (error) {
 			const model = {
-				somethingWentWrong: true,
+				error: error,
 				account,
 			}
 			response.render("signUp.hbs", model)
 		}
 		else {
-			const model = {
-				somethingWentWrong: false,
-				account,
-			}
-			response.render("signUp.hbs", model)
+			response.redirect("../home")
 		}
 	})
 })
@@ -57,26 +42,21 @@ router.get('/profile', function (request, response) {
 	response.render("profile.hbs")
 })
 
-
 router.get('/profile/:email', function (request, response) {
 
-	const email = request.body.email
-	console.log(email)
+	const email = "dennisfram@hotmail.com"
+
 	accountManager.getAccountByEmail(email, function (error, account) {
 
 		if (error) {
 			const model = {
-				somethingWentWrong: true,
+				error: error,
 				account,
 			}
 			response.render("profile.hbs", model)
 		}
 		else {
-			const model = {
-				somethingWentWrong: false,
-				account,
-			}
-			response.render("profile.hbs", model)
+			response.redirect("../profile", model)
 		}
 	})
 })

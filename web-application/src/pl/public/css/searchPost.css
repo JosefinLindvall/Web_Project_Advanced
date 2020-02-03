@@ -1,0 +1,67 @@
+
+.container-div {
+    width: 80%; 
+    height: 24em;
+    margin-top: 15em;
+    margin: 0 auto;
+    background-color: #e57373;
+    border-radius: 15%;
+}
+
+.search-posts-title {
+    color: white;
+    text-align: center;
+}
+
+.search-div {
+    width: 50%; 
+    height: 17em;
+    margin: 0 auto;
+    background-color: #ffe6e6;
+    padding: 5em;
+    border-radius: 5%;
+}
+
+.error-paragraph {
+    text-align: center;
+    color: #e57373;
+}
+
+.error-item {
+    color: #e57373;
+}
+
+.card {
+    background-color: #696969;
+    border-radius: 2%
+}
+
+.card-image {
+    margin: 0 auto;
+    width: 70%;
+    padding: 0.5em;
+}
+
+.post-title-paragraph {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+
+.post-content-paragraph {
+    color: white;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
+    color: #ffe6e6;  
+}
+
+.search-button-div {
+    margin-top: 5%;
+    margin-left: 30%;
+}
+
+.no-posts-paragraph {
+    text-align: center;
+    color: #e57373; 
+}

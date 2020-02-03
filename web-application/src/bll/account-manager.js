@@ -1,10 +1,16 @@
 const accountRepository = require('../dal/account-repository')
-// const accountValidator = require('./account-validator')  gör en ny fil för validering senare
+const accountValidator = require('./account-validator')
 
 
 exports.createAccount = function (account, callback) {
 
-    //validate account here later by calling accountValidator function 
+    // Validate the account.
+    // const errors = accountValidator.getErrorsNewAccount(account)
+
+    // if (errors.length > 0) {
+    //     callback(errors, null)
+    //     return
+    // }
     accountRepository.createAccount(account, callback)
 }
 

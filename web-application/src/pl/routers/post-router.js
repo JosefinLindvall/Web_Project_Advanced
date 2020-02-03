@@ -27,11 +27,7 @@ router.post('/', function (request, response) {
 			response.render("createPost.hbs", model)
 		}
 		else {
-			const model = {
-				somethingWentWrong: false,
-				post,
-			}
-			response.render("createPost.hbs", model)
+			response.render("createPost.hbs")
 		}
 	})
 })
