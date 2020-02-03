@@ -19,21 +19,10 @@ CREATE TABLE IF NOT EXISTS ContactMessage (
     content VARCHAR(255),
     email VARCHAR(255), 
     timeWhenSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    PRIMARY KEY(ContactMessage)
+    PRIMARY KEY(ContactMessageID)
 );
 
-CREATE TABLE IF NOT EXISTS Post (
-    postID INT NOT NULL AUTO_INCREMENT, 
-    title VARCHAR(255),
-    content VARCHAR(255),
-    category VARCHAR(255),
-    cityLocation VARCHAR(255),
-    FOREIGN KEY (cityLocation) REFERENCES `Location`(cityLocation),
-    FOREIGN KEY (category) REFERENCES Categorys(category),
-    PRIMARY KEY(postID) 
-);
-
-CREATE TABLE IF NOT EXISTS Categorys (
+CREATE TABLE IF NOT EXISTS Category (
     categoryID INT NOT NULL AUTO_INCREMENT,
     category VARCHAR(255),  
     PRIMARY KEY(categoryID)
@@ -41,6 +30,17 @@ CREATE TABLE IF NOT EXISTS Categorys (
 
 CREATE TABLE IF NOT EXISTS `Location` (
     locationID INT NOT NULL AUTO_INCREMENT,
-    cityLocation VARCHAR(255),  
+    `location` VARCHAR(255),  
     PRIMARY KEY(locationID)
+);
+
+CREATE TABLE IF NOT EXISTS Post (
+    postID INT NOT NULL AUTO_INCREMENT, 
+    title VARCHAR(255),
+    content VARCHAR(255),
+    categoryID INT,
+    locationID INT,
+    FOREIGN KEY (locationID) REFERENCES `Location`(locationID),
+    FOREIGN KEY (categoryID) REFERENCES Category(categoryID),
+    PRIMARY KEY(postID) 
 );
