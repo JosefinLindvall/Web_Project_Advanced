@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({
 // Attach all routers.
 app.use("/account", accountRouter)
 app.use("/", variousRouter)
-app.use("/create-post", postRouter)
+app.use("/post", postRouter)
 app.use("/contact-messages", contactMessageRouter)
 
 app.get('/support', function (request, response) {

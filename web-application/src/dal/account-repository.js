@@ -3,9 +3,10 @@ const db = require('./db')
 exports.createAccount = function (account, callback) {
 
     const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    const values = [account[0], account[1], account[2], account[3], account[4], account[5], account[6], "User"]
-
-	console.log(values)
+    
+    const keys = Object.keys(account)
+    const {firstName, lastName, password, email, phoneNumber, birthday, gender} = account
+    const values = [firstName, lastName, password, email, phoneNumber, birthday, gender, "User"]
 
     db.query(query, values, function (error, results) {
 
@@ -14,7 +15,7 @@ exports.createAccount = function (account, callback) {
             callback(['databaseError'], null)
         }
         else {
-            callback(null, results.insertId)
+            callback([], results.insertId)
         }
     })
 }

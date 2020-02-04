@@ -1,14 +1,13 @@
 const db = require('./db')
 
+//Detta kommer nu ändras lite? flera tables som ska komma åt categeory/location?
 exports.createPost = function (post, callback) {
 
 	const query = "INSERT INTO Post (title, email, content, category, location) VALUES (?, ?, ?, ?, ?)"
-	const values = [post[0], post[1], post[2], post[3], post[4]]
 
 	db.query(query, values, function (error, results) {
 
 		if (error) {
-
 			console.log(error)
 			// TODO: Look for some violation maybe?.
 			callback(['databaseError'], null)
@@ -21,7 +20,6 @@ exports.createPost = function (post, callback) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
 exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
 	// db.query("SELECT * FROM posts 
