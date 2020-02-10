@@ -29,7 +29,6 @@ exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
 exports.getPostsByCategoryAndLocation = function (category, location, callback) {
 
 	if (category == "any" && location == "any") {

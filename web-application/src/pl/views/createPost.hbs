@@ -35,7 +35,7 @@
                                 <select>
                                     <option value="" selected disabled hidden>Category</option>
                                     {{#each categories}}
-                                        <option value="{{categoryID}}">{{category}</option>
+                                        <option value="{{categoryID}}">{{category}}</option>
                                     {{/each}}
                                 </select>
                                 <label>Category</label>
@@ -43,20 +43,18 @@
                         </div>
 
                         <div class="row">
-                            <div class="input-field col s12">
-                                
+                            <div class="input-field col s12">           
                                 <select>
                                     <option value="" selected disabled hidden>Location</option>
                                     {{#each locations}}
-                                    <option value="{{this}}">{{this}}</option>
+                                        <option value="{{this}}">{{this}}</option>
                                     {{/each}}
                                 </select>
-                                         <label>Location</label>
+                                <label>Location</label>
                             </div>
                         </div>
 
                
-
                         <div class="form-field">
                             <button class="btn-large wave-effect waves-dark red lighten-2 "
                                 type="submit">Submit</button>

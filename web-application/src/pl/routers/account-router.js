@@ -42,6 +42,8 @@ router.get('/profile', function (request, response) {
 	response.render("profile.hbs")
 })
 
+
+//Ändra detta tillbaka att hämta hem ID istället för email dummer.
 router.get('/profile/:email', function (request, response) {
 
 	const email = "dennisfram@hotmail.com"

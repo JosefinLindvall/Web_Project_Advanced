@@ -5,7 +5,12 @@ const router = express.Router()
 
 router.get('/create-post', function (request, response) {
 
-
+	try {
+		const location 		
+	} 
+	catch (error) {
+		
+	}
 
 	response.render("createPost.hbs")
 })
@@ -31,9 +36,6 @@ router.post('/', function (request, response) {
 			response.render("createPost.hbs", model)
 		}
 		else {
-			const model = {
-
-			}
 			response.render("createPost.hbs")
 		}
 	})

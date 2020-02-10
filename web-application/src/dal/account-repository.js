@@ -5,6 +5,7 @@ exports.createAccount = function (account, callback) {
     const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     
     const keys = Object.keys(account)
+    
     const {firstName, lastName, password, email, phoneNumber, birthday, gender} = account
     const values = [firstName, lastName, password, email, phoneNumber, birthday, gender, "User"]
 
