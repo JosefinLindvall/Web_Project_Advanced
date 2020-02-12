@@ -38,7 +38,7 @@ router.post('/signup', function (request, response) {
 			response.render("signUp.hbs", model)
 		}
 		else {
-			response.redirect("../home.hbs")
+			response.redirect("../home")
 		}
 	})
 })
