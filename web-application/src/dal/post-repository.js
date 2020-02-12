@@ -1,24 +1,23 @@
 const db = require('./db')
 
-//Detta kommer nu ändras lite? flera tables som ska komma åt categeory/location?
 exports.createPost = function (post, callback) {
 
-	const query = "INSERT INTO Post (title, email, content, category, location) VALUES (?, ?, ?, ?, ?)"
+	const query = "INSERT INTO Post (title, content, categoryID, locationID) VALUES (?, ?, ?, ?)"
+	const values = [post.title, post.content, post.category, post.location]
 
-	db.query(query, values, function (error, results) {
+	db.query(query, values, function (error, post) {
 
 		if (error) {
-			console.log(error)
-			// TODO: Look for some violation maybe?.
 			callback(['databaseError'], null)
 		}
 		else {
-			callback(null, results.insertId)
+			callback(null, post)
 		}
 	})
 }
 
 
+//vene vad som är tänkt här lul
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
@@ -29,7 +28,7 @@ exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//troligtvis inte min skit
 exports.getPostsByCategoryAndLocation = function (category, location, callback) {
 
 	if (category == "any" && location == "any") {
@@ -51,7 +50,7 @@ exports.getPostsByCategoryAndLocation = function (category, location, callback) 
 		const query = `SELECT * FROM Post WHERE category = ? AND location = ? ORDER BY timeWhenSent ASC`
 	}
 
-	dbCursor.query(query, values, function (error, posts) {
+	db.query(query, values, function (error, posts) {
 
 		if (error) {
 			callback(['databaseError'], null)

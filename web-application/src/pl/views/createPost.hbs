@@ -8,18 +8,11 @@
             <div class="card-action  red lighten-2 white-text"></div>
             <div class="card-content">
                 <div class="row">
-                    <form method="POST" action="/create-post" class="col s12">
+                    <form method="POST" action="/post/create-posts" class="col s12">
                         <div class="row">
                             <div class="input-field col s6">
                                 <input id="title" type="text" class="validate" name="title">
                                 <label for="title">Title</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input id="email" type="email" class="validate" name="email">
-                                <label for="email">email</label>
                             </div>
                         </div>
 
@@ -32,10 +25,10 @@
 
                         <div class="row">
                             <div class="input-field col s12">
-                                <select>
-                                    <option value="" selected disabled hidden>Category</option>
-                                    {{#each categories}}
-                                        <option value="{{categoryID}}">{{category}</option>
+                                <select name="category">
+                                    <option selected disabled hidden>Category</option>
+                                    {{#each category}}
+                                    <option value="{{categoryID}}">{{category}}</option>
                                     {{/each}}
                                 </select>
                                 <label>Category</label>
@@ -44,18 +37,15 @@
 
                         <div class="row">
                             <div class="input-field col s12">
-                                
-                                <select>
-                                    <option value="" selected disabled hidden>Location</option>
-                                    {{#each locations}}
-                                    <option value="{{this}}">{{this}}</option>
+                                <select name="location">
+                                    <option selected disabled hidden>Location</option>
+                                    {{#each location}}
+                                    <option value="{{locationID}}">{{location}}</option>
                                     {{/each}}
                                 </select>
-                                         <label>Location</label>
+                                <label>Location</label>
                             </div>
                         </div>
-
-               
 
                         <div class="form-field">
                             <button class="btn-large wave-effect waves-dark red lighten-2 "
@@ -67,3 +57,16 @@
         </div>
     </div>
 </div>
+
+
+{{!-- If we have any database or router error --}}
+{{#if error}}
+<div class="error-div">
+    <p class="pink-centered-bold-text">The following errors occured when creating a post: </p>
+    <ul>
+        {{#each error}}
+        <li class="pink-centered-text">{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}

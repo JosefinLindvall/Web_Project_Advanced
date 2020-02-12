@@ -5,8 +5,6 @@ const router = express.Router()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 router.get("/", function (request, response) {
 
     try {
@@ -38,8 +36,6 @@ router.get("/", function (request, response) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 router.post("/send-contact-message", function (request, response) {
 
     const thankYouMessage = "Thank you for your message! We will come back to you as soon as possible!"
@@ -72,8 +68,3 @@ router.post("/send-contact-message", function (request, response) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router
-
-
-
-
-

@@ -3,36 +3,30 @@ const db = require('./db')
 exports.createAccount = function (account, callback) {
 
     const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    
-    const keys = Object.keys(account)
-    const {firstName, lastName, password, email, phoneNumber, birthday, gender} = account
-    const values = [firstName, lastName, password, email, phoneNumber, birthday, gender, "User"]
+    const values = [account.firstName, account.lastName, account.password, account.email, account.phoneNumber, account.birthday, account.gender, "User"]
 
-    db.query(query, values, function (error, results) {
+    db.query(query, values, function (error, account) {
 
         if (error) {
-            // TODO: Look for usernameUnique violation.
             callback(['databaseError'], null)
         }
         else {
-            callback([], results.insertId)
+            callback(null, account)
         }
     })
 }
 
-exports.getAccountByEmail = function (email, callback) {
+exports.logInAccount = function (account, callback) {
 
-    const query = "SELECT * FROM Account where email = 'dennisfram@hotmail.com'"  //Detta borde ju hämta från den vi klickade på via search post på nått sätt sen eller? 
+    // Somehow match this user with a user from the database?? compare id only?
 
-    const values = [email]
-
-    db.query(query, values, function (error, accounts) {
+    db.query(query, values, function (error, account) {
 
         if (error) {
             callback(['databaseError'], null)
         }
         else {
-            callback(null, accounts[0])
+            callback(null, account)
         }
     })
 }
