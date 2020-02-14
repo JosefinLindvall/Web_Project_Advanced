@@ -9,7 +9,6 @@ const router = express.Router()
  * Retrieves location and category from the database 
  * and renders it in createPost.hbs
  */
-
 router.get('/create-post', function (request, response) {
 
 	locationRouter.getAllLocations(function (error, location) {
