@@ -23,13 +23,20 @@ exports.logInAccount = function (account, callback) {
     const values = [account.email]
 
     db.query(query, values, function (error, password) {
+    
+
+        // DU får ett kukigt object av databasen och du vill bara ha själva hash, inte password:sdsdsdsd
+        // Now tommorrow you can move some of the implemenation to BLL instead.
+        
+        dataBasePassword = password
+        dataBasePassword = dataBasePassword[0].password
 
         if (error) {
             callback(['databaseError'], null)
         }
 
         else if (password.length > 0) {
-            bcrypt.compare(account.password.toString, password.toString(), function (err, isMatch) {
+            bcrypt.compare(account.password, dataBasePassword, function (err, isMatch) {
 
                 if (err) {
                     callback(['bcrypt error'], null)

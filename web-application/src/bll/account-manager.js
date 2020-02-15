@@ -5,8 +5,10 @@ const bcrypt = require('bcrypt')
 
 exports.createAccount = function (account, callback) {
     const errors = accountValidator.getErrorsNewAccount(account)
-    const password = account.password
+    const password = account.password.toString()
     const saltRounds = 10
+
+    console.log(typeof(password))
 
     if (errors.length > 0) {
         callback(errors, null)
