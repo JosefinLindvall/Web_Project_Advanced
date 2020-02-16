@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="/css/viewMessages.css">
+
 {{#if databaseError.length}}
 <p>There was a database error, cannot fetch contact messages :( </p>
 {{/if}}
@@ -13,19 +15,19 @@
 
         {{#each contactMessages}}
 
-        <div class="col s3">
+        <div class="col s4">
             <div class="card">
 
                 <div class="card-image">
-                    <img class="responsive-img profile-image" src="/images/question_mark.png">
+                    <img class="responsive-img profile-image" src="/images/question_mark_pink.png">
                 </div>
 
                 <div class="card-content">
-                    <p class="contact-message-title-paragraph">{{title}}</p>
+                    <p class="card-text card-title">{{title}}</p>
                     <br>
-                    <p class="contact-message-content-paragraph">{{content}}.</p>
+                    <p class="card-text">{{content}}.</p>
                     <br>
-                    <p class="contact-message-email-paragraph">{{email}}.</p>
+                    <p class="card-text">{{email}}.</p>
                 </div>
 
             </div>
@@ -36,8 +38,8 @@
     </div>
     </div>
 
-    {{else}}
+{{else}}
 
     <p>No contact messages available!</p>
 
-    {{/if}}
+{{/if}}

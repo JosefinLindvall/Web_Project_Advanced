@@ -8,26 +8,30 @@ const MIN_EMAIL_LENGTH = 3
 const MAX_EMAIL_LENGTH = 10
 
 
+
+
 exports.getErrorsForCreateContactMessage = function(title, content, email){
 	
 	const validationErrors = []
+  const titleLength = title.length
+  const contentLength = content.length
+  const emailLength = email.length
 	
-	
-	if(title.length < MIN_TITLE_LENGTH || title.length > MAX_TITLE_LENGTH){
-		validationErrors.push("Invalid length for title. Please type a title consisting of " + MIN_TITLE_LENGTH+ " - " + MAX_TITLE_LENGTH + " characters.")
-    }
+	if(titleLength < MIN_TITLE_LENGTH || titleLength > MAX_TITLE_LENGTH){
+    validationErrors.push("Invalid length for title. Please type a title consisting of " + MIN_TITLE_LENGTH+ " - " + MAX_TITLE_LENGTH + " characters. Current length of title: " + titleLength + "." )
+  }
 
-    if(content.length < MIN_CONTENT_LENGTH || content.length > MAX_CONTENT_LENGTH){
-		validationErrors.push("Invalid length for message. Please type a message consisting of " + MIN_CONTENT_LENGTH + " - "+ MAX_CONTENT_LENGTH + " characters.")
-    }
+  if(contentLength < MIN_CONTENT_LENGTH || contentLength > MAX_CONTENT_LENGTH){
+	  validationErrors.push("Invalid length for message. Please type a message consisting of " + MIN_CONTENT_LENGTH + " - "+ MAX_CONTENT_LENGTH + " characters. Current length of message: " + contentLength + "." )
+  }
     
-    if(email.length < MIN_EMAIL_LENGTH || email.length > MAX_EMAIL_LENGTH){
-		validationErrors.push("Invalid length for email. Please type an email consisting of " + MIN_EMAIL_LENGTH + " - " + MAX_EMAIL_LENGTH + " characters.")
-    }
+  if(emailLength < MIN_EMAIL_LENGTH || emailLength > MAX_EMAIL_LENGTH){
+		validationErrors.push("Invalid length for email. Please type an email consisting of " + MIN_EMAIL_LENGTH + " - " + MAX_EMAIL_LENGTH + " characters. Current length of email: " + emailLength + "." )
+  }
 
-    if(!email.includes("@")){
-        validationErrors.push("Invalid email adrress, must contain '@'")
-    }
+  if(!email.includes("@")){
+    validationErrors.push("Invalid email address, must contain '@'.")
+  }
 	
 	return validationErrors
 	

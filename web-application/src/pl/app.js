@@ -27,31 +27,8 @@ app.use(bodyParser.urlencoded({
 app.use("/account", accountRouter)
 app.use("/", variousRouter)
 app.use("/post", postRouter)
-app.use("/contact-messages", contactMessageRouter)
+app.use("/contact-message", contactMessageRouter)
 
-app.get('/support', function (request, response) {
-    response.render("support.hbs")
-})
-
-app.get('/view-messages', function (request, response) {
-    response.render("viewMessages.hbs")
-})
-
-app.get('/search-posts', function (request, response) {
-    response.render("searchPosts.hbs")
-})
-
-app.get('/search-posts', function (request, response) {
-
-    const categories = ["hiking", "fishing", "bowling"] //where to store this array??
-    const locations = ["Eksjö", "Jönköping", "Örebro"] //where to store this array??
-
-    const model = {
-        categories,
-        locations
-    }
-    response.render("searchPosts.hbs", model)
-})
 
 // Start listening for incoming HTTP requests!
 app.listen(8080, function () {

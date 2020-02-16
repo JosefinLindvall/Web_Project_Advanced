@@ -66,24 +66,43 @@ router.post("/create-posts", function (request, response) {
 	})
 })
 
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Probably old code from her?
+
+//This get request is sent when just rendering the page, and no search has been made
 router.get("/search-posts", function (request, response) {
 
-	const categoryOptions = ["any", "hiking", "fishing", "bowling"] //where to store this array??
-	const locationOptions = ["any", "Eksjö", "Jönköping", "Örebro"] //where to store this array??
-
 	try {
 
-		const model = {
-			categoryOptions, //from the array above
-			locationOptions //from the array above
-		}
+		var model = {}
+		
+		const categories = categoryManager.getAllCategories(function(errors, categories){
 
-		response.render("searchPosts.hbs", model)
+			if (errors){
+				model = {errors}
+				response.render("searchPosts.hbs", model)
+			}
+
+			else{ //No error fetching categories, ok to go on and fetch locations
+
+				const locations = locationManager.getAllLocations(function (errors, locations){
+					
+					if (errors){
+						model = {errors}
+						response.render("searchPosts.hbs", model)
+					}
+
+					else{ //No error fetching locations, ok to go on and render page
+						model={
+							categories:categories,
+							locations:locations
+						}
+						response.render("searchPosts.hbs", model)
+					}
+				})
+			}
+
+		})
+		
 	}
 
 
@@ -101,31 +120,63 @@ router.get("/search-posts", function (request, response) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//probably old code from her
-router.get("/search-posts/:category&:location", function (request, response) {
 
-	const categoryOptions = ["any", "hiking", "fishing", "bowling"] //where to store this array??
-	const locationOptions = ["any", "Eksjö", "Jönköping", "Örebro"] //where to store this array??
+//This get request is sent when a search has been made!
+router.get("/execute-search", function (request, response) {
 
-	const category = request.params.category
-	const location = request.params.location
+	//const categoryId = request.params.category
+	//const locationId = request.params.location
 
-	try {
+	const categoryId = 1
+	const locationId = 1
 
-		const posts = postManager.getPostsByCategoryAndLocation(category, location, function (errors, posts) {
+	try { 
 
-			const model = {
-				errors: errors, //these errors are either database errors or validation errors...
-				posts: posts,
-				categoryOptions, //from the array above
-				locationOptions, //from the array above
-				searchHasBeenMade: true
+		var model = {}
+		
+		categoryManager.getAllCategories(function(errors, categories){
+
+			if (errors){
+				model = {errors}
+				response.render("searchPosts.hbs", model)
 			}
 
-			response.render("searchPosts.hbs", model)
-		})
+			else{ //No error fetching categories, ok to go on and fetch locations
 
+				locationManager.getAllLocations(function (errors, locations){
+					
+					if (errors){
+						model = {errors}
+						response.render("searchPosts.hbs", model)
+					}
+
+					else{ //No error fetching locations, ok to go on and fetch all matching posts
+						
+						const posts = postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function(errors, posts){
+
+							if (errors){
+								model = {errors}
+								response.render("searchPosts.hbs", model)
+							}
+
+							else{
+
+								model={
+									categories:categories,
+									locations:locations,
+									posts:posts, 
+									searchHasBeenMade: true
+								}
+								response.render("searchPosts.hbs", model)
+
+							}
+						})
+					}
+				})
+			}
+		})	
 	}
+
 
 	catch (error) { //this error is a router error
 
@@ -138,5 +189,8 @@ router.get("/search-posts/:category&:location", function (request, response) {
 	}
 
 })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 module.exports = router

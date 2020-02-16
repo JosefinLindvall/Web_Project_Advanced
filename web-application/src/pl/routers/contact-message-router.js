@@ -5,12 +5,14 @@ const router = express.Router()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-router.get("/", function (request, response) {
 
+
+router.get("/view-all-contact-messages", function (request, response) { 
+ 
     try {
 
-        const contactMessages = contactMessageManager.getAllContactMessages(function (databaseError, contactMessages) {
-
+        contactMessageManager.getAllContactMessages(function (databaseError, contactMessages) {
+            
             const model = {
                 databaseError: databaseError,
                 contactMessages: contactMessages
@@ -22,7 +24,7 @@ router.get("/", function (request, response) {
     }
 
 
-    catch (error) { //could this be renamed to "routerError"?
+    catch (error) { // This error is a router error 
 
         const model = {
             routerError: error
@@ -34,19 +36,45 @@ router.get("/", function (request, response) {
 
 })
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+router.get("/view-contact-message-form", function (request, response){
+
+    response.render("support.hbs")
+})
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 router.post("/send-contact-message", function (request, response) {
 
-    const thankYouMessage = "Thank you for your message! We will come back to you as soon as possible!"
+    const thankYouMessage = "Thank you for your message! We will get back to you as soon as possible!"
+    const title = request.body.title
+    const content = request.body.content
+    const email = request.body.email
 
     try {
 
-        contactMessageManager.createContactMessage(function (databaseError) {
+        contactMessageManager.createContactMessage(title, content, email, function (errors) {
 
-            const model = {
-                errors: errors, //these errors are either database errors or validation errors...
-                thankYouMessage: thankYouMessage
+            var model = {}
+            
+            if (errors.length){
+                
+                model = {
+                    title : title,
+                    content : content,
+                    email : email,
+                    errors: errors
+                }
+            }
+
+            else{
+
+                model = {
+                    thankYouMessage: thankYouMessage
+                }
             }
 
             response.render("support.hbs", model)
@@ -55,7 +83,7 @@ router.post("/send-contact-message", function (request, response) {
     }
 
 
-    catch (error) { //could this be renamed to "routerError"?
+    catch (error) { // This error is a router error
 
         const model = {
             routerError: error
@@ -68,3 +96,8 @@ router.post("/send-contact-message", function (request, response) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = router
+
+
+
+
+

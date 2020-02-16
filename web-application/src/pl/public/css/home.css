@@ -1,9 +1,25 @@
 .friendy-headline {
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   color: lightcoral;
 }
 
-#main-text {
+.main-text {
   margin: auto;
-  width: 60%;
+  width: 70%;
+}
+
+
+.white-text{
+  color: white;
+  margin-right: 10%;
+  margin-left: 10%;
+  
+}
+
+.intro-text-div{
+  background-color: lightcoral;
+  margin-left: 5em;
+  margin: 0 auto;
+  width: 80%;
+  border-radius: 5%;
 }

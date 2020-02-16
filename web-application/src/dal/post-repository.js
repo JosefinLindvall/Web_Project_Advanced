@@ -28,36 +28,21 @@ exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//troligtvis inte min skit
-exports.getPostsByCategoryAndLocation = function (category, location, callback) {
 
-	if (category == "any" && location == "any") {
-		const query = `SELECT * FROM Post ORDER BY timeWhenSent ASC`
-	}
+exports.getPostsByCategoryIdAndLocationId = function (categoryId, locationId, callback) {
 
-	else if (category == "any") {
-		const values = [location]
-		const query = `SELECT * FROM Post WHERE location = ? ORDER BY timeWhenSent ASC`
-	}
+	const values = [categoryId, locationId]
+	const query = `SELECT * FROM Post WHERE categoryID = ? AND locationID = ?`
+	
 
-	else if (location == "any") {
-		const values = [category]
-		const query = `SELECT * FROM Post WHERE location = ? ORDER BY timeWhenSent ASC`
-	}
+	db.query(query, values, function (databaseError, posts) {
 
-	else {
-		const values = [category, location]
-		const query = `SELECT * FROM Post WHERE category = ? AND location = ? ORDER BY timeWhenSent ASC`
-	}
-
-	db.query(query, values, function (error, posts) {
-
-		if (error) {
-			callback(['databaseError'], null)
+		if (databaseError) {
+			callback(['Databse error when fetching matching posts.'], null)
 		}
 
 		else {
-			callback([], posts)
+			callback(null, posts)
 		}
 	})
 

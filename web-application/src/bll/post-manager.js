@@ -13,16 +13,7 @@ exports.createPost = function (post, callback) {
     postRepository.createPost(post, callback)
 }
 
-exports.getPostsByCategoryAndLocation = function (category, location, callback) {
+exports.getPostsByCategoryIdAndLocationId = function (categoryId, locationId, callback) {
 
-    const validationErrors = postValidator.getErrorsForSearchPosts(category, location)
-
-    if (validationErrors.length > 0) {
-        callback(validationErrors, null)
-        return
-    }
-
-    else {
-        postRepository.getPostsByCategoryAndLocation(category, location, callback)
-    }
+    postRepository.getPostsByCategoryIdAndLocationId(categoryId, locationId, callback)
 }

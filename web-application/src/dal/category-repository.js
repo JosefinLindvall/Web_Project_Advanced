@@ -1,17 +1,21 @@
 const db = require('./db')
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 exports.getAllCategories = function (callback) {
 
-    const query = "SELECT * FROM Category"
+    const query = `SELECT * FROM Category ORDER BY category` 
     const values = []
 
-    db.query(query, values, function (error, category) {
+    db.query(query, values, function (databaseError, categories) {
 
-        if (error) {
-            callback(['databaseError'], null)
+        if (databaseError) {
+            callback(['Database error when fetching categories.'], null) 
         }
+
         else {
-            callback(null, category)
+            callback(null, categories) 
         }
     })
+
 }

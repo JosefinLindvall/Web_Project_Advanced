@@ -32,14 +32,19 @@
 }
 
 .card {
-    background-color: #696969;
+    background-color: #e57373;
+    margin-top: 10vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
     border-radius: 2%
+   
 }
 
 .card-image {
     margin: 0 auto;
     width: 70%;
-    padding: 0.5em;
+    padding: 1em;
+    
 }
 
 .post-title-paragraph {
@@ -61,7 +66,20 @@
     margin-left: 30%;
 }
 
-.no-posts-paragraph {
+
+
+.pink-centered-bold-text{
     text-align: center;
-    color: #e57373; 
+    color: #e57373;
+    font-weight: bold;
 }
+
+.pink-centered-text{
+    color: #e57373;
+    text-align: center;
+}
+
+
+
+
+

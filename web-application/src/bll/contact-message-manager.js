@@ -5,7 +5,7 @@ exports.getAllContactMessages = function (callback) {
     contactMessageRepository.getAllContactMessages(callback)
 }
 
-exports.createContactMessage = function (callback) {
+exports.createContactMessage = function (title, content, email, callback) {
 
     const validationErrors = contactMessageValidator.getErrorsForCreateContactMessage(title, content, email)
 
@@ -15,7 +15,7 @@ exports.createContactMessage = function (callback) {
     }
 
     else {
-        postRepository.getPostsByCategoryAndLocation(category, location, callback)
+        contactMessageRepository.createContactMessage(title, content, email, callback)
     }
 
 }
