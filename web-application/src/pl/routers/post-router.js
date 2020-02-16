@@ -4,6 +4,7 @@ const categoryManager = require('../../bll/category-manager')
 const locationManager = require('../../bll/location-manager')
 const locationRouter = require('./location-router')
 const categoryRouter = require('./category-router')
+const sessionHandler = require('../session-handler')
 
 const router = express.Router()
 
@@ -11,7 +12,7 @@ const router = express.Router()
  * Retrieves location and category from the database 
  * and renders it in createPost.hbs
  */
-router.get('/create-post', function (request, response) {
+router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser(request, response, next), function (request, response) {
 
 	locationRouter.getAllLocations(function (error, location) {
 

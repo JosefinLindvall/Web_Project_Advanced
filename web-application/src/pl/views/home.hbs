@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
-</head>
-<body>
+<link rel="stylesheet" type="text/css" href="/css/home.css">
+    
+    {{!---------------------------------------------------------------------------------------}}
+    
     <header>
         <div>
             <h3 class="center-align friendy-headline">Friendy</h3>
         </div>
     </header>
+    
+    
     <main>
         <h4 class="center-align white-text">Are you lonely too?</h4>
         <div class="intro-text-div">
@@ -32,31 +28,48 @@
         <h4 class="center-align friendy-headline">Read the most recent posts here!</h4>
 
 
-        {{#if posts.length}}
-        {{#each posts}}
-         
-         <div class="row">
-            <div class="col s12 m6">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="/images/logga_holding_hands.png">
-                        <span class="card-title">Card Title</span>
-                        <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-                    </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-                </div>
-                </div>
-            </div>
-            </div>
+        {{!---------------------------------------------------------------------------------------}}
+
+        {{#if errors}} {{!-- These errors are database errors from fetching posts.  --}}
+        <div class="error-div">
+            <p class="pink-centered-bold-text"> Oh no! A database error occured when fetching posts! </p>
         </div>
 
-        {{/each}}
-        {{/if}}
+        {{else}} {{!--No errors, we have received an array of posts that may be empty or not. --}}
+
+        {{#if posts.length}}
+
+        <div="search-result-div">
+            <div class="row">
+
+                {{#each posts}}
+
+                <div class="col s3">
+                    <div class="card">
+                        
+                        <div class="card-image">
+                            <img class="responsive-img post-image" src="/images/adventure.jpg">
+                        </div>
+                        
+                        <div class="card-content">
+                            <p class="post-title-paragraph">{{title}}</p>
+                            <br>
+                            <p class="post-content-paragraph">{{content}}</p>
+                            <br>
+                            <p class="post-content-paragraph">{{timeWhenPosted}}</p>
+                        </div>
+                        
+                        <div class="card-action">
+                            <a href="#">Contact me!</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{/each}}
+
+            </div>
+            </div>
 
 
-
-
-    </main>
-</body>
-</html>
+        </main>

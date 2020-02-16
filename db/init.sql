@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `Account` (
     `password` VARCHAR(255) NOT NULL,
     `birthDate` DATE NOT NULL,
     `gender` VARCHAR(255) NOT NULL,
-    `flag` VARCHAR(255), 
+    `typeOfUser` VARCHAR(255), 
     PRIMARY KEY(accountID)
 );
 

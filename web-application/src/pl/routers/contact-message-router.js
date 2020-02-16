@@ -1,5 +1,6 @@
 const express = require('express')
 const contactMessageManager = require('../../bll/contact-message-manager')
+const sessionHandler = require('../session-handler')
 
 const router = express.Router()
 
@@ -7,7 +8,7 @@ const router = express.Router()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-router.get("/view-all-contact-messages", function (request, response) { 
+router.get("/view-all-contact-messages", sessionHandler.checkedIfLoggedInAsAdminUser(request, response, next), function (request, response) { 
  
     try {
 

@@ -1,5 +1,7 @@
 const db = require('./db')
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 exports.createPost = function (post, callback) {
 
 	const query = "INSERT INTO Post (title, content, categoryID, locationID) VALUES (?, ?, ?, ?)"
@@ -17,13 +19,27 @@ exports.createPost = function (post, callback) {
 }
 
 
-//vene vad som är tänkt här lul
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
-	// db.query("SELECT * FROM posts 
-	// WHERE timestamp = (SELECT MAX(timestamp) FROM sensorTable s2 WHERE s1.sensorID = s2.sensorID)
-	// ORDER BY sensorID, timestamp;")
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+exports.getSixLatestPosts = function (nrOfPosts, callback) {
+
+	
+	const values = []
+	const query = "SELECT * FROM posts ORDER BY timeWhenPosted LIMIT 6"
+
+	 db.query(query, values, function(databaseError, posts){
+		 
+		if (databaseError) {
+			callback(['Databse error when fetching latest posts.'], null)
+		}
+
+		else {
+			callback(null, posts)
+		}
+	 })
+
+
 }
 
 

@@ -1,6 +1,8 @@
 version: '3'
+
 services:
-  "web-application":
+  
+  web-application:
     build: "./web-application"
     ports:
       - "8080:8080"
@@ -9,6 +11,8 @@ services:
       - "./web-application/src:/web-application/src"
     depends_on:
       - "db"
+  
+  
   db:
     build: "./db"
     ports:
@@ -16,3 +20,9 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=abc5555
       - MYSQL_DATABASE=webAppDb
+
+  redis:
+    image: redis
+    container_name: cache
+    expose:
+      - 6379

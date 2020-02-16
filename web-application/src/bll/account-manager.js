@@ -1,66 +1,52 @@
-exports.getErrorsNewAccount = function (account) {
+const accountRepository = require('../dal/account-repository')
+const accountValidator = require('./account-validator')
 
-	MIN_FIRSTNAME_LENGTH = 2
-	MAX_FIRSTNAME_LENGTH = 15
-	MIN_LASTNAME_LENGTH = 2
-	MAX_LASTNAME_LENGTH = 30
+const bcrypt = require('bcrypt')
 
-	const errors = []
-	let phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;  //phone regex that will check for everything except + sign before number. 
+exports.createAccount = function (account, callback) {
+    const errors = accountValidator.getErrorsNewAccount(account)
+    const password = account.password
+    const saltRounds = 10
 
-	firstName = account.firstName
-	lastName = account.lastName
-	email = account.email
-	phoneNumber = account.phoneNumber
 
-	//validate firstname
-	if (firstName == "") {
-		errors.push("Firstname can't be empty")
-	}
-	else if (firstName.length < MIN_FIRSTNAME_LENGTH) {
-		errors.push("Firstname can't be less than 2 characters")
-	}
-	else if (firstName.length > MAX_FIRSTNAME_LENGTH) {
-		errors.push("Firstname can't be more than 15 characters")
-	}
+    if (errors.length > 0) {
+        callback(errors, null)
+        return
+    }
 
-	if (!firstName.match('^[A-Za-z]*$')) {
-		errors.push("Firstname can't consist of digits!")
-	}
-
-	//validate lastname
-	if (lastName == "") {
-		errors.push("Lastname can't be empty")
-	}
-	else if (lastName.length < MIN_LASTNAME_LENGTH) {
-		errors.push("Lastname can't be less than 2 characters")
-	}
-	else if (lastName.length > MAX_LASTNAME_LENGTH) {
-		errors.push("Lastname can't be more than 30 characters")
-	}
-
-	if (!lastName.match('^[A-Za-z]*$')) {
-		errors.push("Firstname can't consist of digits!")
-	}
-
-	//validate email
-	if (email == "") {
-		errors.push("Email field can't be empty!")
-	}
-
-	//validate phone number
-	if (!phoneNumber.match(phoneno)) {
-		errors.push("Need to enter a valid phone number")
-	}
-
-	return errors
+    // have some error validations maybe? 
+    bcrypt.hash(password, saltRounds, function (err, hash) {
+        accountRepository.createAccount(account, hash, callback)
+    })
 }
 
-//validate account info when you already have one here
-exports.checkAccountInformation = function (account) {
 
-	const errors = []
+exports.logInAccount = function (account, callback) {
 
-	return errors
+    // const errors = accountValidator.checkAccountInformation(account)
 
+    // if (errors.length > 0) {
+    //     callback(errors, null)
+    //     return
+    // }
+
+    accountRepository.logInAccount(account, callback)
+}
+
+exports.comparePassword = function(account, databasePassword, typeOfUser) {
+	
+	bcrypt.compare(account.password, databasePassword[0].password, function (err, isMatch) {
+
+		if (err) {
+			callback(['bcrypt error'], null)
+		}
+
+		else if (isMatch == true) {
+			callback(null, typeOfUser)
+		}
+
+		else {
+			callback(['Invalid password!'], null)
+		}
+	});
 }

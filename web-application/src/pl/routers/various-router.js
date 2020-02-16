@@ -1,14 +1,46 @@
 const express = require('express')
-
+const postManager = require('../../bll/post-manager')
 const router = express.Router()
 
 router.get('/', function (request, response) {
-    response.render("home.hbs")
+
+    try{
+        
+        postManager.getLatestSixPosts(function(error, posts){
+
+            const model = {}
+    
+            if (error){
+                model = {
+                    error:error
+                }
+            }
+
+            else{
+                model = {
+                    posts: posts
+                }
+            }
+    
+    
+        })
+        response.render("home.hbs", model)
+
+    }
+
+    catch(error){
+       
+        const model = {
+			routerError: error
+		}
+
+		response.render("routerError.hbs", model)
+    }
+
+    
 })
 
-router.get('/home', function (request, response) {
-    response.render("home.hbs")
-})
+
 
 router.get('/about-us', function(request, response) {
     response.render("about.hbs")

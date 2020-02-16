@@ -1,6 +1,6 @@
 const express = require('express')
-
 const accountManager = require('../../bll/account-manager')
+const sessionHandler = require('../session-handler')
 
 const router = express.Router()
 
@@ -12,9 +12,10 @@ router.get('/login', function (request, response) {
 
 //Post request to log in a user should it have ID with it? 
 router.post('/login', function (request, response) {
+	
 	const account = request.body
 
-	accountManager.logInAccount(account, function (error) {
+	accountManager.logInAccount(account, function (error, typeOfUser) {
 
 		if (error) {
 			const model = {
@@ -22,8 +23,18 @@ router.post('/login', function (request, response) {
 			}
 			response.render("login.hbs", model)
 		}
+		
 		else {
-			//session magic 
+			
+			if (typeOfUser == "admin"){
+				resquest.session.isLoggedInAsAdmin = true
+				request.session.isLoggedInAsReg = true
+			}
+
+			else if (typeOfUser == "user"){
+				request.session.isLoggedInAsReg = true
+			}
+
 			response.redirect("../home")
 		}
 	})
@@ -60,7 +71,7 @@ router.post('/signup', function (request, response) {
 
 //PROFILE INTE KLAR 
 //////////////////////////////////////////////////////////////////////////////////////////
-router.get('/profile', function (request, response) {
+router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser(request, response, next), function (request, response) {
 	response.render("profile.hbs")
 })
 

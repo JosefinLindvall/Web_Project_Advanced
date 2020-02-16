@@ -40,3 +40,12 @@
     </ul>
 </div>
 {{/if}}
+
+
+{{#if notLoggedInAsReg}}
+    <p class="pink-centered-bold-text">"You have been directed here because you tried to access a page only available for logged in users. Please sign in or create an account."</p>
+{{/if}}
+
+{{#if notLoggedInAsAdmin}}
+    <p class="pink-centered-bold-text">"You have been directed here because you tried to access a page only available for admin users. Please sign in as admin to reach this page."</p>
+{{/if}}
