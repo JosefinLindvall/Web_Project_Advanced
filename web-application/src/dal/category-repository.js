@@ -1,11 +1,5 @@
 const db = require('./db')
 
-<<<<<<< HEAD
-exports.getAllContactMessages = function (callback) {
-
-
-}
-=======
 exports.getAllCategories = function (callback) {
 
     const query = "SELECT * FROM Category"
@@ -21,4 +15,3 @@ exports.getAllCategories = function (callback) {
         }
     })
 }
->>>>>>> Denni_Branch

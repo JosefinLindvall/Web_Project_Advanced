@@ -11,14 +11,6 @@ const router = express.Router()
  */
 router.get('/create-post', function (request, response) {
 
-<<<<<<< HEAD
-	try {
-		const location 		
-	} 
-	catch (error) {
-		
-	}
-=======
 	locationRouter.getAllLocations(function (error, location) {
 
 		if (error) {
@@ -27,7 +19,6 @@ router.get('/create-post', function (request, response) {
 			}
 			response.render("createPost.hbs", model)
 		}
->>>>>>> Denni_Branch
 
 		else {
 			categoryRouter.getAllCategories(function (error, category) {

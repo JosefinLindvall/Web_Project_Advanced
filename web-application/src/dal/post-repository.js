@@ -28,10 +28,7 @@ exports.getSpecificNrOfPosts = function (nrOfPosts, callback) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-=======
 //troligtvis inte min skit
->>>>>>> Denni_Branch
 exports.getPostsByCategoryAndLocation = function (category, location, callback) {
 
 	if (category == "any" && location == "any") {

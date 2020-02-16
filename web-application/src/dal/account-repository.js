@@ -3,15 +3,7 @@ const bcrypt = require('bcrypt')
 
 exports.createAccount = function (account, hash, callback) {
     const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-<<<<<<< HEAD
-    
-    const keys = Object.keys(account)
-    
-    const {firstName, lastName, password, email, phoneNumber, birthday, gender} = account
-    const values = [firstName, lastName, password, email, phoneNumber, birthday, gender, "User"]
-=======
     const values = [account.firstName, account.lastName, hash, account.email, account.phoneNumber, account.birthday, account.gender, "User"]
->>>>>>> Denni_Branch
 
     db.query(query, values, function (error, account) {
 
