@@ -38,7 +38,7 @@ router.get("/view-all-contact-messages", function (request, response) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.get("/view-contact-message-form", function (request, response){
+router.get("/support", function (request, response){
 
     response.render("support.hbs")
 })

@@ -1,5 +1,7 @@
 const express = require('express')
 const postManager = require('../../bll/post-manager')
+const categoryManager = require('../../bll/category-manager')
+const locationManager = require('../../bll/location-manager')
 const locationRouter = require('./location-router')
 const categoryRouter = require('./category-router')
 
