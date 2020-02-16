@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" type="text/css" href="/css/login.css">
 
 <div class="row align-form">
@@ -7,23 +6,37 @@
             <div class="card-action  red lighten-2 white-text">
                 <h3>Log in!</h3>
             </div>
+            <form action="/account/login" method="POST">
+                <div class="card-content">
+                    <div class="form-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                    </div><br>
 
-            <div class="card-content">
-                <div class="form-field">
-                    <label for="username">Username</label>
-                    <input type="text" id="username">
-                </div><br>
+                    <div class="form-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password">
+                    </div><br>
 
-                <div class="form-field">
-                    <label for="password">Password</label>
-                    <input type="text" id="password">
-                </div><br>
-                
-                <div class="form-field">
-                    <button class="btn-large wave-effect waves-dark red lighten-2 login-button">Login</button>
-                </div><br>
-            </div>
-            
+                    <div class="form-field">
+                        <button class="btn-large wave-effect waves-dark red lighten-2 login-button"
+                            type="submit">Login</button>
+                    </div><br>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+{{!-- If we have any database or router error --}}
+{{#if error}}
+<div class="error-div">
+    <p class="pink-centered-bold-text">The following errors occured when trying to log in: </p>
+    <ul>
+        {{#each error}}
+        <li class="pink-centered-text">{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}

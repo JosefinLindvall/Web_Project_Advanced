@@ -1,0 +1,27 @@
+.error-paragraph {
+    text-align: center;
+    color: #e57373;
+}
+
+.error-item {
+    color: #e57373;
+}
+
+.pink-centered-bold-text{
+    text-align: center;
+    color: #e57373;
+    font-weight: bold;
+}
+
+.pink-centered-text{
+    color: #e57373;
+    text-align: center;
+}
+
+.align-form {
+    padding-top: 30px;
+}
+
+.register-button {
+    width: 100%;
+}
