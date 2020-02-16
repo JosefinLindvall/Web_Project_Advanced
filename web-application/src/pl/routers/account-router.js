@@ -1,4 +1,5 @@
 const express = require('express')
+
 const accountManager = require('../../bll/account-manager')
 
 const router = express.Router()
@@ -9,26 +10,20 @@ router.get('/login', function (request, response) {
 	response.render("login.hbs")
 })
 
-//SIGN UP
-//////////////////////////////////////////////////////////////////////////////////////////
-router.get('/signup', function (request, response) {
-	response.render("signUp.hbs")
-})
-
-router.post('/signup', function (request, response) {
-
+//Post request to log in a user should it have ID with it? 
+router.post('/login', function (request, response) {
 	const account = request.body
 
-	accountManager.createAccount(account, function (error) {
+	accountManager.logInAccount(account, function (error) {
 
 		if (error) {
 			const model = {
 				error: error,
-				account,
 			}
-			response.render("signUp.hbs", model)
+			response.render("login.hbs", model)
 		}
 		else {
+			//session magic 
 			response.redirect("../home")
 		}
 	})
@@ -36,31 +31,43 @@ router.post('/signup', function (request, response) {
 
 
 
-//PROFILE
+//SIGN UP
 //////////////////////////////////////////////////////////////////////////////////////////
-router.get('/profile', function (request, response) {
-	response.render("profile.hbs")
+router.get('/signup', function (request, response) {
+	response.render("signUp.hbs")
 })
 
+<<<<<<< HEAD
 
 //Ändra detta tillbaka att hämta hem ID istället för email dummer.
 router.get('/profile/:email', function (request, response) {
+=======
+>>>>>>> Denni_Branch
 
-	const email = "dennisfram@hotmail.com"
+// //Post request to send user info into the Account table. 
+router.post('/signup', function (request, response) {
+	const account = request.body
 
-	accountManager.getAccountByEmail(email, function (error, account) {
+	accountManager.createAccount(account, function (error) {
 
 		if (error) {
 			const model = {
 				error: error,
-				account,
 			}
-			response.render("profile.hbs", model)
+			response.render("signUp.hbs", model)
 		}
 		else {
-			response.redirect("../profile", model)
+			//redirect to log in page instead.
+			response.redirect("../home")
 		}
 	})
+})
+
+
+//PROFILE INTE KLAR 
+//////////////////////////////////////////////////////////////////////////////////////////
+router.get('/profile', function (request, response) {
+	response.render("profile.hbs")
 })
 
 module.exports = router

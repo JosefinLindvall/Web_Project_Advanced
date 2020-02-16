@@ -1,31 +1,65 @@
 const express = require('express')
 const postManager = require('../../bll/post-manager')
+const locationRouter = require('./location-router')
+const categoryRouter = require('./category-router')
 
 const router = express.Router()
 
+/**
+ * Retrieves location and category from the database 
+ * and renders it in createPost.hbs
+ */
 router.get('/create-post', function (request, response) {
 
+<<<<<<< HEAD
 	try {
 		const location 		
 	} 
 	catch (error) {
 		
 	}
+=======
+	locationRouter.getAllLocations(function (error, location) {
 
-	response.render("createPost.hbs")
+		if (error) {
+			const model = {
+				error: error,
+			}
+			response.render("createPost.hbs", model)
+		}
+>>>>>>> Denni_Branch
+
+		else {
+			categoryRouter.getAllCategories(function (error, category) {
+
+				if (error) {
+					const model = {
+						error: error,
+					}
+					response.render("createPost.hbs", model)
+				}
+
+				else {
+					const model = {
+						location: location,
+						category: category
+					}
+					response.render("createPost.hbs", model)
+				}
+			})
+		}
+	})
 })
 
-router.post('/', function (request, response) {
 
-	// const title = request.body.title
-	// const email = request.body.email
-	// const content = request.body.content
-	// const category = request.body.category
-	// const location = request.body.location	
-	// const post = [title, email, content, category, location]
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * Post request for creating a post and insert it into the POST table
+ */
+router.post("/create-posts", function (request, response) {
 
 	const post = request.body
-	
+
 	postManager.createPost(post, function (error) {
 
 		if (error) {
@@ -45,7 +79,7 @@ router.post('/', function (request, response) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//Probably old code from her?
 router.get("/search-posts", function (request, response) {
 
 	const categoryOptions = ["any", "hiking", "fishing", "bowling"] //where to store this array??
@@ -76,8 +110,7 @@ router.get("/search-posts", function (request, response) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+//probably old code from her
 router.get("/search-posts/:category&:location", function (request, response) {
 
 	const categoryOptions = ["any", "hiking", "fishing", "bowling"] //where to store this array??
@@ -103,7 +136,6 @@ router.get("/search-posts/:category&:location", function (request, response) {
 
 	}
 
-
 	catch (error) { //this error is a router error
 
 		const model = {
@@ -115,8 +147,5 @@ router.get("/search-posts/:category&:location", function (request, response) {
 	}
 
 })
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router

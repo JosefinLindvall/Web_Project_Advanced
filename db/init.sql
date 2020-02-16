@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS `Account` (
     `birthDate` DATE NOT NULL,
     `gender` VARCHAR(255) NOT NULL,
     `flag` VARCHAR(255), 
-    PRIMARY KEY(accountID)
+    PRIMARY KEY(accountID), 
+    UNIQUE (`email`)
 );
 
 CREATE TABLE IF NOT EXISTS ContactMessage (

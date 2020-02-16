@@ -1,9 +1,16 @@
-const accountRepository = require('../dal/post-repository')
+const postRepository = require('../dal/post-repository')
 const postValidator = require('./post-validator.js')
 
 exports.createPost = function (post, callback) {
-    //validate post here later by calling some form of Validator function or do it inside here?
-    accountRepository.createPost(post, callback)
+
+    const errors = postValidator.getErrorsNewPost(post)
+
+    if (errors.length > 0) {
+        callback(errors, null)
+        return
+    }
+
+    postRepository.createPost(post, callback)
 }
 
 exports.getPostsByCategoryAndLocation = function (category, location, callback) {
@@ -18,7 +25,4 @@ exports.getPostsByCategoryAndLocation = function (category, location, callback) 
     else {
         postRepository.getPostsByCategoryAndLocation(category, location, callback)
     }
-
-
 }
-

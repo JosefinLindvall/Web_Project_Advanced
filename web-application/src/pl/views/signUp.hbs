@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/css/login.css">
+<link rel="stylesheet" type="text/css" href="/css/signUp.css">
 
 <div class="row align-form">
     <div class="col s12 m4 offset-m4">
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="form-field">
-                            <button class="btn-large wave-effect waves-dark red lighten-2 login-button"
+                            <button class="btn-large wave-effect waves-dark red lighten-2 register-button"
                                 type="submit">Register</button>
                     </form>
                 </div>
@@ -71,6 +71,14 @@
 </div>
 
 
+{{!-- If we have any database or router error --}}
 {{#if error}}
-    <p>{{error}}</p>
+<div class="error-div">
+    <p class="pink-centered-bold-text">The following errors occured when trying to sign up: </p>
+    <ul>
+        {{#each error}}
+        <li class="pink-centered-text">{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
 {{/if}}
