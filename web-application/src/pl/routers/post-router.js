@@ -127,8 +127,8 @@ router.get("/search-posts", function (request, response) {
 //This get request is sent when a search has been made!
 router.get("/execute-search", function (request, response) {
 
-	//const categoryId = request.params.category
-	//const locationId = request.params.location
+	const categoryId = request.query.category
+	const locationId = request.query.location
 
 	const categoryId = 1
 	const locationId = 1

@@ -1,6 +1,3 @@
-
-
-
 exports.checkedIfLoggedInAsRegUser = function (request, response, next){
 
     if (request.session.loggedInAsReg == null) {
@@ -15,8 +12,6 @@ exports.checkedIfLoggedInAsRegUser = function (request, response, next){
     else {
         next()
     }
-        
-
 }
 
 

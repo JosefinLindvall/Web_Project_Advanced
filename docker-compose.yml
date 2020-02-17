@@ -22,7 +22,6 @@ services:
       - MYSQL_DATABASE=webAppDb
 
   redis:
-    image: redis
-    container_name: cache
+    build: './redis-db'
     expose:
       - 6379
