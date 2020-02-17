@@ -12,7 +12,7 @@ router.get('/login', function (request, response) {
 
 //Post request to log in a user should it have ID with it? 
 router.post('/login', function (request, response) {
-	
+
 	const account = request.body
 
 	accountManager.logInAccount(account, function (error, typeOfUser) {
@@ -23,15 +23,15 @@ router.post('/login', function (request, response) {
 			}
 			response.render("login.hbs", model)
 		}
-		
+
 		else {
-			
-			if (typeOfUser == "admin"){
+
+			if (typeOfUser == "admin") {
 				resquest.session.isLoggedInAsAdmin = true
 				request.session.isLoggedInAsReg = true
 			}
 
-			else if (typeOfUser == "user"){
+			else if (typeOfUser == "user") {
 				request.session.isLoggedInAsReg = true
 			}
 
@@ -71,8 +71,8 @@ router.post('/signup', function (request, response) {
 
 //PROFILE INTE KLAR 
 //////////////////////////////////////////////////////////////////////////////////////////
-router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser(request, response, next), function (request, response) {
-	response.render("profile.hbs")
-})
+// router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser(request, response, next), function (request, response) {
+// 	response.render("profile.hbs")
+// })
 
 module.exports = router

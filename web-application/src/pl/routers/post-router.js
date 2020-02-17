@@ -77,27 +77,27 @@ router.get("/search-posts", function (request, response) {
 	try {
 
 		var model = {}
-		
-		const categories = categoryManager.getAllCategories(function(errors, categories){
 
-			if (errors){
-				model = {errors}
+		const categories = categoryManager.getAllCategories(function (errors, categories) {
+
+			if (errors) {
+				model = { errors }
 				response.render("searchPosts.hbs", model)
 			}
 
-			else{ //No error fetching categories, ok to go on and fetch locations
+			else { //No error fetching categories, ok to go on and fetch locations
 
-				const locations = locationManager.getAllLocations(function (errors, locations){
-					
-					if (errors){
-						model = {errors}
+				const locations = locationManager.getAllLocations(function (errors, locations) {
+
+					if (errors) {
+						model = { errors }
 						response.render("searchPosts.hbs", model)
 					}
 
-					else{ //No error fetching locations, ok to go on and render page
-						model={
-							categories:categories,
-							locations:locations
+					else { //No error fetching locations, ok to go on and render page
+						model = {
+							categories: categories,
+							locations: locations
 						}
 						response.render("searchPosts.hbs", model)
 					}
@@ -105,7 +105,7 @@ router.get("/search-posts", function (request, response) {
 			}
 
 		})
-		
+
 	}
 
 
@@ -130,44 +130,44 @@ router.get("/execute-search", function (request, response) {
 	const categoryId = request.query.category
 	const locationId = request.query.location
 
-	const categoryId = 1
-	const locationId = 1
+	// const categoryId = 1
+	// const locationId = 1
 
-	try { 
+	try {
 
 		var model = {}
-		
-		categoryManager.getAllCategories(function(errors, categories){
 
-			if (errors){
-				model = {errors}
+		categoryManager.getAllCategories(function (errors, categories) {
+
+			if (errors) {
+				model = { errors }
 				response.render("searchPosts.hbs", model)
 			}
 
-			else{ //No error fetching categories, ok to go on and fetch locations
+			else { //No error fetching categories, ok to go on and fetch locations
 
-				locationManager.getAllLocations(function (errors, locations){
-					
-					if (errors){
-						model = {errors}
+				locationManager.getAllLocations(function (errors, locations) {
+
+					if (errors) {
+						model = { errors }
 						response.render("searchPosts.hbs", model)
 					}
 
-					else{ //No error fetching locations, ok to go on and fetch all matching posts
-						
-						const posts = postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function(errors, posts){
+					else { //No error fetching locations, ok to go on and fetch all matching posts
 
-							if (errors){
-								model = {errors}
+						const posts = postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function (errors, posts) {
+
+							if (errors) {
+								model = { errors }
 								response.render("searchPosts.hbs", model)
 							}
 
-							else{
+							else {
 
-								model={
-									categories:categories,
-									locations:locations,
-									posts:posts, 
+								model = {
+									categories: categories,
+									locations: locations,
+									posts: posts,
 									searchHasBeenMade: true
 								}
 								response.render("searchPosts.hbs", model)
@@ -177,7 +177,7 @@ router.get("/execute-search", function (request, response) {
 					}
 				})
 			}
-		})	
+		})
 	}
 
 

@@ -47,10 +47,10 @@ CREATE TABLE IF NOT EXISTS Post (
 );
 
 
-INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Help', 'Could I get som help getting firends? I am so lonely.', 'lonely@me.com')
+-- INSERT INTO ContactMessage (`title`, `content`, `email`) VALUES ('Help', 'Could I get som help getting firends? I am so lonely.', 'lonely@me.com')
 
-INSERT INTO Category (`category`) VALUES ('Hiking')
-INSERT INTO Category (`category`) VALUES ('Cinema')
+-- INSERT INTO Category (`category`) VALUES ('Hiking')
+-- INSERT INTO Category (`category`) VALUES ('Cinema')
 
-INSERT INTO `Location` (`location`) VALUES('Stockholm')
-INSERT INTO `Location` (`location`) VALUES('Aneby')
+-- INSERT INTO `Location` (`location`) VALUES('Stockholm')
+-- INSERT INTO `Location` (`location`) VALUES('Aneby')

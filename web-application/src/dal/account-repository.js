@@ -1,6 +1,6 @@
 const db = require('./db')
 
-const accountManager = require('../../bll/account-manager')
+const accountManager = require('../bll/account-manager')
 
 exports.createAccount = function (account, hash, callback) {
     const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, flag) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
@@ -24,13 +24,13 @@ exports.logInAccount = function (account, callback) {
     const values = [account.email]
 
     db.query(query, values, function (databaseError, databasePassword, typeOfUser) {
-            
+
         if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
             callback(['A database error occured when trying to log you in.'], null)
         }
 
         else if (password.length > 0) { // We have a match! An email was found that matched the users email.
-            accountManager.comparePassword(account, databasePassword, typeOfUser) 
+            accountManager.comparePassword(account, databasePassword, typeOfUser)
         }
 
         else { // No email found that matches the users email
