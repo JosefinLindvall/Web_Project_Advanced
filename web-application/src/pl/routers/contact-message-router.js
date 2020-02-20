@@ -8,7 +8,7 @@ const router = express.Router()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-router.get("/view-all-contact-messages", sessionHandler.checkedIfLoggedInAsAdminUser(request, response, next), function (request, response) { 
+router.get("/view-all-contact-messages", sessionHandler.checkedIfLoggedInAsAdminUser, function (request, response) { 
  
     try {
 

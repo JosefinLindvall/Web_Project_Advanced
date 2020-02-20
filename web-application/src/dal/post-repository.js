@@ -22,9 +22,8 @@ exports.createPost = function (post, callback) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-exports.getSixLatestPosts = function (nrOfPosts, callback) {
+exports.getSixLatestPosts = function (callback) {
 
-	
 	const values = []
 	const query = "SELECT * FROM posts ORDER BY timeWhenPosted LIMIT 6"
 

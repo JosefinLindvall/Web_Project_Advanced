@@ -26,7 +26,7 @@ exports.getPostsByCategoryIdAndLocationId = function (categoryId, locationId, ca
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-exports.getSixLatestPosts = function ( callback) {
+exports.getSixLatestPosts = function (callback) {
 
     postRepository.getSixLatestPosts(callback)
 

@@ -1,0 +1,23 @@
+.card {
+    background-color: #e57373;
+    margin-top: 10vh;
+    margin-left: 4vw;
+    margin-right: 4vw;
+    border-radius: 2%
+}
+
+.card-image {
+    margin: 0 auto;
+    width: 70%;
+    padding: 2em;
+    border-radius: 50%;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-text {
+    color: white;
+    text-align: center;
+}

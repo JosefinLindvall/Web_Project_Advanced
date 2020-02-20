@@ -13,9 +13,10 @@ router.get('/login', function (request, response) {
 //Post request to log in a user should it have ID with it? 
 router.post('/login', function (request, response) {
 
-	const account = request.body
-
-	accountManager.logInAccount(account, function (error, typeOfUser) {
+	const typedEmail = request.body.email
+	const typedPassword = request.body.password
+	
+	accountManager.logInAccount(typedEmail, typedPassword, function (error, typeOfUser, accountID) {
 
 		if (error) {
 			const model = {
@@ -26,20 +27,41 @@ router.post('/login', function (request, response) {
 
 		else {
 
-			if (typeOfUser == "admin") {
-				resquest.session.isLoggedInAsAdmin = true
+			console.log(typeof(typeOfUser))
+			
+			
+			if (typeOfUser == "Admin") {
+				console.log("type of user is admin")
+				request.session.isLoggedInAsAdmin = true
 				request.session.isLoggedInAsReg = true
+
+				request.session.accountID = accountID
 			}
 
-			else if (typeOfUser == "user") {
+			else if (typeOfUser == "User") {
+				console.log("type of user is user")
 				request.session.isLoggedInAsReg = true
+				request.session.accountID = accountID
 			}
 
-			response.redirect("../home")
+			console.log(request.session.isLoggedInAsReg)
+			console.log(request.session.accountID) // 1 
+			response.redirect("/")
 		}
 	})
 })
 
+//LOG OUT
+//////////////////////////////////////////////////////////////////////////////////////////
+router.post('/logout', function(request, response){
+
+	request.session.isLoggedInAsReg = false
+	request.session.isLoggedInAsAdmin = false
+	request.session.accountID = null
+
+	response.redirect("/")
+
+})
 
 
 //SIGN UP
@@ -53,7 +75,7 @@ router.get('/signup', function (request, response) {
 router.post('/signup', function (request, response) {
 	const account = request.body
 
-	accountManager.createAccount(account, function (error) {
+	accountManager.createAccount(account, function (error, accountID) {
 
 		if (error) {
 			const model = {
@@ -62,8 +84,10 @@ router.post('/signup', function (request, response) {
 			response.render("signUp.hbs", model)
 		}
 		else {
-			//redirect to log in page instead.
-			response.redirect("../home")
+
+			request.session.isLoggedInAsReg = true
+			request.session.accountID = accountID
+			response.redirect("/")
 		}
 	})
 })

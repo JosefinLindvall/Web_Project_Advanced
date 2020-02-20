@@ -1,6 +1,6 @@
 exports.checkedIfLoggedInAsRegUser = function (request, response, next){
 
-    if (request.session.loggedInAsReg == null) {
+    if (request.session.isLoggedInAsReg == null) { 
 
         const model = {
             notLoggedInAsReg: true
@@ -19,7 +19,7 @@ exports.checkedIfLoggedInAsRegUser = function (request, response, next){
 
 exports.checkedIfLoggedInAsAdminUser = function (request, response, next){
 
-    if (request.session.loggedInAsAdmin == null) {
+    if (request.session.isLoggedInAsAdmin == null) { //we ned to get this info with "client.get(userId)"
 
         const model = {
             notLoggedInAsAdmin: true

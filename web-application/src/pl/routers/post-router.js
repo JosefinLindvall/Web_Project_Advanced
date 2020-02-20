@@ -12,7 +12,8 @@ const router = express.Router()
  * Retrieves location and category from the database 
  * and renders it in createPost.hbs
  */
-router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser(request, response, next), function (request, response) {
+router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+
 
 	locationRouter.getAllLocations(function (error, location) {
 
@@ -50,7 +51,7 @@ router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser(request, re
 /**
  * Post request for creating a post and insert it into the POST table
  */
-router.post("/create-posts", function (request, response) {
+router.post("/create-post", function (request, response) {
 
 	const post = request.body
 
@@ -78,7 +79,7 @@ router.get("/search-posts", function (request, response) {
 
 		var model = {}
 
-		const categories = categoryManager.getAllCategories(function (errors, categories) {
+		categoryManager.getAllCategories(function (errors, categories) {
 
 			if (errors) {
 				model = { errors }
@@ -87,7 +88,7 @@ router.get("/search-posts", function (request, response) {
 
 			else { //No error fetching categories, ok to go on and fetch locations
 
-				const locations = locationManager.getAllLocations(function (errors, locations) {
+				locationManager.getAllLocations(function (errors, locations) {
 
 					if (errors) {
 						model = { errors }

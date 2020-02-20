@@ -9,10 +9,12 @@ const accountRouter = require('./routers/account-router')
 const variousRouter = require('./routers/various-router')
 const postRouter = require('./routers/post-router')
 const contactMessageRouter = require('./routers/contact-message-router')
-const redis = require('redis')
 
+const redis = require('redis')
 let RedisStore = require('connect-redis')(session)
-let redisClient = redis.createClient()
+let redisClient = redis.createClient({host: "redis"})
+
+const sessionHandler = require('./session-handler')
 
 // Handle static files in the public folder.
 app.use(express.static(__dirname + "/public"))
@@ -33,14 +35,24 @@ app.use(session({
     saveUninitialized: false, 
     resave: false,
     secret: 'ksdjfhjksbajshklbvcsaelv',
-    store: new RedisStore({ client: redisClient })
+    store: new RedisStore({ client: redisClient}) //if panic happens; add host:"redis" inside curly brackets
+
+
 }))
+
+app.use(function (request, response, next) {
+    response.locals.isLoggedInAsReg = request.session.isLoggedInAsReg
+    response.locals.isLoggedInAsAdmin = request.session.isLoggedInAsAdmin
+    //response.locals.accountID = request.session.accountID
+	next()
+})
 
 // Attach all routers.
 app.use("/account", accountRouter)
 app.use("/", variousRouter)
 app.use("/post", postRouter)
 app.use("/contact-message", contactMessageRouter)
+
 
 
 // Start listening for incoming HTTP requests!

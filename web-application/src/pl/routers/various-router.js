@@ -6,25 +6,26 @@ router.get('/', function (request, response) {
 
     try{
         
-        postManager.getLatestSixPosts(function(error, posts){
+        postManager.getSixLatestPosts(function(error, posts){
 
-            const model = {}
+            let model = {}
     
             if (error){
                 model = {
                     error:error
                 }
+                response.render("home.hbs", model)
             }
 
             else{
                 model = {
                     posts: posts
                 }
+                response.render("home.hbs", model)
             }
     
     
         })
-        response.render("home.hbs", model)
 
     }
 

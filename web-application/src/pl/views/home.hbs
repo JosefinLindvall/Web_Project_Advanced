@@ -2,14 +2,10 @@
     
     {{!---------------------------------------------------------------------------------------}}
     
-    <header>
         <div>
             <h3 class="center-align friendy-headline">Friendy</h3>
         </div>
-    </header>
     
-    
-    <main>
         <h4 class="center-align white-text">Are you lonely too?</h4>
         <div class="intro-text-div">
         <p class="main-text white-text">In today's society, so many people suffer from loneliness. Are you one of them? 
@@ -37,7 +33,7 @@
 
         {{else}} {{!--No errors, we have received an array of posts that may be empty or not. --}}
 
-        {{#if posts.length}}
+        {{#if posts.length}} {{!--There are posts to show! --}}
 
         <div="search-result-div">
             <div class="row">
@@ -71,5 +67,9 @@
             </div>
             </div>
 
+            {{else}}
+            
+                <p class= "pink-centered-bold-text"> No posts available right now :(  </p> {{!--There are no posts to show! The array posts is empty.--}}
 
-        </main>
+            {{/if}}
+            {{/if}}
