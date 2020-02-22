@@ -1,7 +1,12 @@
 
-const categoryRepository = require('../dal/category-repository')
 
+module.exports = function({categoryRepo}){
+    
+    return {
 
-exports.getAllCategories = function (callback) {
-    categoryRepository.getAllCategories(callback)
+        getAllCategories : function (callback) {
+            categoryRepo.getAllCategories(callback)
+        }
+    
+    }
 }

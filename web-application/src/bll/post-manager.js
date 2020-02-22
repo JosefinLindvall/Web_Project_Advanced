@@ -1,33 +1,40 @@
-const postRepository = require('../dal/post-repository')
-const postValidator = require('./post-validator.js')
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+module.exports = function({postRepo, postValidator}){
+    
+    return {
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-exports.createPost = function (post, accountID, callback) {
+        createPost : function (post, accountID, callback) {
 
-    const errors = postValidator.getErrorsNewPost(post)
+            const errors = postValidator.getErrorsNewPost(post)
 
-    if (errors.length > 0) {
-        callback(errors, null)
-        return
+            if (errors.length > 0) {
+                callback(errors, null)
+                return
+            }
+
+            postRepo.createPost(post, accountID, callback)
+        },
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        getPostsByCategoryIdAndLocationId : function (categoryId, locationId, callback) {
+
+            postRepo.getPostsByCategoryIdAndLocationId(categoryId, locationId, callback)
+        },
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        getSixLatestPosts : function (callback) {
+
+            postRepo.getSixLatestPosts(callback)
+
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     }
-
-    postRepository.createPost(post, accountID, callback)
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-exports.getPostsByCategoryIdAndLocationId = function (categoryId, locationId, callback) {
-
-    postRepository.getPostsByCategoryIdAndLocationId(categoryId, locationId, callback)
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-exports.getSixLatestPosts = function (callback) {
-
-    postRepository.getSixLatestPosts(callback)
-
 }

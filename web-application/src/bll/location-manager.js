@@ -1,9 +1,14 @@
 
-const locationRepository = require('../dal/location-repository')
 
-
-exports.getAllLocations = function (callback) {
+module.exports = function({locationRepo}){
     
-    locationRepository.getAllLocations(callback)
+    return {
+
+        getAllLocations : function (callback) {
+    
+            locationRepo.getAllLocations(callback)
+        }
+    
+    }
 }
 

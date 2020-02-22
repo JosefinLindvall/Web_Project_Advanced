@@ -1,21 +1,29 @@
 const db = require('./db')
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+module.exports = function({}){
+    
+    return {
 
-exports.getAllLocations = function (callback) {
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const query = `SELECT * FROM Location ORDER BY location` 
-    const values = []
+        getAllLocations : function (callback) {
 
-    db.query(query, values, function (databaseError, locations) {
+            const query = `SELECT * FROM Location ORDER BY location` 
+            const values = []
 
-        if (databaseError) {
-            callback(['Database error when fetching locations.'], null) 
+            db.query(query, values, function (databaseError, locations) {
+
+                if (databaseError) {
+                    callback(['Database error when fetching locations.'], null) 
+                }
+
+                else {
+                    callback(null, locations) 
+                }
+            })
+
         }
-
-        else {
-            callback(null, locations) 
-        }
-    })
-
+        
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
 }

@@ -11,8 +11,6 @@ services:
       - "./web-application/src:/web-application/src"
     depends_on:
       - "db"
-  
-  
   db:
     build: "./db"
     ports:
@@ -25,3 +23,5 @@ services:
     build: './redis-db'
     expose:
       - 6379
+
+      

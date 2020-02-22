@@ -1,109 +1,118 @@
 const express = require('express')
-const accountManager = require('../../bll/account-manager')
-const sessionHandler = require('../session-handler')
 
-const router = express.Router()
 
-//LOG IN
-//////////////////////////////////////////////////////////////////////////////////////////
-router.get('/login', function (request, response) {
-	response.render("login.hbs")
-})
+module.exports = function({accountManager, sessionHandler}) {
+ 
+  
+   const router = express.Router()
 
-//Post request to log in a user should it have ID with it? 
-router.post('/login', function (request, response) {
 
-	const typedEmail = request.body.email
-	const typedPassword = request.body.password
+	//LOG IN
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	accountManager.logInAccount(typedEmail, typedPassword, function (error, typeOfUser, accountID) {
+	router.get('/login', function (request, response) {
+		response.render("login.hbs")
+	})
 
-		if (error) {
-			const model = {
-				error: error,
+	//Post request to log in a user should it have ID with it? 
+	router.post('/login', function (request, response) {
+
+		const typedEmail = request.body.email
+		const typedPassword = request.body.password
+
+		accountManager.logInAccount(typedEmail, typedPassword, function (error, typeOfUser, accountID) {
+
+			if (error) {
+				const model = {
+					error: error,
+				}
+				response.render("login.hbs", model)
 			}
-			response.render("login.hbs", model)
+
+			else {
+				if (typeOfUser == "Admin") {
+					request.session.isLoggedInAsAdmin = true
+					request.session.isLoggedInAsReg = true
+
+					request.session.accountID = accountID
+				}
+
+				else if (typeOfUser == "User") {
+					request.session.isLoggedInAsReg = true
+					request.session.accountID = accountID
+				}
+				response.redirect("/")
+			}
+		})
+	})
+
+	//LOG OUT
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	router.post('/logout', function (request, response) {
+
+		request.session.isLoggedInAsReg = false
+		request.session.isLoggedInAsAdmin = false
+		request.session.accountID = null
+
+		response.redirect("/")
+
+	})
+
+
+	//SIGN UP
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	router.get('/signup', function (request, response) {
+		response.render("signUp.hbs")
+	})
+
+
+	// //Post request to send user info into the Account table. 
+	router.post('/signup', function (request, response) {
+		const account = request.body
+
+		accountManager.createAccount(account, function (error, accountID) {
+
+			if (error) {
+				const model = {
+					error: error,
+				}
+				response.render("signUp.hbs", model)
+			}
+			else {
+
+				request.session.isLoggedInAsReg = true
+				request.session.accountID = accountID
+				response.redirect("/")
+			}
+		})
+	})
+
+
+	//PROFILE INTE KLAR 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// måste jag på nått sätt skicka med session ID till dal? hämta den användaren som har det ID och skicka tillbaka hit som en model?
+
+	router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+
+
+		try {
+			// call account manager 
+			response.render("profile.hbs")
 		}
 
-		else {
-			if (typeOfUser == "Admin") {
-				request.session.isLoggedInAsAdmin = true
-				request.session.isLoggedInAsReg = true
+		catch (error) {
 
-				request.session.accountID = accountID
+			const model = {
+				routerError: error
 			}
 
-			else if (typeOfUser == "User") {
-				request.session.isLoggedInAsReg = true
-				request.session.accountID = accountID
-			}
-			response.redirect("/")
+			response.render("routerError.hbs", model)
 		}
 	})
-})
 
-//LOG OUT
-//////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-router.post('/logout', function (request, response) {
-
-	request.session.isLoggedInAsReg = false
-	request.session.isLoggedInAsAdmin = false
-	request.session.accountID = null
-
-	response.redirect("/")
-
-})
-
-
-//SIGN UP
-//////////////////////////////////////////////////////////////////////////////////////////
-router.get('/signup', function (request, response) {
-	response.render("signUp.hbs")
-})
-
-
-// //Post request to send user info into the Account table. 
-router.post('/signup', function (request, response) {
-	const account = request.body
-
-	accountManager.createAccount(account, function (error, accountID) {
-
-		if (error) {
-			const model = {
-				error: error,
-			}
-			response.render("signUp.hbs", model)
-		}
-		else {
-
-			request.session.isLoggedInAsReg = true
-			request.session.accountID = accountID
-			response.redirect("/")
-		}
-	})
-})
-
-
-//PROFILE INTE KLAR 
-//////////////////////////////////////////////////////////////////////////////////////////
-// måste jag på nått sätt skicka med session ID till dal? hämta den användaren som har det ID och skicka tillbaka hit som en model?
-router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
-
-
-	try {
-		// call account manager 
-		response.render("profile.hbs")
-	}
-
-	catch (error) {
-
-		const model = {
-			routerError: error
-		}
-
-		response.render("routerError.hbs", model)
-	}
-})
-
-module.exports = router
+	return router
+}
