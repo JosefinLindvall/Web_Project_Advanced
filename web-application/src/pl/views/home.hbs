@@ -1,75 +1,78 @@
 <link rel="stylesheet" type="text/css" href="/css/home.css">
-    
-    {{!---------------------------------------------------------------------------------------}}
-    
-        <div>
-            <h3 class="center-align friendy-headline">Friendy</h3>
-        </div>
-    
-        <h4 class="center-align white-text">Are you lonely too?</h4>
-        <div class="intro-text-div">
-        <p class="main-text white-text">In today's society, so many people suffer from loneliness. Are you one of them? 
 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in molestie dui. 
-            Morbi vulputate eleifend ligula vehicula finibus. Donec vel justo congue, ullamcorper orci ut, semper dolor. 
-            Curabitur justo mi, bibendum et magna non, tempor accumsan eros. Donec dui ipsum, ultricies in nulla in, convallis porta ex. 
-            Suspendisse lacinia nisi vitae tellus volutpat tempor. 
-            Vivamus convallis feugiat turpis, a rhoncus urna vestibulum faucibus. Vestibulum ultrices consequat massa ac sagittis. 
-            Vestibulum id odio eget lacus imperdiet porttitor ac et ante. Suspendisse potenti. 
-            Praesent vel justo eget felis vulputate vestibulum. Praesent placerat nibh dictum purus tincidunt iaculis. 
-            Suspendisse tincidunt elementum justo, sit amet malesuada arcu efficitur eu.
+{{!---------------------------------------------------------------------------------------}}
 
-        </p>
-        </div>
-        <h4 class="center-align friendy-headline">Read the most recent posts here!</h4>
+<div>
+    <h3 class="center-align friendy-headline">Friendy</h3>
+</div>
+
+<h4 class="center-align friendy-headline">Are you lonely too?</h4>
+<div class="intro-text-div">
+    <p class="main-text white-text">In today's society, so many people suffer from loneliness. Are you one of them?
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in molestie dui.
+        Morbi vulputate eleifend ligula vehicula finibus. Donec vel justo congue, ullamcorper orci ut, semper dolor.
+        Curabitur justo mi, bibendum et magna non, tempor accumsan eros. Donec dui ipsum, ultricies in nulla in,
+        convallis porta ex.
+        Suspendisse lacinia nisi vitae tellus volutpat tempor.
+        Vivamus convallis feugiat turpis, a rhoncus urna vestibulum faucibus. Vestibulum ultrices consequat massa ac
+        sagittis.
+        Vestibulum id odio eget lacus imperdiet porttitor ac et ante. Suspendisse potenti.
+        Praesent vel justo eget felis vulputate vestibulum. Praesent placerat nibh dictum purus tincidunt iaculis.
+        Suspendisse tincidunt elementum justo, sit amet malesuada arcu efficitur eu.
+
+    </p>
+</div>
+<h4 class="center-align friendy-headline">Read the most recent posts here!</h4>
 
 
-        {{!---------------------------------------------------------------------------------------}}
+{{!---------------------------------------------------------------------------------------}}
 
-        {{#if errors}} {{!-- These errors are database errors from fetching posts.  --}}
-        <div class="error-div">
-            <p class="pink-centered-bold-text"> Oh no! A database error occured when fetching posts! </p>
-        </div>
+{{#if errors}} {{!-- These errors are database errors from fetching posts.  --}}
+<div class="error-div">
+    <p class="pink-centered-bold-text"> Oh no! A database error occured when fetching posts! </p>
+</div>
 
-        {{else}} {{!--No errors, we have received an array of posts that may be empty or not. --}}
+{{else}} {{!--No errors, we have received an array of posts that may be empty or not. --}}
 
-        {{#if posts.length}} {{!--There are posts to show! --}}
+{{#if posts.length}} {{!--There are posts to show! --}}
 
-        <div="search-result-div">
-            <div class="row">
+<div="search-result-div">
+    <div class="row">
 
-                {{#each posts}}
+        {{#each posts}}
 
-                <div class="col s3">
-                    <div class="card">
-                        
-                        <div class="card-image">
-                            <img class="responsive-img post-image" src="/images/adventure.jpg">
-                        </div>
-                        
-                        <div class="card-content">
-                            <p class="post-title-paragraph">{{title}}</p>
-                            <br>
-                            <p class="post-content-paragraph">{{content}}</p>
-                            <br>
-                            <p class="post-content-paragraph">{{timeWhenPosted}}</p>
-                        </div>
-                        
-                        <div class="card-action">
-                            <a href="#">Contact me!</a>
-                        </div>
+        <div class="col s3">
+            <div class="card">
 
-                    </div>
+                <div class="card-image">
+                    <img class="responsive-img post-image" src="/images/adventure.jpg">
                 </div>
 
-                {{/each}}
+                <div class="card-content">
+                    <p class="post-title-paragraph">{{title}}</p>
+                    <br>
+                    <p class="post-content-paragraph">{{content}}</p>
+                    <br>
+                    <p class="post-content-paragraph">{{timeWhenPosted}}</p>
+                </div>
+
+                <div class="card-action">
+                    <a href="#">Contact me!</a>
+                </div>
 
             </div>
-            </div>
+        </div>
 
-            {{else}}
-            
-                <p class= "pink-centered-bold-text"> No posts available right now :(  </p> {{!--There are no posts to show! The array posts is empty.--}}
+        {{/each}}
 
-            {{/if}}
-            {{/if}}
+    </div>
+    </div>
+
+    {{else}}
+
+    <p class="pink-centered-bold-text"> No posts available right now :( </p>
+    {{!--There are no posts to show! The array posts is empty.--}}
+
+    {{/if}}
+    {{/if}}

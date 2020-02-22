@@ -31,44 +31,54 @@
                     <a href="#" data-target="menu-responsive" class="sidenav-trigger">
                         <i class="material-icons">menu</i>
                     </a>
+
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-                      
+
                         <li><a href="/contact-message/support">Support</a></li>
                         <li><a href="/post/search-posts">Search Posts</a></li>
-                        
-                        {{!-- Dölj denna för användare som ej är admin --}}
                         <li><a href="/about-us">About us</a></li>
 
                         {{#if isLoggedInAsReg}}
-                            <li><a href="/account/logout">Log In</a></li>
-                            <li><a href="/post/create-post">Create Post</a></li> {{!-- Dölj denna för användare utan account --}}
-                            <li><a href="/account/profile">Profile</a></li> {{!-- Dölj denna för användare utan account --}}
-                            
-                            {{#if isLoggedInAsAdmin}}
-                                <li><a href="/contact-message/view-all-contact-messages">View Messages</a></li>
-                            {{/if}}
-                        
-                        {{else}}
-                            <li><a href="/account/login">Log In</a></li>
-                            <li><a href="/account/signup">Sign Up</a></li>
+
+                        <form class="form-display" action="account/logout" method="post">
+                            <li> <a href="/"><button class="btn red" type="submit">Logout</button></a> </li>
+                        </form>
+
+                        <li><a href="/post/create-post">Create Post</a></li>
+                        <li><a href="/account/profile">Profile</a></li>
+
+                        {{#if isLoggedInAsAdmin}}
+                        <li><a href="/contact-message/view-all-contact-messages">View Messages</a></li>
                         {{/if}}
 
+                        {{else}}
+                        <li><a href="/account/login">Log In</a></li>
+                        <li><a href="/account/signup">Sign Up</a></li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
         </nav>
 
         <ul class="sidenav" id="menu-responsive">
-            <li><a href="/post/create-post">Create Post</a></li> {{!-- Dölj denna för användare utan account --}}
-            <li><a href="/account/profile">Profile</a></li> {{!-- Dölj denna för användare utan account --}}
             <li><a href="/contact-message/support">Support</a></li>
             <li><a href="/post/search-posts">Search Posts</a></li>
-            <li><a href="/contact-message/view-all-contact-messages">View Messages</a></li> {{!-- Dölj denna för användare som ej är admin --}}
             <li><a href="/about-us">About us</a></li>
+
+            {{#if isLoggedInAsReg}}
+            <li><a href="/account/logout">Log Out</a></li>
+            <li><a href="/post/create-post">Create Post</a></li>
+            <li><a href="/account/profile">Profile</a></li>
+
+            {{#if isLoggedInAsAdmin}}
+            <li><a href="/contact-message/view-all-contact-messages">View Messages</a></li>
+            {{/if}}
+
+            {{else}}
             <li><a href="/account/login">Log In</a></li>
             <li><a href="/account/signup">Sign Up</a></li>
+            {{/if}}
         </ul>
-
     </header>
 
     <main>

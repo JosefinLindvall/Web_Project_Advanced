@@ -12,9 +12,9 @@ const contactMessageRouter = require('./routers/contact-message-router')
 
 const redis = require('redis')
 let RedisStore = require('connect-redis')(session)
-let redisClient = redis.createClient({host: "redis"})
+let redisClient = redis.createClient({ host: "redis" })
 
-const sessionHandler = require('./session-handler')
+//const sessionHandler = require('./session-handler')
 
 // Handle static files in the public folder.
 app.use(express.static(__dirname + "/public"))
@@ -32,10 +32,10 @@ app.use(bodyParser.urlencoded({
 
 // The function "session" creates random session ids from the secret below
 app.use(session({
-    saveUninitialized: false, 
+    saveUninitialized: false,
     resave: false,
     secret: 'ksdjfhjksbajshklbvcsaelv',
-    store: new RedisStore({ client: redisClient}) //if panic happens; add host:"redis" inside curly brackets
+    store: new RedisStore({ client: redisClient }) //if panic happens; add host:"redis" inside curly brackets
 
 
 }))
@@ -44,7 +44,7 @@ app.use(function (request, response, next) {
     response.locals.isLoggedInAsReg = request.session.isLoggedInAsReg
     response.locals.isLoggedInAsAdmin = request.session.isLoggedInAsAdmin
     //response.locals.accountID = request.session.accountID
-	next()
+    next()
 })
 
 // Attach all routers.

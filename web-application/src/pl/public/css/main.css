@@ -4,3 +4,6 @@ height: 50px;
 border-radius: 50%;
 }   
 
+.form-display {
+    display: inline
+}

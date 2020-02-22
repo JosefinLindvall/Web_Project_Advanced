@@ -15,7 +15,7 @@ router.post('/login', function (request, response) {
 
 	const typedEmail = request.body.email
 	const typedPassword = request.body.password
-	
+
 	accountManager.logInAccount(typedEmail, typedPassword, function (error, typeOfUser, accountID) {
 
 		if (error) {
@@ -26,12 +26,7 @@ router.post('/login', function (request, response) {
 		}
 
 		else {
-
-			console.log(typeof(typeOfUser))
-			
-			
 			if (typeOfUser == "Admin") {
-				console.log("type of user is admin")
 				request.session.isLoggedInAsAdmin = true
 				request.session.isLoggedInAsReg = true
 
@@ -39,13 +34,9 @@ router.post('/login', function (request, response) {
 			}
 
 			else if (typeOfUser == "User") {
-				console.log("type of user is user")
 				request.session.isLoggedInAsReg = true
 				request.session.accountID = accountID
 			}
-
-			console.log(request.session.isLoggedInAsReg)
-			console.log(request.session.accountID) // 1 
 			response.redirect("/")
 		}
 	})
@@ -53,7 +44,8 @@ router.post('/login', function (request, response) {
 
 //LOG OUT
 //////////////////////////////////////////////////////////////////////////////////////////
-router.post('/logout', function(request, response){
+
+router.post('/logout', function (request, response) {
 
 	request.session.isLoggedInAsReg = false
 	request.session.isLoggedInAsAdmin = false
@@ -95,8 +87,22 @@ router.post('/signup', function (request, response) {
 
 //PROFILE INTE KLAR 
 //////////////////////////////////////////////////////////////////////////////////////////
-// router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser(request, response, next), function (request, response) {
-// 	response.render("profile.hbs")
-// })
+router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+
+	try {
+		// call account manager 
+		response.render("profile.hbs")
+		console.log(request.session.accountID)
+	}
+
+	catch (error) {
+
+		const model = {
+			routerError: error
+		}
+
+		response.render("routerError.hbs", model)
+	}
+})
 
 module.exports = router
