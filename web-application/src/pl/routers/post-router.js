@@ -1,14 +1,10 @@
-
-
-
-
 const express = require('express')
 
 
-module.exports = function({postManager, categoryManager, locationManager, sessionHandler}) {
- 
-  
-   const router = express.Router()
+module.exports = function ({ postManager, categoryManager, locationManager, sessionHandler }) {
+
+
+	const router = express.Router()
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,8 +15,7 @@ module.exports = function({postManager, categoryManager, locationManager, sessio
 	 */
 	router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
-
-		locationRouter.getAllLocations(function (error, location) {
+		locationManager.getAllLocations(function (error, location) {
 
 			if (error) {
 				const model = {
@@ -30,7 +25,7 @@ module.exports = function({postManager, categoryManager, locationManager, sessio
 			}
 
 			else {
-				categoryRouter.getAllCategories(function (error, category) {
+				categoryManager.getAllCategories(function (error, category) {
 
 					if (error) {
 						const model = {
@@ -204,6 +199,5 @@ module.exports = function({postManager, categoryManager, locationManager, sessio
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-	module.exports = router
+	return router
 }

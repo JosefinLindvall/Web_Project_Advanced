@@ -1,12 +1,12 @@
 
 
-module.exports = function({}) {
-    
-    return {
+module.exports = function ({ }) {
+
+	return {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
 
-		getErrorsNewAccount : function (account) {
+		getErrorsNewAccount: function (account) {
 
 			MIN_FIRSTNAME_LENGTH = 2
 			MAX_FIRSTNAME_LENGTH = 15
@@ -67,7 +67,7 @@ module.exports = function({}) {
 		/////////////////////////////////////////////////////////////////////////////////////////////
 
 		//validate account info when you already have one here
-		checkAccountInformation = function (account) {
+		checkAccountInformation: function (account) {
 
 			const errors = []
 

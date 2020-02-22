@@ -1,16 +1,14 @@
 
 
-const bcrypt = require('bcrypt') 
+const bcrypt = require('bcrypt')
 
-module.exports = function({accountRepo, accountValidator}){
-    
+module.exports = function ({ accountRepo, accountValidator }) {
+
     return {
-    
-    
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        createAccount : function (account, callback) {
+        createAccount: function (account, callback) {
             const errors = accountValidator.getErrorsNewAccount(account)
             const password = account.password
             const saltRounds = 10
@@ -28,7 +26,7 @@ module.exports = function({accountRepo, accountValidator}){
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        logInAccount : function (typedEmail, typedPassword, callback) {
+        logInAccount: function (typedEmail, typedPassword, callback) {
 
             // const errors = accountValidator.checkAccountInformation(account)
 
@@ -51,31 +49,50 @@ module.exports = function({accountRepo, accountValidator}){
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        getUserInformation : function (sessionID, callback) {
+        getUserInformation: function (sessionID, callback) {
 
         },
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        comparePassword : function (typedPassword, databasePassword, typeOfUser, accountID, callback) {
+        // att ha den här inne ger error?
+        // comparePassword : function (typedPassword, databasePassword, typeOfUser, accountID, callback) {
 
-            bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
+        //     bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
 
-                if (err) {
-                    callback(['bcrypt error'], null, null)
-                }
+        //         if (err) {
+        //             callback(['bcrypt error'], null, null)
+        //         }
 
-                else if (isMatch == true) {
-                    callback(null, typeOfUser, accountID)
-                }
+        //         else if (isMatch == true) {
+        //             callback(null, typeOfUser, accountID)
+        //         }
 
-                else {
-                    callback(['Invalid password!'], null, null)
-                }
-            });
-        }
+        //         else {
+        //             callback(['Invalid password!'], null, null)
+        //         }
+        //     });
+        // }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     }
+}
+
+comparePassword = function (typedPassword, databasePassword, typeOfUser, accountID, callback) {
+
+    bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
+
+        if (err) {
+            callback(['bcrypt error'], null, null)
+        }
+
+        else if (isMatch == true) {
+            callback(null, typeOfUser, accountID)
+        }
+
+        else {
+            callback(['Invalid password!'], null, null)
+        }
+    });
 }
