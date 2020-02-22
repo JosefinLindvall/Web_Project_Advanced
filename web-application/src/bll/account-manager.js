@@ -15,7 +15,6 @@ exports.createAccount = function (account, callback) {
         return
     }
 
-    // have some error validations maybe? 
     bcrypt.hash(password, saltRounds, function (err, hash) {
         accountRepository.createAccount(account, hash, callback)
     })
@@ -33,36 +32,42 @@ exports.logInAccount = function (typedEmail, typedPassword, callback) {
     //     return
     // }
 
-    accountRepository.logInAccount(typedEmail,  function(error,  databasePassword, typeOfUser, accountID){
-        
+    accountRepository.logInAccount(typedEmail, function (error, databasePassword, typeOfUser, accountID) {
+
         if (error) {
             callback(error, null, null)
         }
 
         else {
             comparePassword(typedPassword, databasePassword, typeOfUser, accountID, callback)
-        }      
+        }
     })
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-comparePassword = function(typedPassword, databasePassword, typeOfUser, accountID, callback) {
-    
-	bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
+exports.getUserInformation = function (sessionID, callback) {
 
-		if (err) {
-			callback(['bcrypt error'], null, null)
-		}
+}
 
-		else if (isMatch == true) {
-			callback(null, typeOfUser, accountID)
-		}
 
-		else {
-			callback(['Invalid password!'], null, null)
-		}
-	});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+comparePassword = function (typedPassword, databasePassword, typeOfUser, accountID, callback) {
+
+    bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
+
+        if (err) {
+            callback(['bcrypt error'], null, null)
+        }
+
+        else if (isMatch == true) {
+            callback(null, typeOfUser, accountID)
+        }
+
+        else {
+            callback(['Invalid password!'], null, null)
+        }
+    });
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

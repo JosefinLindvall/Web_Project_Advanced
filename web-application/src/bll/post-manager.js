@@ -5,7 +5,7 @@ const postValidator = require('./post-validator.js')
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-exports.createPost = function (post, callback) {
+exports.createPost = function (post, accountID, callback) {
 
     const errors = postValidator.getErrorsNewPost(post)
 
@@ -14,7 +14,7 @@ exports.createPost = function (post, callback) {
         return
     }
 
-    postRepository.createPost(post, callback)
+    postRepository.createPost(post, accountID, callback)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

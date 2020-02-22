@@ -87,12 +87,13 @@ router.post('/signup', function (request, response) {
 
 //PROFILE INTE KLAR 
 //////////////////////////////////////////////////////////////////////////////////////////
+// måste jag på nått sätt skicka med session ID till dal? hämta den användaren som har det ID och skicka tillbaka hit som en model?
 router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+
 
 	try {
 		// call account manager 
 		response.render("profile.hbs")
-		console.log(request.session.accountID)
 	}
 
 	catch (error) {

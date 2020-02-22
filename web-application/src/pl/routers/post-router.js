@@ -50,12 +50,14 @@ router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser, function (
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * Post request for creating a post and insert it into the POST table
+ * lägg till så att category och location inte försvinner när man skickar iväg
  */
-router.post("/create-post", function (request, response) {
+router.post("/create-post", sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
 	const post = request.body
+	const accountID = request.session.accountID
 
-	postManager.createPost(post, function (error) {
+	postManager.createPost(post, accountID, function (error) {
 
 		if (error) {
 			const model = {

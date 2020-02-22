@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `Location` (
 
 CREATE TABLE IF NOT EXISTS Post (
     postID INT NOT NULL AUTO_INCREMENT, 
+    accountID INT NOT NULL, 
     title VARCHAR(255),
     content VARCHAR(255),
     categoryID INT,
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS Post (
     timeWhenPosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (locationID) REFERENCES `Location`(locationID),
     FOREIGN KEY (categoryID) REFERENCES Category(categoryID),
+    FOREIGN KEY (accountID) REFERENCES `Account`(accountID), 
     PRIMARY KEY(postID) 
 );
 
@@ -57,5 +59,3 @@ INSERT INTO Category (`category`) VALUES ('Dance');
 INSERT INTO `Location` (`location`) VALUES('Stockholm');
 INSERT INTO `Location` (`location`) VALUES('Aneby');
 INSERT INTO `Location` (`location`) VALUES('Lund');
-
-
