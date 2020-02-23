@@ -5,7 +5,6 @@ module.exports = function ({ }) {
 	return {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
-
 		getErrorsNewAccount: function (account) {
 
 			MIN_FIRSTNAME_LENGTH = 2
@@ -14,14 +13,13 @@ module.exports = function ({ }) {
 			MAX_LASTNAME_LENGTH = 30
 
 			const errors = []
-			let phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;  //phone regex that will check for everything except + sign before number. 
+			let phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
 			firstName = account.firstName
 			lastName = account.lastName
 			email = account.email
 			phoneNumber = account.phoneNumber
 
-			//validate firstname
 			if (firstName == "") {
 				errors.push("Firstname can't be empty")
 			}
@@ -36,7 +34,6 @@ module.exports = function ({ }) {
 				errors.push("Firstname can't consist of digits!")
 			}
 
-			//validate lastname
 			if (lastName == "") {
 				errors.push("Lastname can't be empty")
 			}
@@ -51,31 +48,28 @@ module.exports = function ({ }) {
 				errors.push("Firstname can't consist of digits!")
 			}
 
-			//validate email
 			if (email == "") {
 				errors.push("Email field can't be empty!")
 			}
 
-			//validate phone number
 			if (!phoneNumber.match(phoneno)) {
 				errors.push("Need to enter a valid phone number")
 			}
-
 			return errors
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////
-
-		//validate account info when you already have one here
-		checkAccountInformation: function (account) {
-
+		checkAccountInformation: function (typedEmail, typedPassword) {
 			const errors = []
 
+			if (typedEmail == "") {
+				errors.push("Email field can't be empty!")
+			}
+
+			if (typedPassword == "") {
+				errors.push("Password field can't be empty!")
+			}
 			return errors
-
 		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////
-
 	}
 }

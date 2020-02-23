@@ -5,7 +5,7 @@
 </div>
 
 {{!-- add an if statement or some kind to determine if this is a boy or a girl --}}
-{{!-- first fix the database access --}}
+
 <div class="container">
     <div class="row content">
         <div class="col s4">
@@ -16,9 +16,9 @@
             <div class="card purple darken-1">
                 <span class="card-title white-text">Full Name</span>
                 <div class="card-content white-text">
-                    <span class="card-content">Full Name: __________</span>
-                    <span class="card-content">Age: _________</span>
-                    <span class="card-content">Gender: _________</span>
+                    <span class="card-content">Fullname: {{firstName}}{{lastName}} </span>
+                    <span class="card-content">Born: {{birthDate}}</span>
+                    <span class="card-content">Gender: {{gender}}</span>
                 </div>
             </div>
         </div>
@@ -27,10 +27,23 @@
             <div class="card purple darken-1">
                 <span class="card-title white-text">Contact Information</span>
                 <div class="card-content white-text">
-                    <span class="card-content">Email: __________</span>
-                    <span class="card-content">Telephone: _________</span>
+                    <span class="card-content">Email: {{email}}</span>
+                    <span class="card-content">Telephone: {{phoneNumber}}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+{{!-- If we have any database or router error --}}
+{{#if error}}
+<div class="error-div">
+    <p class="pink-centered-bold-text">The following errors occured when trying to log in: </p>
+    <ul>
+        {{#each error}}
+        <li class="pink-centered-text">{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}

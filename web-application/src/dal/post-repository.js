@@ -1,12 +1,11 @@
 const db = require('./db')
 
-module.exports = function({}){
-    
-    return {
-		
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
+module.exports = function ({ }) {
 
-		createPost : function (post, accountID, callback) {
+	return {
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		createPost: function (post, accountID, callback) {
 
 			const query = "INSERT INTO Post (title, content, categoryID, locationID, accountID) VALUES (?, ?, ?, ?, ?)"
 			const values = [post.title, post.content, post.category, post.location, accountID]
@@ -14,7 +13,6 @@ module.exports = function({}){
 			db.query(query, values, function (error, post) {
 
 				if (error) {
-					console.log(error)
 					callback(['databaseError'], null)
 				}
 				else {
@@ -23,17 +21,13 @@ module.exports = function({}){
 			})
 		},
 
-
-
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		getSixLatestPosts : function (callback) {
+		getSixLatestPosts: function (callback) {
 
 			const values = []
-			const query = "SELECT * FROM posts ORDER BY timeWhenPosted LIMIT 6"
+			const query = "SELECT * FROM Post ORDER BY timeWhenPosted ASC LIMIT 6"
 
 			db.query(query, values, function (databaseError, posts) {
-
 				if (databaseError) {
 					callback(['Databse error when fetching latest posts.'], null)
 				}
@@ -42,21 +36,16 @@ module.exports = function({}){
 					callback(null, posts)
 				}
 			})
-
-
 		},
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		getPostsByCategoryIdAndLocationId : function (categoryId, locationId, callback) {
+		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
 			const values = [categoryId, locationId]
 			const query = `SELECT * FROM Post WHERE categoryID = ? AND locationID = ?`
 
-
 			db.query(query, values, function (databaseError, posts) {
-
 				if (databaseError) {
 					callback(['Databse error when fetching matching posts.'], null)
 				}
@@ -65,9 +54,6 @@ module.exports = function({}){
 					callback(null, posts)
 				}
 			})
-
 		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

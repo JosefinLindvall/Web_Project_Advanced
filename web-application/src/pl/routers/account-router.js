@@ -1,10 +1,10 @@
 const express = require('express')
 
 
-module.exports = function({accountManager, sessionHandler}) {
- 
-  
-   const router = express.Router()
+module.exports = function ({ accountManager, sessionHandler }) {
+
+
+	const router = express.Router()
 
 
 	//LOG IN
@@ -33,7 +33,6 @@ module.exports = function({accountManager, sessionHandler}) {
 				if (typeOfUser == "Admin") {
 					request.session.isLoggedInAsAdmin = true
 					request.session.isLoggedInAsReg = true
-
 					request.session.accountID = accountID
 				}
 
@@ -50,13 +49,11 @@ module.exports = function({accountManager, sessionHandler}) {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	router.post('/logout', function (request, response) {
-
 		request.session.isLoggedInAsReg = false
 		request.session.isLoggedInAsAdmin = false
 		request.session.accountID = null
 
 		response.redirect("/")
-
 	})
 
 
@@ -92,27 +89,70 @@ module.exports = function({accountManager, sessionHandler}) {
 
 	//PROFILE INTE KLAR 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// måste jag på nått sätt skicka med session ID till dal? hämta den användaren som har det ID och skicka tillbaka hit som en model?
-
 	router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
+		const accountID = request.session.accountID
 
-		try {
-			// call account manager 
-			response.render("profile.hbs")
-		}
+		accountManager.getUserInformation(accountID, function (error, currUserInfo) {
 
-		catch (error) {
+			const firstName = currUserInfo[0].firstName
+			const lastName = currUserInfo[0].lastName
+			const email = currUserInfo[0].email
+			const phoneNumber = currUserInfo[0].phoneNumber
+			const birthDate = currUserInfo[0].birthDate
+			const gender = currUserInfo[0].gender
 
-			const model = {
-				routerError: error
+			if (error) {
+				const model = {
+					error: error
+				}
+				response.render("profile.hbs", model)
 			}
-
-			response.render("routerError.hbs", model)
-		}
+			else {
+				const model = {
+					firstName: firstName,
+					lastName: lastName,
+					email: email,
+					phoneNumber: phoneNumber,
+					birthDate: birthDate,
+					gender: gender
+				}
+				response.render("profile.hbs", model)
+			}
+		})
 	})
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	router.get('/profile/:id', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
+		const userPostID = request.params.id
+
+		accountManager.getUserInformation(userPostID, function (error, currUserInfo) {
+
+			const firstName = currUserInfo[0].firstName
+			const lastName = currUserInfo[0].lastName
+			const email = currUserInfo[0].email
+			const phoneNumber = currUserInfo[0].phoneNumber
+			const birthDate = currUserInfo[0].birthDate
+			const gender = currUserInfo[0].gender
+
+			if (error) {
+				const model = {
+					error: error
+				}
+				response.render("profile.hbs", model)
+			}
+			else {
+				const model = {
+					firstName: firstName,
+					lastName: lastName,
+					email: email,
+					phoneNumber: phoneNumber,
+					birthDate: birthDate,
+					gender: gender
+				}
+				response.render("profile.hbs", model)
+			}
+		})
+	})
 	return router
 }

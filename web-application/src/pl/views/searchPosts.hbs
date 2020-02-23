@@ -4,24 +4,25 @@
 <div class="container-div">
     <h4 class="search-posts-title"> Search Posts</h4>
     <div class="search-div">
-        <form method="GET" action="/post/execute-search" >
+        <form method="GET" action="/post/execute-search">
 
-            <select name = "category">
+            <select name="category">
                 <option value="" selected disabled hidden>Category</option>
                 {{#each categories}}
-                    <option value="{{categoryID}}">{{category}}</option>
+                <option value="{{categoryID}}">{{category}}</option>
                 {{/each}}
             </select>
 
-            <select name = "location">
+            <select name="location">
                 <option value="" selected disabled hidden>Location</option>
                 {{#each locations}}
-                    <option value="{{locationID}}">{{location}}</option>
+                <option value="{{locationID}}">{{location}}</option>
                 {{/each}}
             </select>
 
             <div class="search-button-div">
-                <button class="btn waves-effect waves-light" type="submit" >Search!<i class="material-icons right">send</i></button>
+                <button class="btn waves-effect waves-light" type="submit">Search!<i
+                        class="material-icons right">send</i></button>
             </div>
 
         </form>
@@ -40,7 +41,7 @@
     <p class="pink-centered-bold-text">The following errors occured when searching posts: </p>
     <ul>
         {{#each errors}}
-            <li class="pink-centered-text">{{this}}</li>
+        <li class="pink-centered-text">{{this}}</li>
         {{/each}}
     </ul>
 </div>
@@ -56,11 +57,11 @@
 
         <div class="col s3">
             <div class="card">
-                
+
                 <div class="card-image">
                     <img class="responsive-img post-image" src="/images/adventure.jpg">
                 </div>
-                
+
                 <div class="card-content">
                     <p class="post-title-paragraph">{{title}}</p>
                     <br>
@@ -68,9 +69,10 @@
                     <br>
                     <p class="post-content-paragraph">{{timeWhenPosted}}</p>
                 </div>
-                
+
+                {{!-- klicka på contact me - > skicka iväg till /profile:ID så vi får id från param? --}}
                 <div class="card-action">
-                    <a href="#">Contact me!</a>
+                    <a href="/account/profile/{{postID}}">Contact me!</a>
                 </div>
 
             </div>
@@ -81,15 +83,16 @@
     </div>
     </div>
 
-{{!---------------------------------------------------------------------------------------}}
+    {{!---------------------------------------------------------------------------------------}}
 
-{{else}} {{!-- "posts" is empty which means no posts match the search OR no search has been made yet. --}}
-    
-    {{#if searchHasBeenMade}}  {{!-- A search has been made and so it means that "posts" is empty because no posts matched the search. --}}
-        <p class="pink-centered-bold-text">No posts available that match currently chosen category and location.</p>
+    {{else}} {{!-- "posts" is empty which means no posts match the search OR no search has been made yet. --}}
+
+    {{#if searchHasBeenMade}}
+    {{!-- A search has been made and so it means that "posts" is empty because no posts matched the search. --}}
+    <p class="pink-centered-bold-text">No posts available that match currently chosen category and location.</p>
     {{/if}}
 
-{{/if}}
-{{/if}}
+    {{/if}}
+    {{/if}}
 
-{{!---------------------------------------------------------------------------------------}}
+    {{!---------------------------------------------------------------------------------------}}

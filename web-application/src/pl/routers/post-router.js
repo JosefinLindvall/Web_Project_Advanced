@@ -3,9 +3,7 @@ const express = require('express')
 
 module.exports = function ({ postManager, categoryManager, locationManager, sessionHandler }) {
 
-
 	const router = express.Router()
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +21,6 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 				}
 				response.render("createPost.hbs", model)
 			}
-
 			else {
 				categoryManager.getAllCategories(function (error, category) {
 
@@ -33,7 +30,6 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 						}
 						response.render("createPost.hbs", model)
 					}
-
 					else {
 						const model = {
 							location: location,
@@ -51,7 +47,6 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 	/**
 	 * Post request for creating a post and insert it into the POST table
-	 * lägg till så att category och location inte försvinner när man skickar iväg
 	 */
 	router.post("/create-post", sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
@@ -59,22 +54,43 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		const accountID = request.session.accountID
 
 		postManager.createPost(post, accountID, function (error) {
-
 			if (error) {
 				const model = {
 					error: error,
-					post,
 				}
 				response.render("createPost.hbs", model)
 			}
 			else {
-				response.render("createPost.hbs")
+				locationManager.getAllLocations(function (error, location) {
+					if (error) {
+						const model = {
+							error: error
+						}
+						response.render("createPost.hbs", model)
+					}
+					else {
+						categoryManager.getAllCategories(function (error, category) {
+							if (error) {
+								const model = {
+									error: error
+								}
+								response.render("createPost.hbs", model)
+							}
+							else {
+								const model = {
+									location: location,
+									category: category
+								}
+								response.render("createPost.hbs", model)
+							}
+						})
+					}
+				})
 			}
 		})
 	})
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	//This get request is sent when just rendering the page, and no search has been made
 	router.get("/search-posts", function (request, response) {
 
@@ -134,9 +150,6 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		const categoryId = request.query.category
 		const locationId = request.query.location
 
-		// const categoryId = 1
-		// const locationId = 1
-
 		try {
 
 			var model = {}
@@ -159,15 +172,14 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 						else { //No error fetching locations, ok to go on and fetch all matching posts
 
-							const posts = postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function (errors, posts) {
-
+							postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function (errors, posts) {
 								if (errors) {
 									model = { errors }
 									response.render("searchPosts.hbs", model)
 								}
 
+								//skicka med postID till modellen?
 								else {
-
 									model = {
 										categories: categories,
 										locations: locations,

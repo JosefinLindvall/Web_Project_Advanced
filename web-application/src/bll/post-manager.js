@@ -1,13 +1,13 @@
 
 
-module.exports = function({postRepo, postValidator}){
-    
+module.exports = function ({ postRepo, postValidator }) {
+
     return {
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        createPost : function (post, accountID, callback) {
+        createPost: function (post, accountID, callback) {
 
             const errors = postValidator.getErrorsNewPost(post)
 
@@ -21,17 +21,15 @@ module.exports = function({postRepo, postValidator}){
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        getPostsByCategoryIdAndLocationId : function (categoryId, locationId, callback) {
+        getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
             postRepo.getPostsByCategoryIdAndLocationId(categoryId, locationId, callback)
         },
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        getSixLatestPosts : function (callback) {
-
+        getSixLatestPosts: function (callback) {
             postRepo.getSixLatestPosts(callback)
-
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

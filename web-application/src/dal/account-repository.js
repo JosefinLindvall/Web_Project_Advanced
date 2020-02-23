@@ -1,12 +1,12 @@
 const db = require('./db')
 
-module.exports = function({}){
-    
+module.exports = function ({ }) {
+
     return {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        createAccount : function (account, hash, callback) {
+
+        createAccount: function (account, hash, callback) {
 
             //Inserting the account
             const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, typeOfUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
@@ -35,15 +35,13 @@ module.exports = function({}){
                         }
 
                     })
-
-
                 }
             })
         },
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        logInAccount : function (typedEmail, callback) {
+
+        logInAccount: function (typedEmail, callback) {
 
             const query = "SELECT password, typeOfUser, accountID FROM `Account` WHERE email = ?"
             const values = [typedEmail]
@@ -69,12 +67,19 @@ module.exports = function({}){
         },
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        getUserInformation : function (sessionID, callback) {
-            const query = "SELECT "
+
+        getUserInformation: function (accountID, callback) {
+            const query = "SELECT firstName, lastName, email, phoneNumber, birthDate, gender FROM `Account` WHERE accountID = ?"
+            const values = [accountID]
+
+            db.query(query, values, function (databaseError, currUserInfo) {
+                if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
+                    callback(['A database error occured when trying to get the user in.'], null)
+                }
+                else {
+                    callback(null, currUserInfo)
+                }
+            })
         }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     }
 }
