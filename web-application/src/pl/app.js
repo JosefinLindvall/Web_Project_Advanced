@@ -4,6 +4,8 @@ const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize('postgresql : ??????') /////OHHHH WHYYYYYYY PLZ LINUS HELP ME ;)<3
 const redis = require('redis')
 let RedisStore = require('connect-redis')(session)
 let redisClient = redis.createClient({ host: "redis" })
@@ -12,7 +14,6 @@ const awilix = require('awilix')
 const app = express()
 
 //////// Middlewares ////////////////////////////////////////////////////////////////////////////////
-
 // Handle static files in the public folder.
 app.use(express.static(__dirname + "/public"))
 
