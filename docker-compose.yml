@@ -24,4 +24,13 @@ services:
     expose:
       - 6379
 
+  postgres:
+    build: './postgresql-db'
+    environment: 
+      - POSTGRES_USER=webAppPostDb
+      - POSTGRES_PASSWORD=5555
+      - POSTGRES_DB=dbname
+    expose: 
+      - 5432
+
       

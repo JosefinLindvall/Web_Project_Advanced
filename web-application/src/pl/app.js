@@ -4,8 +4,6 @@ const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-const Sequelize = require('sequelize')
-const sequelize = new Sequelize('postgresql : ??????') /////OHHHH WHYYYYYYY PLZ LINUS HELP ME ;)<3
 const redis = require('redis')
 let RedisStore = require('connect-redis')(session)
 let redisClient = redis.createClient({ host: "redis" })
@@ -31,13 +29,10 @@ app.use(bodyParser.urlencoded({
 
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
 app.use(session({  // The function "session" creates random session ids from the secret below
-
     saveUninitialized: false,
     resave: false,
     secret: 'ksdjfhjksbajshklbvcsaelv',
     store: new RedisStore({ client: redisClient }) //if panic happens; add host:"redis" inside curly brackets
-
-
 }))
 
 app.use(function (request, response, next) {
@@ -55,23 +50,23 @@ const variousRouterFun = require('./routers/various-router')
 const accountRouterFun = require('./routers/account-router')
 const accountManagerFun = require('../bll/account-manager')
 const accountValidatorFun = require('../bll/account-validator')
-const accountRepoFun = require('../dal/account-repository')
+const accountRepoFun = require('../dal-MySQL/account-repository')
 
 const categoryManagerFun = require('../bll/category-manager')
-const categoryRepoFun = require('../dal/category-repository')
+const categoryRepoFun = require('../dal-MySQL/category-repository')
 
 const contactMessageRouterFun = require('./routers/contact-message-router')
 const contactMessageManagerFun = require('../bll/contact-message-manager')
 const contactMessageValidatorFun = require('../bll/contact-message-validator')
-const contactMessageRepoFun = require('../dal/contact-message-repository')
+const contactMessageRepoFun = require('../dal-MySQL/contact-message-repository')
 
 const locationManagerFun = require('../bll/location-manager')
-const locationRepoFun = require('../dal/location-repository')
+const locationRepoFun = require('../dal-MySQL/location-repository')
 
 const postRouterFun = require('./routers/post-router')
 const postManagerFun = require('../bll/post-manager')
 const postValidatorFun = require('../bll/post-validator')
-const postRepoFun = require('../dal/post-repository')
+const postRepoFun = require('../dal-MySQL/post-repository')
 
 const sessionHandlerFun = require('./session-handler')
 

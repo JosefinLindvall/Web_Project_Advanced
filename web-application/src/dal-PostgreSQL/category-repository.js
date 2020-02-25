@@ -3,8 +3,6 @@ const db = require('./db')
 module.exports = function({}){
     
     return {
-
-
         getAllCategories : function (callback) {
 
             const query = `SELECT * FROM Category ORDER BY category` 
@@ -24,3 +22,5 @@ module.exports = function({}){
         }
     }    
 }
+
+

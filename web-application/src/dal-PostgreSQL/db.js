@@ -1,10 +1,12 @@
-const mysql = require('mysql')
 
-const db = mysql.createConnection({
-    host: "db", 
-    user: "root", 
-    password: "abc5555", 
-    database: "webAppDb"
-})
+const sequelize = new Sequelize('postgres://webAppPostDb:5555@postgres:5432/dbname') 
 
-module.exports = db
+try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
+
+module.exports = sequelize

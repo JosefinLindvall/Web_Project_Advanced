@@ -6,7 +6,7 @@ module.exports = function({contactMessageManager, sessionHandler}) {
  
   
    const router = express.Router()
-
+   
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     router.get("/view-all-contact-messages", sessionHandler.checkedIfLoggedInAsAdminUser, function (request, response) { 
