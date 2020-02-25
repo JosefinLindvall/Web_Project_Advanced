@@ -12,6 +12,7 @@ const awilix = require('awilix')
 const app = express()
 
 //////// Middlewares ////////////////////////////////////////////////////////////////////////////////
+
 // Handle static files in the public folder.
 app.use(express.static(__dirname + "/public"))
 
@@ -26,13 +27,15 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
 app.use(session({  // The function "session" creates random session ids from the secret below
+
     saveUninitialized: false,
     resave: false,
     secret: 'ksdjfhjksbajshklbvcsaelv',
     store: new RedisStore({ client: redisClient }) //if panic happens; add host:"redis" inside curly brackets
+
+
 }))
 
 app.use(function (request, response, next) {
@@ -45,37 +48,37 @@ app.use(function (request, response, next) {
 
 //////// AWILIX  ////////////////////////////////////////////////////////////////////////////////
 // Requiring the functions in the manager and repository files (and other files)
-const variousRouterFun = require('./routers/various-router')
+const variousRouter = require('./routers/various-router')
 
-const accountRouterFun = require('./routers/account-router')
+const accountRouter = require('./routers/account-router')
 const accountManagerFun = require('../bll/account-manager')
 const accountValidatorFun = require('../bll/account-validator')
-const accountRepoFun = require('../dal-MySQL/account-repository')
+const accountRepoFun = require('../dal/account-repository')
 
 const categoryManagerFun = require('../bll/category-manager')
-const categoryRepoFun = require('../dal-MySQL/category-repository')
+const categoryRepoFun = require('../dal/category-repository')
 
-const contactMessageRouterFun = require('./routers/contact-message-router')
+const contactMessageRouter = require('./routers/contact-message-router')
 const contactMessageManagerFun = require('../bll/contact-message-manager')
 const contactMessageValidatorFun = require('../bll/contact-message-validator')
-const contactMessageRepoFun = require('../dal-MySQL/contact-message-repository')
+const contactMessageRepoFun = require('../dal/contact-message-repository')
 
 const locationManagerFun = require('../bll/location-manager')
-const locationRepoFun = require('../dal-MySQL/location-repository')
+const locationRepoFun = require('../dal/location-repository')
 
-const postRouterFun = require('./routers/post-router')
+const postRouter = require('./routers/post-router')
 const postManagerFun = require('../bll/post-manager')
 const postValidatorFun = require('../bll/post-validator')
-const postRepoFun = require('../dal-MySQL/post-repository')
+const postRepoFun = require('../dal/post-repository')
 
 const sessionHandlerFun = require('./session-handler')
 
 // Creating the container and registering the functions as dependencies 
 const container = awilix.createContainer()
 
-container.register('variousRouter', awilix.asFunction(variousRouterFun))
+container.register('variousRouter', awilix.asFunction(variousRouter))
 
-container.register('accountRouter', awilix.asFunction(accountRouterFun))
+container.register('accountRouter', awilix.asFunction(accountRouter))
 container.register('accountManager', awilix.asFunction(accountManagerFun))
 container.register('accountRepo', awilix.asFunction(accountRepoFun))
 container.register('accountValidator', awilix.asFunction(accountValidatorFun))
@@ -89,12 +92,12 @@ container.register('contactMessageRepo', awilix.asFunction(contactMessageRepoFun
 container.register('locationManager', awilix.asFunction(locationManagerFun))
 container.register('locationRepo', awilix.asFunction(locationRepoFun))
 
-container.register('postRouter', awilix.asFunction(postRouterFun))
+container.register('postRouter', awilix.asFunction(postRouter))
 container.register('postManager', awilix.asFunction(postManagerFun))
 container.register('postRepo', awilix.asFunction(postRepoFun))
 container.register('postValidator', awilix.asFunction(postValidatorFun))
 
-container.register('contactMessageRouter', awilix.asFunction(contactMessageRouterFun))
+container.register('contactMessageRouter', awilix.asFunction(contactMessageRouter))
 container.register('contactMessageValidator', awilix.asFunction(contactMessageValidatorFun))
 
 container.register('sessionHandler', awilix.asFunction(sessionHandlerFun))

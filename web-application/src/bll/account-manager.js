@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt')
 
 module.exports = function ({ accountRepo, accountValidator }) {
 
+    
+
     return {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,12 +30,12 @@ module.exports = function ({ accountRepo, accountValidator }) {
 
         logInAccount: function (typedEmail, typedPassword, callback) {
 
-            const errors = accountValidator.checkAccountInformation(typedEmail, typedPassword)
+            // const errors = accountValidator.checkAccountInformation(account)
 
-            if (errors.length > 0) {
-                callback(errors, null)
-                return
-            }
+            // if (errors.length > 0) {
+            //     callback(errors, null)
+            //     return
+            // }
 
             accountRepo.logInAccount(typedEmail, function (error, databasePassword, typeOfUser, accountID) {
 
@@ -49,8 +51,8 @@ module.exports = function ({ accountRepo, accountValidator }) {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        getUserInformation: function (accountID, callback) {
-            accountRepo.getUserInformation(accountID, callback)
+        getUserInformation: function (sessionID, callback) {
+
         },
 
 

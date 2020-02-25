@@ -1,4 +1,7 @@
+
+
 const Sequelize = require('sequelize')
+const sequelize = new Sequelize('postgres://friendy:5555@postgres:5432/webAppPostgreSQLDb') 
 
 const Account = sequelize.define('account', {
     firstName: {type: Sequelize.TEXT, allowNull:false}, 

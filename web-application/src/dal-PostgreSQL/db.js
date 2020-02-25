@@ -1,5 +1,7 @@
 
-const sequelize = new Sequelize('postgres://webAppPostDb:5555@postgres:5432/dbname') 
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize('postgres://friendy:5555@postgres:5432/webAppPostgreSQLDb') 
+
 
 try {
     await sequelize.authenticate();

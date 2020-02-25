@@ -1,59 +1,57 @@
-const db = require('./db')
+
 
 module.exports = function ({ }) {
 
 	return {
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		createPost: function (post, accountID, callback) {
 
-			const query = "INSERT INTO Post (title, content, categoryID, locationID, accountID) VALUES (?, ?, ?, ?, ?)"
-			const values = [post.title, post.content, post.category, post.location, accountID]
 
-			db.query(query, values, function (error, post) {
-
-				if (error) {
-					callback(['databaseError'], null)
-				}
-				else {
-					callback(null, post)
-				}
+			Post.create({title: post.title, content: post.content, categoryID: post.category, locationID: post.location, accountID: accountID})
+			
+			.then(function(){
+				callback(null)
 			})
+
+			.catch(function(error){
+				callback(['Database error when creating post.'])
+			})
+
+
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		getSixLatestPosts: function (callback) {
 
-			const values = []
-			const query = "SELECT * FROM Post ORDER BY timeWhenPosted ASC LIMIT 6"
-
-			db.query(query, values, function (databaseError, posts) {
-				if (databaseError) {
-					callback(['Databse error when fetching latest posts.'], null)
-				}
-
-				else {
-					callback(null, posts)
-				}
+			Post.findAll( { order: [['timeWhenPosted', 'DESC']], limit: 6})
+			.then(function(posts){
+				callback(null, posts)
 			})
+
+			.catch(function(error){
+				callback(['Database error when fetching latest posts.'], null)
+			})
+			
+		
 		},
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
-			const values = [categoryId, locationId]
-			const query = `SELECT * FROM Post WHERE categoryID = ? AND locationID = ?`
-
-			db.query(query, values, function (databaseError, posts) {
-				if (databaseError) {
-					callback(['Databse error when fetching matching posts.'], null)
-				}
-
-				else {
-					callback(null, posts)
-				}
+			Post.findAll( { where: {categoryID : categoryId, locationID: locationId}, order: [['timeWhenPosted', 'DESC']]})
+			.then(function(posts){
+				callback(null, posts)
 			})
+
+			.catch(function(error){
+				callback(['Database error when fetching matching posts.'], null)
+			})
+
 		}
 	}
 }
