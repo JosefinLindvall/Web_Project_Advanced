@@ -4,44 +4,38 @@ module.exports = function ({ }) {
 
     return {
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         createAccount: function (account, hash, callback) {
-
-            //Inserting the account
-            const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, typeOfUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-            const values = [account.firstName, account.lastName, hash, account.email, account.phoneNumber, account.birthday, account.gender, "User"]
-
-            db.query(query, values, function (error, account) {
-
-                if (error) {
-                    callback(['Database error!'], null) //Database error when inserting account
-                }
-
-                else {
-
-                    //Fetching id for the account that was just inserted
-                    const query = "SELECT accountID FROM `Account` WHERE email = ?"
-                    const values = [account.email]
-
-                    db.query(query, values, function (error, accountID) {
-
-                        if (error) {
-                            callback(['Database error!'], null)
-                        }
-
-                        else {
-                            callback(null, accountID)
-                        }
-
-                    })
-                }
+            
+            Account.create({
+                firstName: account.firstName,
+                lastName: account.lastName,
+                password: hash,
+                email: account.email,
+                phoneNumber: account.phoneNumber,
+                birthDate: account.birthday,
+                gender: account.gender,
+                typeOfUser: "User"
+            
+            }).then(function(account) {
+                Account.findOne({
+                    where: {email: account.email}
+                
+                }).then(function(account) {
+                    callback(null, account.id)
+                
+                })
+            }).catch(function(error) {
+                callback(error, null)  
             })
         },
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         logInAccount: function (typedEmail, callback) {
+
+            //TODO
+            // Account.findOne(function(){
+            //     where: {}
+        
+            // })
 
             const query = "SELECT password, typeOfUser, accountID FROM `Account` WHERE email = ?"
             const values = [typedEmail]
@@ -66,14 +60,13 @@ module.exports = function ({ }) {
             })
         },
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        // TODO 
         getUserInformation: function (accountID, callback) {
             const query = "SELECT firstName, lastName, email, phoneNumber, birthDate, gender FROM `Account` WHERE accountID = ?"
             const values = [accountID]
 
             db.query(query, values, function (databaseError, currUserInfo) {
-                if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
+                if (databaseError) { 
                     callback(['A database error occured when trying to get the user in.'], null)
                 }
                 else {
