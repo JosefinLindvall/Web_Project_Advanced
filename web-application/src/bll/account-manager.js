@@ -30,12 +30,12 @@ module.exports = function ({ accountRepo, accountValidator }) {
 
         logInAccount: function (typedEmail, typedPassword, callback) {
 
-            // const errors = accountValidator.checkAccountInformation(account)
+            const errors = accountValidator.checkAccountInformation(typedEmail, typedPassword)
 
-            // if (errors.length > 0) {
-            //     callback(errors, null)
-            //     return
-            // }
+            if (errors.length > 0) {
+                callback(errors, null)
+                return
+            }
 
             accountRepo.logInAccount(typedEmail, function (error, databasePassword, typeOfUser, accountID) {
 

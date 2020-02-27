@@ -13,10 +13,10 @@ module.exports = function ({ }) {
 			db.query(query, values, function (error, post) {
 
 				if (error) {
-					callback(['databaseError'], null)
+					callback(['databaseError'])
 				}
 				else {
-					callback(null, post)
+					callback(null)
 				}
 			})
 		},

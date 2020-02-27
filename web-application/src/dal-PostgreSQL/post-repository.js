@@ -1,6 +1,7 @@
+//const sequelize = require('./db')
+//const db = require('./db')
 
-
-module.exports = function ({ }) {
+module.exports = function ({db}) {
 
 	return {
 
@@ -8,8 +9,9 @@ module.exports = function ({ }) {
 		
 		createPost: function (post, accountID, callback) {
 
+			//const Post = sequelize.model("Post")
 
-			Post.create({title: post.title, content: post.content, categoryID: post.category, locationID: post.location, accountID: accountID})
+			(db.getPostTable).create({title: post.title, content: post.content, categoryID: post.category, locationID: post.location, accountID: accountID})
 			
 			.then(function(){
 				callback(null)
@@ -25,8 +27,10 @@ module.exports = function ({ }) {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		getSixLatestPosts: function (callback) {
+			
+			console.log(db.getPostTable())
 
-			Post.findAll( { order: [['timeWhenPosted', 'DESC']], limit: 6})
+			(db.getPostTable()).findAll( { order: [['timeWhenPosted', 'DESC']], limit: 6})
 			.then(function(posts){
 				callback(null, posts)
 			})
@@ -43,7 +47,7 @@ module.exports = function ({ }) {
 		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
-			Post.findAll( { where: {categoryID : categoryId, locationID: locationId}, order: [['timeWhenPosted', 'DESC']]})
+			(db.getPostTable()).findAll( { where: {categoryID : categoryId, locationID: locationId}, order: [['timeWhenPosted', 'DESC']]})
 			.then(function(posts){
 				callback(null, posts)
 			})

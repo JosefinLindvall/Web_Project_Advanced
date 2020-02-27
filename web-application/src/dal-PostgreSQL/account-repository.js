@@ -1,10 +1,13 @@
-const db = require('./db')
+//const Account = require('../../../postgresql-db/init')
+const sequelize = require('./db')
 
 module.exports = function ({ }) {
 
     return {
 
         createAccount: function (account, hash, callback) {
+
+            Account = sequelize.model("Account")
 
             Account.create({
                 firstName: account.firstName,

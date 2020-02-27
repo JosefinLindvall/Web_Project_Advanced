@@ -47,34 +47,67 @@ app.use(function (request, response, next) {
 
 
 //////// AWILIX  ////////////////////////////////////////////////////////////////////////////////
-// Requiring the functions in the manager and repository files (and other files)
+
+//Creating container
+
+const container = awilix.createContainer()
+
+//Requiring functions for the currently used db!
+
+const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL"
+
+if (currentDb == "mySQL") {
+    var accountRepoFun = require('../dal-MySQL/account-repository') //will peppel grill his???
+    var categoryRepoFun = require('../dal-MySQL/category-repository')
+    var contactMessageRepoFun = require('../dal-MySQL/contact-message-repository')
+    var locationRepoFun = require('../dal-MySQL/location-repository')
+    var postRepoFun = require('../dal-MySQL/post-repository')
+
+}
+
+else if (currentDb == "PostgreSQL") {
+    
+    const dbFun = require('../dal-PostgreSQL/db')
+    container.register('db', awilix.asFunction(dbFun))
+    const theDb = container.resolve('db')
+    theDb.createAllTables()
+
+
+
+    var accountRepoFun = require('../dal-PostgreSQL/account-repository') //will peppel grill his???
+    var categoryRepoFun = require('../dal-PostgreSQL/category-repository')
+    var contactMessageRepoFun = require('../dal-PostgreSQL/contact-message-repository')
+    var locationRepoFun = require('../dal-PostgreSQL/location-repository')
+    var postRepoFun = require('../dal-PostgreSQL/post-repository')
+
+}
+
+
+
+// Requiring other functions in the manager files (and other files)
+
 const variousRouter = require('./routers/various-router')
 
 const accountRouter = require('./routers/account-router')
 const accountManagerFun = require('../bll/account-manager')
 const accountValidatorFun = require('../bll/account-validator')
-const accountRepoFun = require('../dal/account-repository')
 
 const categoryManagerFun = require('../bll/category-manager')
-const categoryRepoFun = require('../dal/category-repository')
 
 const contactMessageRouter = require('./routers/contact-message-router')
 const contactMessageManagerFun = require('../bll/contact-message-manager')
 const contactMessageValidatorFun = require('../bll/contact-message-validator')
-const contactMessageRepoFun = require('../dal/contact-message-repository')
 
 const locationManagerFun = require('../bll/location-manager')
-const locationRepoFun = require('../dal/location-repository')
 
 const postRouter = require('./routers/post-router')
 const postManagerFun = require('../bll/post-manager')
 const postValidatorFun = require('../bll/post-validator')
-const postRepoFun = require('../dal/post-repository')
 
 const sessionHandlerFun = require('./session-handler')
 
-// Creating the container and registering the functions as dependencies 
-const container = awilix.createContainer()
+//  Eegistering the functions as dependencies in the container
+
 
 container.register('variousRouter', awilix.asFunction(variousRouter))
 
@@ -104,6 +137,7 @@ container.register('sessionHandler', awilix.asFunction(sessionHandlerFun))
 
 
 // Resolving the dependencies... WHYYYYY THOUGH????
+
 const theAccountRouter = container.resolve('accountRouter')
 const theVariousRouter = container.resolve('variousRouter')
 const thePostRouter = container.resolve('postRouter')
