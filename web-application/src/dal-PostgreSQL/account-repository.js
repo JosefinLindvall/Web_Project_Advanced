@@ -1,15 +1,11 @@
-//const Account = require('../../../postgresql-db/init')
-const sequelize = require('./db')
 
-module.exports = function ({ }) {
+module.exports = function ({ db }) {
 
     return {
 
         createAccount: function (account, hash, callback) {
 
-            Account = sequelize.model("Account")
-
-            Account.create({
+            db.getAccountTable().create({
                 firstName: account.firstName,
                 lastName: account.lastName,
                 password: hash,
@@ -20,29 +16,30 @@ module.exports = function ({ }) {
                 typeOfUser: "User"
 
             }).then(function (account) {
-                Account.findOne({
+                db.getAccountTable().findOne({
                     where: { email: account.email }
                 }).then(function (account) {
                     callback(null, account.id)
                 })
             }).catch(function (error) {
                 callback(error, null)
+
             })
         },
 
         //dubbelkolla hur detta kommer bli för vi parsar ju objektet och stoppar in fler parameterar 
         logInAccount: function (typedEmail, callback) {
-            Account.findOne({
+            db.getAccountTable().findOne({
                 where: { email: typedEmail }
-            }).then(function (dataPackage) {
-                callback(null, dataPackage)
+            }).then(function (dataPackage) { 
+                callback(null, dataPackage.password, dataPackage.typeOfUser, dataPackage.id) 
             }).catch(function (error) {
                 callback(error, null)
             })
         },
 
         getUserInformation: function (accountID, callback) {
-            Account.findById(accountID).then(function (currUserInfo) {
+            db.getAccountTable().findById(accountID).then(function (currUserInfo) {
                 callback(null, currUserInfo)
             }).catch(function (error) {
                 callback(error, null)

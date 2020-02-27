@@ -1,9 +1,10 @@
-module.exports = function({}){
+module.exports = function({db}){
     
     return {
         getAllCategories : function (callback) {
 
-            Category.findall({
+            db.getCategoryTable().findAll({
+                raw:true,
                 order: [['category']]
             }).then (function(categories) {
                 callback(null, categories)

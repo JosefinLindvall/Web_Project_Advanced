@@ -47,6 +47,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 	/**
 	 * Post request for creating a post and insert it into the POST table
+	 * TODO kanske redirecta till create post istället för att slippa denna härva.
 	 */
 	router.post("/create-post", sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 

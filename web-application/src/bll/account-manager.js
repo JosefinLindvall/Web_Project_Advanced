@@ -51,8 +51,8 @@ module.exports = function ({ accountRepo, accountValidator }) {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        getUserInformation: function (sessionID, callback) {
-
+        getUserInformation: function (accountID, callback) {
+            accountRepo.getUserInformation(accountID, callback)
         },
 
 
@@ -84,7 +84,7 @@ module.exports = function ({ accountRepo, accountValidator }) {
 comparePassword = function (typedPassword, databasePassword, typeOfUser, accountID, callback) {
 
     bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
-
+        
         if (err) {
             callback(['bcrypt error'], null, null)
         }

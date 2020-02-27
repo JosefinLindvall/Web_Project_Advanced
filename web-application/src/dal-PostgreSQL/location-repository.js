@@ -1,13 +1,13 @@
-const db = require('./db')
 
-module.exports = function({}){
+module.exports = function({db}){
     
     return {
 
         getAllLocations : function (callback) {
 
-            Location.findall({
-                order: [['location']]
+            db.getLocationTable().findAll({
+                //order: [['location']]
+                raw:true
             }).then (function(locations) {
                 callback(null, locations)
             })

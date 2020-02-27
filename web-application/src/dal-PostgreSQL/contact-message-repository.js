@@ -1,5 +1,5 @@
 
-module.exports = function({}){
+module.exports = function({db}){
     
     return {
 
@@ -7,7 +7,7 @@ module.exports = function({}){
 
         getAllContactMessages : function (callback) {
 
-            ContactMessages.findAll({
+            db.getContactMessageTable().findAll({
                 order: [['timeWhenSent', 'DESC']]
             })
             
@@ -27,14 +27,14 @@ module.exports = function({}){
 
         createContactMessage : function (title, content, email, callback) {
 
-            contactMessage.create({title: title, content: content, email: email})
+            db.getContactMessageTable().create({title: title, content: content, email: email})
             
-            .then (function(createdContactMessage){
+            .then(function(createdContactMessage){
                 callback([])
             })
 
             .catch(function(error){
-                callback(['Database error when creating contact message.'])
+                callback(error) //['Database error when creating contact message.']
             })
 
         }
