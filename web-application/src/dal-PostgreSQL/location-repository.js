@@ -6,7 +6,7 @@ module.exports = function({db}){
         getAllLocations : function (callback) {
 
             db.getLocationTable().findAll({
-                //order: [['location']]
+                order: [['location']],
                 raw:true
             }).then (function(locations) {
                 callback(null, locations)

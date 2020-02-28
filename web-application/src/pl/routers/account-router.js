@@ -87,20 +87,21 @@ module.exports = function ({ accountManager, sessionHandler }) {
 	})
 
 
-	//PROFILE INTE KLAR 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
 		const accountID = request.session.accountID
-
+		
 		accountManager.getUserInformation(accountID, function (error, currUserInfo) {
 
-			const firstName = currUserInfo[0].firstName
-			const lastName = currUserInfo[0].lastName
-			const email = currUserInfo[0].email
-			const phoneNumber = currUserInfo[0].phoneNumber
-			const birthDate = currUserInfo[0].birthDate
-			const gender = currUserInfo[0].gender
+			const firstName = currUserInfo.firstName
+			const lastName = currUserInfo.lastName
+			const email = currUserInfo.email
+			const phoneNumber = currUserInfo.phoneNumber
+			const birthDate = currUserInfo.birthDate
+			const gender = currUserInfo.gender
+
+			
 
 			if (error) {
 				const model = {
@@ -128,12 +129,12 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		accountManager.getUserInformation(userPostID, function (error, currUserInfo) {
 
-			const firstName = currUserInfo[0].firstName
-			const lastName = currUserInfo[0].lastName
-			const email = currUserInfo[0].email
-			const phoneNumber = currUserInfo[0].phoneNumber
-			const birthDate = currUserInfo[0].birthDate
-			const gender = currUserInfo[0].gender
+			const firstName = currUserInfo.firstName
+			const lastName = currUserInfo.lastName
+			const email = currUserInfo.email
+			const phoneNumber = currUserInfo.phoneNumber
+			const birthDate = currUserInfo.birthDate
+			const gender = currUserInfo.gender
 
 			if (error) {
 				const model = {

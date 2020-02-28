@@ -39,7 +39,10 @@ module.exports = function ({ db }) {
         },
 
         getUserInformation: function (accountID, callback) {
-            db.getAccountTable().findById(accountID).then(function (currUserInfo) {
+            db.getAccountTable().findByPk(
+                accountID,
+                {raw:true}
+            ).then(function (currUserInfo) {
                 callback(null, currUserInfo)
             }).catch(function (error) {
                 callback(error, null)

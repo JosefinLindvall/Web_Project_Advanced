@@ -8,17 +8,17 @@ module.exports = function({}){
 
         getAllContactMessages : function (callback) {
 
-            const query = `SELECT * FROM ContactMessage ORDER BY timeWhenSent DESC` //should it say ASC here?
+            const query = `SELECT * FROM ContactMessage ORDER BY createdAt DESC`
             const values = []
 
             db.query(query, values, function (error, contactMessages) {
 
                 if (error) {
-                    callback(['databaseError'], null) //this error from the database is passed forward as a hard coded string
+                    callback(['Database error when fetching contact messages.'], null) //this error from the database is passed forward as a hard coded string
                 }
 
                 else {
-                    callback([], contactMessages) //should i really return an empty arrray? Why not null? 
+                    callback(null, contactMessages) 
                 }
             })
 
@@ -35,7 +35,7 @@ module.exports = function({}){
             db.query(query, values, function (error) {
 
                 if (error) {
-                    callback(['databaseError']) //this error from the database is passed forward as a hard coded string
+                    callback(['Database error when creating contact message.']) //this error from the database is passed forward as a hard coded string
                 }
 
                 else {

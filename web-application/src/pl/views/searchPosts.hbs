@@ -6,14 +6,14 @@
     <div class="search-div">
         <form method="GET" action="/post/execute-search">
 
-            <select name="category">
-                <option value="" selected disabled hidden>Category</option>
+            <select name="categoryID">
+                <option value="" selected disabled hidden>Category</option>  
                 {{#each categories}}
                 <option value="{{categoryID}}">{{category}}</option>
                 {{/each}}
             </select>
 
-            <select name="location">
+            <select name="locationID">
                 <option value="" selected disabled hidden>Location</option>
                 {{#each locations}}
                 <option value="{{locationID}}">{{location}}</option>
@@ -67,7 +67,7 @@
                     <br>
                     <p class="post-content-paragraph">{{content}}</p>
                     <br>
-                    <p class="post-content-paragraph">{{timeWhenPosted}}</p>
+                    <p class="post-content-paragraph">{{createdAt}}</p>
                 </div>
 
                 {{!-- klicka på contact me - > skicka iväg till /profile:ID så vi får id från param? --}}

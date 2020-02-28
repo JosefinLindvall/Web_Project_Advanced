@@ -8,7 +8,7 @@ module.exports = function({db}){
         getAllContactMessages : function (callback) {
 
             db.getContactMessageTable().findAll({
-                order: [['timeWhenSent', 'DESC']]
+                order: [['createdAt', 'DESC']], raw: true
             })
             
             .then (function(contactMessages) {

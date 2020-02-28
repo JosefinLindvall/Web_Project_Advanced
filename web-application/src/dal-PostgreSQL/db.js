@@ -5,7 +5,6 @@ module.exports = function({}){
   
     return {
 
-    
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         createAllTables : function () {
@@ -27,60 +26,130 @@ module.exports = function({}){
             const ContactMessage = sequelize.define('contactMessage', {
                 title: {type: Sequelize.TEXT, allowNull:false},
                 content: {type: Sequelize.TEXT, allowNull:false},
-                email: {type: Sequelize.TEXT, allowNull:false},
-                timeWhenSent: {type: Sequelize.TIME, allowNull:false},
+                email: {type: Sequelize.TEXT, allowNull:false}
             })
 
             const Category = sequelize.define('category', {
-                category: {type: Sequelize.TEXT, allowNull:false},
+                categoryID: {
+                    primaryKey: true,
+                    autoIncrement: true,
+                    allowNull: false, 
+                    type: Sequelize.INTEGER
+                }, 
+                category: {
+                    type: Sequelize.TEXT, 
+                    allowNull:false,
+                    unique: true
+                },
             })
 
             const Location = sequelize.define('location', {
-                location: {type: Sequelize.TEXT, allowNull:false},
+                locationID: {
+                    primaryKey: true,
+                    autoIncrement: true,
+                    allowNull: false, 
+                    type: Sequelize.INTEGER
+                },
+                location: {
+                    type: Sequelize.TEXT, 
+                    allowNull:false,
+                    unique: true
+                },
             })
 
             const Post = sequelize.define('post', {
                 title: {type: Sequelize.TEXT, allowNull:false},
                 content: {type: Sequelize.TEXT, allowNull:false},
-                categoryID: {type: Sequelize.TEXT, allowNull:false},
-                locationID: {type: Sequelize.TEXT, allowNull:false},
-                accountID: {type: Sequelize.TEXT, allowNull:false}
-
             }) 
 
-    
+            Account.hasMany(Post,{ // ett account har många post  , The post table should have a foreign key accountID
+                foreignKey: "accountID"
+            })  
+              
+            Category.hasMany(Post,{
+                foreignKey: "categoryID"
+            })  
 
-            Account.hasMany(Post)  // ett account har många post 
-            Category.hasMany(Post)  //idk
-            Location.hasMany(Post) 
+            Location.hasMany(Post,{
+                foreignKey: "locationID"
+            }) 
 
             sequelize.sync()
 
+            //Synching creation of tables was successful
+            
+            .then(function() { 
+                
+                Account.findByPk(1)
+                
+                .then(function(account) {
+                    if (account) {
+                        console.log("WE WILL NOT TRY TO CREATE DEENNI")
+                        // if account is true? we have one? 
+                        return
+                    }
+                    else {
+                        Account.create({
+                            firstName: "Dennis",
+                            lastName: "Andersson",
+                            password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
+                            email: "dennisfram@hotmail.com",
+                            phoneNumber: "0730896460",
+                            birthDate: "1996-04-28",
+                            gender: "male",
+                            typeOfUser: "Admin"
+                        })            
+                    }
+                }) 
+            })
+
+
+            .then(function() { 
+                Account.findByPk(2).then(function(account) {
+                    if (account) {
+                        // if account is true? we have one? 
+                        return
+                    }
+                    else {
+                        Account.create({
+                            firstName: "Josefin",
+                            lastName: "Lindvall",
+                            password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
+                            email: "j@j",
+                            phoneNumber: "0703721510",
+                            birthDate: "1997-12-26",
+                            gender: "female",
+                            typeOfUser: "Admin"
+                        })            
+                    }
+                }) 
+            })
+
             // Putting in hard coded data for admin users
 
-            Account.create({
-                firstName: "Dennis",
-                lastName: "Andersson",
-                password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
-                email: "dennisfram@hotmail.com",
-                phoneNumber: "0730896460",
-                birthDate: "1996-04-28",
-                gender: "male",
-                typeOfUser: "Admin"
+            // Account.create({
+            //     firstName: "Dennis",
+            //     lastName: "Andersson",
+            //     password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
+            //     email: "dennisfram@hotmail.com",
+            //     phoneNumber: "0730896460",
+            //     birthDate: "1996-04-28",
+            //     gender: "male",
+            //     typeOfUser: "Admin"
 
-            })
+            // })
 
-            Account.create({
-                firstName: "Josefin",
-                lastName: "Lindvall",
-                password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
-                email: "j@j",
-                phoneNumber: "0703721510",
-                birthDate: "1997-12-26",
-                gender: "female",
-                typeOfUser: "Admin"
+            // Account.create({
+            //     firstName: "Josefin",
+            //     lastName: "Lindvall",
+            //     password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
+            //     email: "j@j",
+            //     phoneNumber: "0703721510",
+            //     birthDate: "1997-12-26",
+            //     gender: "female",
+            //     typeOfUser: "Admin"
 
-            })
+            // })
 
             //Putting in hard coded data for categories
 

@@ -54,7 +54,7 @@ const container = awilix.createContainer()
 
 //Requiring functions for the currently used db!
 
-const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL"
+const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL"
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository') //will peppel grill his???

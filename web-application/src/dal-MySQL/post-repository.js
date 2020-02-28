@@ -8,9 +8,9 @@ module.exports = function ({ }) {
 		createPost: function (post, accountID, callback) {
 
 			const query = "INSERT INTO Post (title, content, categoryID, locationID, accountID) VALUES (?, ?, ?, ?, ?)"
-			const values = [post.title, post.content, post.category, post.location, accountID]
+			const values = [post.title, post.content, post.categoryID, post.locationID, accountID]
 
-			db.query(query, values, function (error, post) {
+			db.query(query, values, function (error) {
 
 				if (error) {
 					callback(['databaseError'])
@@ -25,7 +25,7 @@ module.exports = function ({ }) {
 		getSixLatestPosts: function (callback) {
 
 			const values = []
-			const query = "SELECT * FROM Post ORDER BY timeWhenPosted ASC LIMIT 6"
+			const query = "SELECT * FROM Post ORDER BY createdAt ASC LIMIT 6"
 
 			db.query(query, values, function (databaseError, posts) {
 				if (databaseError) {

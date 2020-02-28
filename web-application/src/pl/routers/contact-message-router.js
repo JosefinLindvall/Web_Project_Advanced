@@ -14,10 +14,15 @@ module.exports = function({contactMessageManager, sessionHandler}) {
         try {
 
             contactMessageManager.getAllContactMessages(function (databaseError, contactMessages) {
-                
-                const model = {
-                    databaseError: databaseError,
-                    contactMessages: contactMessages
+
+                var model = {}
+
+                if (databaseError){
+                    model = {databaseError}
+                }
+
+                else {
+                    model = {contactMessages}
                 }
 
                 response.render("viewMessages.hbs", model)

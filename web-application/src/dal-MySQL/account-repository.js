@@ -77,7 +77,7 @@ module.exports = function ({ }) {
                     callback(['A database error occured when trying to get the user in.'], null)
                 }
                 else {
-                    callback(null, currUserInfo)
+                    callback(null, currUserInfo[0])
                 }
             })
         }

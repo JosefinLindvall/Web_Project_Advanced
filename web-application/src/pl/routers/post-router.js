@@ -53,6 +53,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 		const post = request.body
 		const accountID = request.session.accountID
+	
 
 		postManager.createPost(post, accountID, function (error) {
 			if (error) {
@@ -148,8 +149,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 	//This get request is sent when a search has been made!
 	router.get("/execute-search", function (request, response) {
 
-		const categoryId = request.query.category
-		const locationId = request.query.location
+		const categoryId = request.query.categoryID
+		const locationId = request.query.locationID
 
 		try {
 

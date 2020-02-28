@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ContactMessage (
     title VARCHAR(255),
     content VARCHAR(255),
     email VARCHAR(255), 
-    timeWhenSent TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     PRIMARY KEY(ContactMessageID)
 );
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Post (
     content VARCHAR(255),
     categoryID INT,
     locationID INT,
-    timeWhenPosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (locationID) REFERENCES `Location`(locationID),
     FOREIGN KEY (categoryID) REFERENCES Category(categoryID),
     FOREIGN KEY (accountID) REFERENCES `Account`(accountID), 
@@ -49,13 +49,13 @@ CREATE TABLE IF NOT EXISTS Post (
 );
 
 
--- INSERT INTO Account (firstName, lastName, `password`, email, phoneNumber, birthDate, gender, typeOfUser) VALUES ('Dennis', 'Andersson', '$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e', 'dennisfram@hotmail.com', '0730896460', '1996-04-28', 'male', 'Admin');
--- INSERT INTO Account (firstName, lastName, `password`, email, phoneNumber, birthDate, gender, typeOfUser) VALUES ('Josefin', 'Lindvall', '$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e', 'j@j', '0703721510', '1997-12-26', 'female', 'Admin');
+INSERT INTO Account (firstName, lastName, `password`, email, phoneNumber, birthDate, gender, typeOfUser) VALUES ('Dennis', 'Andersson', '$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e', 'dennisfram@hotmail.com', '0730896460', '1996-04-28', 'male', 'Admin');
+INSERT INTO Account (firstName, lastName, `password`, email, phoneNumber, birthDate, gender, typeOfUser) VALUES ('Josefin', 'Lindvall', '$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e', 'j@j', '0703721510', '1997-12-26', 'female', 'Admin');
 
--- INSERT INTO Category (`category`) VALUES ('Hiking');
--- INSERT INTO Category (`category`) VALUES ('Cinema');
--- INSERT INTO Category (`category`) VALUES ('Dance');
+INSERT INTO Category (`category`) VALUES ('Hiking');
+INSERT INTO Category (`category`) VALUES ('Cinema');
+INSERT INTO Category (`category`) VALUES ('Dance');
 
--- INSERT INTO `Location` (`location`) VALUES('Stockholm');
--- INSERT INTO `Location` (`location`) VALUES('Aneby');
--- INSERT INTO `Location` (`location`) VALUES('Lund');
+INSERT INTO `Location` (`location`) VALUES('Stockholm');
+INSERT INTO `Location` (`location`) VALUES('Aneby');
+INSERT INTO `Location` (`location`) VALUES('Lund');
