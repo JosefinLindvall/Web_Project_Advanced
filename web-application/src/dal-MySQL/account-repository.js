@@ -15,7 +15,7 @@ module.exports = function ({ }) {
             db.query(query, values, function (error, account) {
 
                 if (error) {
-                    callback(['Database error!'], null) //Database error when inserting account
+                    callback(['Database error.'], null) //Database error when inserting account
                 }
 
                 else {
@@ -27,7 +27,7 @@ module.exports = function ({ }) {
                     db.query(query, values, function (error, accountID) {
 
                         if (error) {
-                            callback(['Database error!'], null)
+                            callback(['Database error.'], null) //Database error when fetching the id of the just inserted account
                         }
 
                         else {
@@ -53,7 +53,7 @@ module.exports = function ({ }) {
                 accountID = dataPackage[0].accountID
 
                 if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
-                    callback(['A database error occured when trying to log you in.'], null, null, null)
+                    callback(['Database error.'], null, null, null)
                 }
 
                 else if (databasePassword.length > 0) { // We have a match! An email was found that matched the users email.
@@ -74,7 +74,7 @@ module.exports = function ({ }) {
 
             db.query(query, values, function (databaseError, currUserInfo) {
                 if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
-                    callback(['A database error occured when trying to get the user in.'], null)
+                    callback(['Database error.'], null)
                 }
                 else {
                     callback(null, currUserInfo[0])

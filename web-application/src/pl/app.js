@@ -46,18 +46,21 @@ app.use(function (request, response, next) {
 })
 
 
-//////// AWILIX  ////////////////////////////////////////////////////////////////////////////////
+//////// AWILIX  //////////////////////////////////////////////////////////////////////////////////////////
 
-//Creating container
+
+
+// Creating container
 
 const container = awilix.createContainer()
 
-//Requiring functions for the currently used db!
+
+// Requiring functions for the currently used db!
 
 const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL"
 
 if (currentDb == "mySQL") {
-    var accountRepoFun = require('../dal-MySQL/account-repository') //will peppel grill his???
+    var accountRepoFun = require('../dal-MySQL/account-repository') 
     var categoryRepoFun = require('../dal-MySQL/category-repository')
     var contactMessageRepoFun = require('../dal-MySQL/contact-message-repository')
     var locationRepoFun = require('../dal-MySQL/location-repository')
@@ -74,7 +77,7 @@ else if (currentDb == "PostgreSQL") {
 
 
 
-    var accountRepoFun = require('../dal-PostgreSQL/account-repository') //will peppel grill his???
+    var accountRepoFun = require('../dal-PostgreSQL/account-repository') 
     var categoryRepoFun = require('../dal-PostgreSQL/category-repository')
     var contactMessageRepoFun = require('../dal-PostgreSQL/contact-message-repository')
     var locationRepoFun = require('../dal-PostgreSQL/location-repository')
@@ -84,30 +87,43 @@ else if (currentDb == "PostgreSQL") {
 
 
 
-// Requiring other functions in the manager files (and other files)
+// Requiring routers for web application
 
 const variousRouter = require('./routers/various-router')
-
 const accountRouter = require('./routers/account-router')
-const accountManagerFun = require('../bll/account-manager')
-const accountValidatorFun = require('../bll/account-validator')
-
-const categoryManagerFun = require('../bll/category-manager')
-
 const contactMessageRouter = require('./routers/contact-message-router')
-const contactMessageManagerFun = require('../bll/contact-message-manager')
-const contactMessageValidatorFun = require('../bll/contact-message-validator')
-
-const locationManagerFun = require('../bll/location-manager')
-
 const postRouter = require('./routers/post-router')
+
+// Requiring routers for REST API
+
+const variousRouterRestApi = require('../pl-REST-API/routers/various-router')
+const accountRouterRestApi = require('../pl-REST-API/routers/account-router')
+const contactMessageRouterRestApi = require('../pl-REST-API/routers/contact-message-router')
+const postRouterRestApi = require('../pl-REST-API/routers/post-router')
+
+
+// Requiring managers
+const accountManagerFun = require('../bll/account-manager')
+const categoryManagerFun = require('../bll/category-manager')
+const contactMessageManagerFun = require('../bll/contact-message-manager')
+const locationManagerFun = require('../bll/location-manager')
 const postManagerFun = require('../bll/post-manager')
+
+
+
+// Requiring validators
+
+const accountValidatorFun = require('../bll/account-validator')
+const contactMessageValidatorFun = require('../bll/contact-message-validator')
 const postValidatorFun = require('../bll/post-validator')
+
+// Requiring session handler
 
 const sessionHandlerFun = require('./session-handler')
 
-//  Eegistering the functions as dependencies in the container
 
+
+// Registering the functions as dependencies in the container
 
 container.register('variousRouter', awilix.asFunction(variousRouter))
 
@@ -135,19 +151,43 @@ container.register('contactMessageValidator', awilix.asFunction(contactMessageVa
 
 container.register('sessionHandler', awilix.asFunction(sessionHandlerFun))
 
+container.register('variousRouterRestApi', awilix.asFunction(variousRouterRestApi))
+container.register('accountRouterRestApi', awilix.asFunction(accountRouterRestApi))
+container.register('contactMessageRouterRestApi', awilix.asFunction(contactMessageRouterRestApi))
+container.register('postRouterRestApi', awilix.asFunction(postRouterRestApi))
 
-// Resolving the dependencies... WHYYYYY THOUGH????
+
+//////// Using routers ////////////////////////////////////////////////////////////////////////////////
+
 
 const theAccountRouter = container.resolve('accountRouter')
 const theVariousRouter = container.resolve('variousRouter')
 const thePostRouter = container.resolve('postRouter')
 const theContactMessageRouter = container.resolve('contactMessageRouter')
 
-//////// Using routers ////////////////////////////////////////////////////////////////////////////////
+const theAccountRouterRestApi = container.resolve('accountRouterRestApi')
+const theVariousRouterRestApi = container.resolve('variousRouterRestApi')
+const thePostRouterRestApi = container.resolve('postRouterRestApi')
+const theContactMessageRouterRestApi = container.resolve('contactMessageRouterRestApi')
+
+
+//Using routers for web application
+
 app.use("/account", theAccountRouter)
 app.use("/", theVariousRouter)
 app.use("/post", thePostRouter)
 app.use("/contact-message", theContactMessageRouter)
+
+// Using routers for REST API
+
+app.use("/", theAccountRouterRestApi)
+ 
+/*
+app.use("/", theVariousRouterRestApi)
+app.use("/post", thePostRouterRestApi)
+app.use("/contact-message", theContactMessageRouterRestApi)
+*/
+
 
 //////// Listening for incoming HTTP requests! ////////////////////////////////////////////////////////////////////////////////
 app.listen(8080, function () {

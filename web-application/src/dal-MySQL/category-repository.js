@@ -13,7 +13,7 @@ module.exports = function({}){
             db.query(query, values, function (databaseError, categories) {
 
                 if (databaseError) {
-                    callback(['Database error when fetching categories.'], null) 
+                    callback(['Database error.'], null) 
                 }
 
                 else {
