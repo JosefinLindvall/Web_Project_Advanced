@@ -84,7 +84,6 @@ module.exports = function({}){
                 
                 .then(function(account) {
                     if (account) {
-                        console.log("WE WILL NOT TRY TO CREATE DEENNI")
                         // if account is true? we have one? 
                         return
                     }

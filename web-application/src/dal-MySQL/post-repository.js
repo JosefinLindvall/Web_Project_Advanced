@@ -54,6 +54,45 @@ module.exports = function ({ }) {
 					callback(null, posts)
 				}
 			})
+		},
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		deletePost: function (postId, callback) {
+			const values = [postId]
+			const query = "DELETE FROM Post WHERE postID = ?"
+
+			db.query(query, values, function(databaseError) {
+				
+				if (databaseError) {
+					callback(['Databse error when trying to delete post.'])
+				}
+
+				else {
+					callback(null)
+				}
+			})
+		},
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		updatePost: function (postId, callback) {
+			
+			const values = [post.title, post.content, postId]
+			const query = "UPDATE Post SET title = ?, content = ? WHERE postID = ?"
+
+			db.query(query, values, function(databaseError) {
+				
+				if (databaseError) {
+					callback(['Databse error.'])
+				}
+
+				else {
+					callback(null)
+				}
+			})
 		}
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
+
 }

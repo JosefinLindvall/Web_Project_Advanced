@@ -43,7 +43,6 @@ module.exports = function ({db}) {
 		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
-
 			db.getPostTable().findAll( { where: {categoryID : categoryId, locationID: locationId}, order: [['createdAt', 'DESC']], raw: true})
 			.then(function(posts){
 				
@@ -54,6 +53,25 @@ module.exports = function ({db}) {
 				callback(['Database error when fetching posts.'], null) //['Database error when fetching matching posts.']
 			})
 
+		},
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		deletePost: function (postId, callback) {
+
+			db.getPostTable().destroy({
+				where: {id: postId}
+			})
+			
+			.then(function() {
+				callback(null)
+			})
+			
+			.catch(function() {
+				callback('Database error.')
+			})
 		}
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

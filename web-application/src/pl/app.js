@@ -1,13 +1,15 @@
 
 //////// Requiring npm packages ////////////////////////////////////////////////////////////////////////////////
+
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const redis = require('redis')
+const awilix = require('awilix')
+
 let RedisStore = require('connect-redis')(session)
 let redisClient = redis.createClient({ host: "redis" })
-const awilix = require('awilix')
 
 const app = express()
 
@@ -28,6 +30,7 @@ app.use(bodyParser.urlencoded({
 }))
 
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
+
 app.use(session({  // The function "session" creates random session ids from the secret below
 
     saveUninitialized: false,
@@ -55,9 +58,9 @@ app.use(function (request, response, next) {
 const container = awilix.createContainer()
 
 
-// Requiring functions for the currently used db!
+// Requiring functions for the currently used database
 
-const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL"
+const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository') 
@@ -86,7 +89,6 @@ else if (currentDb == "PostgreSQL") {
 }
 
 
-
 // Requiring routers for web application
 
 const variousRouter = require('./routers/various-router')
@@ -94,12 +96,13 @@ const accountRouter = require('./routers/account-router')
 const contactMessageRouter = require('./routers/contact-message-router')
 const postRouter = require('./routers/post-router')
 
+
 // Requiring routers for REST API
 
-const variousRouterRestApi = require('../pl-REST-API/routers/various-router')
 const accountRouterRestApi = require('../pl-REST-API/routers/account-router')
-const contactMessageRouterRestApi = require('../pl-REST-API/routers/contact-message-router')
 const postRouterRestApi = require('../pl-REST-API/routers/post-router')
+const locationRouterRestApi = require('../pl-REST-API/routers/location-router')
+const categoryRouterRestApi = require('../pl-REST-API/routers/category-router')
 
 
 // Requiring managers
@@ -123,7 +126,7 @@ const sessionHandlerFun = require('./session-handler')
 
 
 
-// Registering the functions as dependencies in the container
+// Registering the functions as dependencies in the container (web application)
 
 container.register('variousRouter', awilix.asFunction(variousRouter))
 
@@ -151,14 +154,16 @@ container.register('contactMessageValidator', awilix.asFunction(contactMessageVa
 
 container.register('sessionHandler', awilix.asFunction(sessionHandlerFun))
 
-container.register('variousRouterRestApi', awilix.asFunction(variousRouterRestApi))
+
+// Registering the functions as dependencies in the container (REST-API)
+
 container.register('accountRouterRestApi', awilix.asFunction(accountRouterRestApi))
-container.register('contactMessageRouterRestApi', awilix.asFunction(contactMessageRouterRestApi))
 container.register('postRouterRestApi', awilix.asFunction(postRouterRestApi))
+container.register('locationRouterRestApi', awilix.asFunction(locationRouterRestApi))
+container.register('categoryRouterRestApi', awilix.asFunction(categoryRouterRestApi))
 
 
-//////// Using routers ////////////////////////////////////////////////////////////////////////////////
-
+// Resolving routers to be used
 
 const theAccountRouter = container.resolve('accountRouter')
 const theVariousRouter = container.resolve('variousRouter')
@@ -166,30 +171,31 @@ const thePostRouter = container.resolve('postRouter')
 const theContactMessageRouter = container.resolve('contactMessageRouter')
 
 const theAccountRouterRestApi = container.resolve('accountRouterRestApi')
-const theVariousRouterRestApi = container.resolve('variousRouterRestApi')
 const thePostRouterRestApi = container.resolve('postRouterRestApi')
-const theContactMessageRouterRestApi = container.resolve('contactMessageRouterRestApi')
+const theCategoryRouterRestApi = container.resolve('locationRouterRestApi')
+const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 
-//Using routers for web application
+// Using routers for web application
 
 app.use("/account", theAccountRouter)
 app.use("/", theVariousRouter)
 app.use("/post", thePostRouter)
 app.use("/contact-message", theContactMessageRouter)
 
-// Using routers for REST API
+// Using routers for REST-API
 
 app.use("/", theAccountRouterRestApi)
- 
-/*
-app.use("/", theVariousRouterRestApi)
-app.use("/post", thePostRouterRestApi)
-app.use("/contact-message", theContactMessageRouterRestApi)
-*/
+app.use("/", theCategoryRouterRestApi)
+app.use("/", theLocationRouterRestApi)
+app.use("/", thePostRouterRestApi)
+
 
 
 //////// Listening for incoming HTTP requests! ////////////////////////////////////////////////////////////////////////////////
+
 app.listen(8080, function () {
     console.log('Web application listening on port 8080')
 })
+
+
