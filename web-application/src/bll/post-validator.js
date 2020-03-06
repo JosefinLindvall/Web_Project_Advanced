@@ -30,8 +30,18 @@ module.exports = function({}){
             }
 
             return errors
-        }
+        },
 
+        validateUserAsAdmin: function(typeOfUser) {
+            
+            errors = []
+
+            if (typeOfUser != "Admin") {
+                errors.push("Unauthorized to update post.")
+            }
+            
+            return errors
+        }
     }
 }
 

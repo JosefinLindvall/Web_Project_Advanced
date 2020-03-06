@@ -76,9 +76,9 @@ module.exports = function ({ }) {
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		updatePost: function (postId, callback) {
+		updatePost: function (updatedPost, callback) {
 			
-			const values = [post.title, post.content, postId]
+			const values = [updatedPost.title, updatedPost.content, updatedPost.postID]
 			const query = "UPDATE Post SET title = ?, content = ? WHERE postID = ?"
 
 			db.query(query, values, function(databaseError) {

@@ -70,8 +70,28 @@ module.exports = function ({db}) {
 			.catch(function() {
 				callback('Database error.')
 			})
-		}
+		},
 		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		updatePost: function (updatedPost, callback) {
+
+			db.getPostTable().update({
+				title: updatedPost.title,
+				content: updatedPost.content,
+			}, {
+				where: {id: updatedPost.postID}
+			})
+			
+			.then(function() {
+				callback(null)
+			})
+			
+			.catch(function() {
+				callback('Database error.')
+			})
+		}
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

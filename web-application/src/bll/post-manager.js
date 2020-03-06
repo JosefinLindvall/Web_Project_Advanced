@@ -40,8 +40,16 @@ module.exports = function ({ postRepo, postValidator }) {
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        updatePost: function (postId, updatedPost, callback) {
-            postRepo.deletePost(postId, updatedPost, callback)
+        updatePost: function (updatedPost, typeOfUser, callback) {
+
+            const errors = postValidator.validateUserAsAdmin(typeOfUser)
+
+            if (errors.length > 0) {
+                callback(errors, null)
+                return
+            }
+
+            postRepo.updatePost(updatedPost, callback)
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

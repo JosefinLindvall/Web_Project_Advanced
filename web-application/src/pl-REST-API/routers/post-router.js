@@ -1,6 +1,6 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
-const serverSecret = require('server-secret')
+const serverSecret = require('../server-secret')
 
 module.exports = function ({postManager}) {
 
@@ -20,7 +20,6 @@ module.exports = function ({postManager}) {
 		const post = {title: title, content: content, categoryID: categoryID, locationID: locationID}
 
 		const accessToken = request.body.access_token
-		//const grantType = request.body.grant_type ////oh wgyyyyyyyyyyy yes telll meeeeeeee
 		var accountID = -1
 		var typeOfUser = "invalide user type"
 		
@@ -132,50 +131,49 @@ module.exports = function ({postManager}) {
 
 	router.put('/posts/:id', function(request, response){
 
-		const postId = request.params.id
+		const postID = request.params.id
 
 		const title = request.body.title
 		const content = request.body.content
-		const categoryID = request.body.categoryID
-		const locationID = request.body.locationID
-		
-		const updatedPost = {title: title, content: content, categoryID: categoryID, locationID: locationID}
 
+		const updatedPost = {title: title, content: content, postID: postID}
+		
 		const accessToken = request.body.access_token
 		var typeOfUser = "Invalide user type"
 		
-		  
+	
 		try {
 			const payload = jwt.verify(accessToken, serverSecret) 
 			typeOfUser = payload.name
 		}
 
-		catch (error) { //Not logged in at all
+		catch (error) { //No access token, not logged in at all
 			response.status(401).end()
 			return
 		}
 
-		if (typeOfUser == "Admin") {
-			postManager.updatePost(postId, updatedPost, function(errors) {
+	
+		postManager.updatePost(updatedPost, typeOfUser, function(errors) {
+			
+			if (errors != null) {
+
+				if (errors.includes("Database error.")) { // Database error
+					response.status(500).end()
+				}   
+
+				else if (errors.includes("Unauthorized to update post.")) { // Not logged in as admin
+					response.status(401).end()
+				}
 				
-				if (errors != null) {
-
-					if (errors.includes("Database error.")) { 
-						response.status(500).end()
-					}   
-					else { //These errors are validation errors!
-						response.status(400).json(errors)
-					}
+				else { //These errors are validation errors!
+					response.status(400).json(errors)
 				}
-				else {
-					response.status(204).end()
-				}
-			})
-		}
-
-		else { //Not logged in as admin!
-			response.status(401).end()
-		}
+			}
+			
+			else { //No errors!
+				response.status(204).end()
+			}
+		})
 	})
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
