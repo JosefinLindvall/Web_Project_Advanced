@@ -1,0 +1,3 @@
+FROM httpd:2.4.41
+
+COPY ./static-files /usr/local/apache2/htdocs/
