@@ -1,16 +1,18 @@
 // TODO: Don't write all JS code in the same file.
-document.addEventListener("DOMContentLoaded", function(){
-	
+document.addEventListener("DOMContentLoaded", function() {
+    
+    console.log(location.pathname)
 	changeToPage(location.pathname)
 	
-	if(localStorage.accessToken){
+	if (localStorage.accessToken) {
 		login(localStorage.accessToken)
-	}else{
+    }
+    else {
 		logout()
 	}
 	
-	document.body.addEventListener("click", function(event){
-		if(event.target.tagName == "A"){
+	document.body.addEventListener("click", function(event) {
+		if(event.target.tagName == "A") {
 			event.preventDefault()
 			const url = event.target.getAttribute("href")
 			goToPage(url)
@@ -18,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	})
 	
 	// TODO: Avoid using this long lines of code.
-	document.querySelector("#create-pet-page form").addEventListener("submit", function(event){
+	document.querySelector("#create-pet-page form").addEventListener("submit", function(event) {
 		event.preventDefault()
 		
 		const name = document.querySelector("#create-pet-page .name").value
@@ -79,7 +81,8 @@ document.addEventListener("DOMContentLoaded", function(){
 })
 
 window.addEventListener("popstate", function(event){
-	const url = location.pathname
+    const url = location.pathname
+    this.console.log(url)
 	changeToPage(url)
 })
 
@@ -90,55 +93,95 @@ function goToPage(url){
 	
 }
 
-function changeToPage(url){
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function changeToPage(url) {
 	
 	const currentPageDiv = document.getElementsByClassName("current-page")[0]
-	if(currentPageDiv){
+	if(currentPageDiv) {
 		currentPageDiv.classList.remove("current-page")
 	}
 	
-	// TODO: Optimally this information can be put in an array instead of having a long list of if-else if statements.
-	// TODO: Factor out common code in all branches.
-	if(url == "/"){
+	if (url == "/") {
 		document.getElementById("home-page").classList.add("current-page")
-	}else if(url == "/about"){
+    }
+
+    else if (url == "/about") {
 		document.getElementById("about-page").classList.add("current-page")
-	}else if(url == "/pets"){
-		document.getElementById("pets-page").classList.add("current-page")
-		fetchAllPets()
-	}else if(url == "/login"){
+    }
+
+    else if (url == "/posts") {
+		document.getElementById("posts-page").classList.add("current-page")
+		fetchSixLatestPosts()
+    }
+
+    else if (url == "/login") {
 		document.getElementById("login-page").classList.add("current-page")
-	}else if(new RegExp("^/pets/[0-9]+$").test(url)){
+    }
+
+    else if (new RegExp("^/pets/[0-9]+$").test(url)) {
 		document.getElementById("pet-page").classList.add("current-page")
 		const id = url.split("/")[2]
 		fetchPet(id)
-	}else if(url == "/create-pet"){
+    }
+
+    else if (url == "/create-pet") {
 		document.getElementById("create-pet-page").classList.add("current-page")
-	}else{
+    }
+
+    else{
 		document.getElementById("error-page").classList.add("current-page")
 	}
 	
 }
 
-function fetchAllPets(){
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function fetchSixLatestPosts() {
 	
 	fetch(
-		"http://localhost:8080/pets"
-	).then(function(response){
-		// TODO: Check status code to see if it succeeded. Display errors if it failed.
-		return response.json()
-	}).then(function(pets){
-		const ul = document.querySelector("#pets-page ul")
+		"http:192.168.99.100:8080/posts" //get req by default?
+    )
+    
+    .then(function(response){
+        // TODO: Check status code to see if it succeeded. Display errors if it failed.
+        
+        console.log(response)
+        console.log(response.json())
+        return response.json()
+       
+    })
+    
+    .then(function(posts) {
+        
+        const ul = document.querySelector("#posts-page ul")
 		ul.innerText = ""
-		for(const pet of pets){
-			const li = document.createElement("li")
-			const anchor = document.createElement("a")
-			anchor.innerText = pet.name
-			anchor.setAttribute("href", '/pets/'+pet.id)
-			li.appendChild(anchor)
-			ul.append(li)
+        
+        for(const post of posts) {
+            
+            const li = document.createElement("li")
+            const p = document.createElement("p")
+            p.innerText = post.title
+            li.appendChild(p)
+            
+            // const anchor = document.createElement("a")
+			// anchor.innerText = post.name
+			// anchor.setAttribute("href", '/pets/'+pet.id)
+			// li.appendChild(anchor)
+            
+            ul.append(li)
 		}
-	}).catch(function(error){
+    })
+    
+	// <div id="pet-page">
+	// 		<h1>Pet</h1>
+	// 		<div>Name: <span class="name"></span></div>
+	// 		<div>Id: <span class="id"></span></div>
+	// 	</div>
+		
+
+    .catch(function(error){
 		console.log(error)
 	})
 	

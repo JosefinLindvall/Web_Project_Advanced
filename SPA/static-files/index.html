@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Petto</title>
-	<link rel="stylesheet" href="../static-files/styles.css">
+	<link rel="stylesheet" href="/styles.css">
 	<script src="/navigation-handler.js"></script>
 </head>
 <body>
@@ -16,9 +16,20 @@
 	<nav>
 		<ul>
 			<li><a href="/">Home</a></li>
-			<li><a href="/pets">View pets</a></li>
-			<li class="showIfLoggedIn"><a href="/create-pet">Create pet</a></li>
+		
+			<li><a href="/posts">View latest posts</a></li>
+			<li><a href="/pets">Create post</a></li>
+			<li><a href="/signup">Sign up</a></li>
 			<li class="showIfLoggedOut"><a href="/login">Login</a></li>
+			<li class="showIfLoggedIn"><a href="/logout">Logout</a></li>
+
+
+<!-- 			
+			<li><a href="/pets">Update post</a></li>
+			<li><a href="/">Delete post</a></li>  -->
+				 <!-- <li><a href="/pets">View pets</a></li>  -->
+				 <!-- <li class="showIfLoggedIn"><a href="/create-pet">Create pet</a></li>  -->
+
 		</ul>
 	</nav>
 	
@@ -34,18 +45,19 @@
 			<p>This is the about page...</p>
 		</div>
 		
-		<div id="pets-page">
-			<h1>Pets</h1>
+		<div id="posts-page">
+			<h1>Posts</h1>
 			<ul>
 				
 			</ul>
 		</div>
 		
-		<div id="pet-page">
+		<!-- <div id="pet-page">
 			<h1>Pet</h1>
 			<div>Name: <span class="name"></span></div>
 			<div>Id: <span class="id"></span></div>
-		</div>
+			
+		</div> -->
 		
 		<div id="create-pet-page">
 			<h1>Create Pet</h1>

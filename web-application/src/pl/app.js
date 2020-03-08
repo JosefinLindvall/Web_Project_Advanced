@@ -25,9 +25,21 @@ app.engine("hbs", expressHandlebars({
     defaultLayout: "main.hbs"
 }))
 
+app.use(bodyParser.json())
+
 app.use(bodyParser.urlencoded({
     extended: false
 }))
+
+// TODO: Not a good idea to open up to entire world.
+// Better to only target the frontend application.
+app.use(function(request, response, next) {
+	response.setHeader("Access-Control-Allow-Origin", "*")
+	response.setHeader("Access-Control-Allow-Methods", "*")
+	response.setHeader("Access-Control-Allow-Headers", "*")
+	response.setHeader("Access-Control-Expose-Headers", "*")
+	next()
+})
 
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +72,7 @@ const container = awilix.createContainer()
 
 // Requiring functions for the currently used database
 
-const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
+const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository') 
