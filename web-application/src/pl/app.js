@@ -31,8 +31,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-// TODO: Not a good idea to open up to entire world.
-// Better to only target the frontend application.
+// // TODO: Not a good idea to open up to entire world.
+// // Better to only target the frontend application.
 app.use(function(request, response, next) {
 	response.setHeader("Access-Control-Allow-Origin", "*")
 	response.setHeader("Access-Control-Allow-Methods", "*")
@@ -72,7 +72,7 @@ const container = awilix.createContainer()
 
 // Requiring functions for the currently used database
 
-const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
+const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository') 
