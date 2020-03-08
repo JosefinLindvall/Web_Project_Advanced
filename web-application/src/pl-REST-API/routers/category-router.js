@@ -8,18 +8,12 @@ module.exports = function ({categoryManager}) {
 	
 		categoryManager.getAllCategories(function (errors, categories) {
 
-			if (errors != null) {
-                
-                if (errors.includes("Database error.")) { 
-					response.status(500).end()
-				}
-                
-                else { //These errors are validation errors!
-					response.status(400).json(errors)
-				}
+			if (errors) {
+				response.status(500).end() //db errors!
 			}
+			
 			else {	
-				response.status(200).json({categories: categories}) //do we need to pass id token here as well?
+				response.status(200).json({categories: categories}) 
 			}
 		})
     })

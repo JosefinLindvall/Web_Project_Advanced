@@ -1,7 +1,7 @@
 // TODO: Don't write all JS code in the same file.
 document.addEventListener("DOMContentLoaded", function() {
     
-    console.log(location.pathname)
+
 	changeToPage(location.pathname)
 	
 	if (localStorage.accessToken) {
@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function() {
     else {
 		logout()
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	document.body.addEventListener("click", function(event) {
 		if(event.target.tagName == "A") {
@@ -18,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			goToPage(url)
 		}
 	})
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// TODO: Avoid using this long lines of code.
 	document.querySelector("#create-pet-page form").addEventListener("submit", function(event) {
@@ -50,29 +54,37 @@ document.addEventListener("DOMContentLoaded", function() {
 		})
 		
 	})
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	document.querySelector("#login-page form").addEventListener("submit", function(event){
+	document.querySelector("#login-page form").addEventListener("submit", function(event) {
 		event.preventDefault()
 		
 		const username = document.querySelector("#login-page .username").value
 		const password = document.querySelector("#login-page .password").value
-		
+	
 		fetch(
+			
 			"http://localhost:8080/tokens", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
 				body: "grant_type=password&username="+username+"&password="+password
-			}
-			).then(function(response){
+			})
+			
+			.then(function(response){
 				// TODO: Check status code to see if it succeeded. Display errors if it failed.
 				return response.json()
-			}).then(function(body){
+			})
+			
+			.then(function(body){
 				// TODO: Read out information about the user account from the id_token.
 				login(body.access_token)
 				console.log(accessToken)
-		}).catch(function(error){
+		})
+		
+		.catch(function(error) {
 			console.log(error)
 		})
 		
@@ -139,31 +151,43 @@ function changeToPage(url) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function fetchSixLatestPosts() {
-	
+	console.log("hello")
 	fetch(
-		"http:192.168.99.100:8080/posts" //get req by default?
+		"http://192.168.99.100:8080/posts" //get req by default?
     )
     
-    .then(function(response){
+    .then(function(response) {
         // TODO: Check status code to see if it succeeded. Display errors if it failed.
         
         console.log(response)
-        console.log(response.json())
-        return response.json()
+		// console.log(response.json())
+		
+		const statusCode = response.status
+		console.log({statusCode})
+
+		if (statusCode == 200) {
+			
+			const div = document.querySelector("#posts-page div")
+			const p = document.createElement("p")
+			p.innerText = "200"
+			div.appendChild(p)
+		}
+		
+		return response.json()
        
     })
     
-    .then(function(posts) {
-        
+    .then(function(data) {
+
         const ul = document.querySelector("#posts-page ul")
 		ul.innerText = ""
         
-        for(const post of posts) {
+        for(const post of data.posts) {
             
             const li = document.createElement("li")
             const p = document.createElement("p")
-            p.innerText = post.title
-            li.appendChild(p)
+            p.innerText = "Title: " + post.title + "\nContent: " + post.content 
+			li.appendChild(p)
             
             // const anchor = document.createElement("a")
 			// anchor.innerText = post.name
@@ -174,11 +198,7 @@ function fetchSixLatestPosts() {
 		}
     })
     
-	// <div id="pet-page">
-	// 		<h1>Pet</h1>
-	// 		<div>Name: <span class="name"></span></div>
-	// 		<div>Id: <span class="id"></span></div>
-	// 	</div>
+
 		
 
     .catch(function(error){

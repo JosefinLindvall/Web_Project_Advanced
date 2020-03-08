@@ -36,8 +36,6 @@ module.exports = function ({postManager}) {
 			return
 		}
 
-	
-	
 		postManager.createPost(post, accountID, function (errors) {
 
 			if (errors != null) {
@@ -57,37 +55,21 @@ module.exports = function ({postManager}) {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	router.get('/', function (request, response) {
+	router.get('/posts', function (request, response) {
 
-        try {
-            postManager.getSixLatestPosts(function (error, posts) {
+   
+		postManager.getSixLatestPosts(function (error, posts) {
 
-                let model = {}
+			if (error) {
+				response.status(500).end() //db error!
+			}
 
-                if (error) {
-                    model = {
-                        error: error
-                    }
-                    response.render("home.hbs", model)
-                }
-
-                else {
-                    model = {
-                        posts: posts
-                    }
-                    response.render("home.hbs", model)
-                }
-            })
-        }
-
-        catch (error) {
-
-            const model = {
-                routerError: error
-            }
-
-            response.render("routerError.hbs", model)
-        }
+			else {
+				response.status(200).json({posts: posts}) 
+			}
+		})
+        
+       
     })
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
