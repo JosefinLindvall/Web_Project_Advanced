@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// TODO: Avoid using this long lines of code.
 	document.querySelector("#create-pet-page form").addEventListener("submit", function(event) {
 		event.preventDefault()
 		
@@ -98,7 +97,7 @@ window.addEventListener("popstate", function(event){
 	changeToPage(url)
 })
 
-function goToPage(url){
+function goToPage(url) { 
 	
 	changeToPage(url)
 	history.pushState({}, "", url)
@@ -151,25 +150,21 @@ function changeToPage(url) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function fetchSixLatestPosts() {
-	console.log("hello")
+	
 	fetch(
 		"http://192.168.99.100:8080/posts" //get req by default?
     )
     
     .then(function(response) {
-        // TODO: Check status code to see if it succeeded. Display errors if it failed.
-        
-        console.log(response)
-		// console.log(response.json())
 		
-		const statusCode = response.status
-		console.log({statusCode})
-
-		if (statusCode == 200) {
+		// TODO: Check status code to see if it succeeded. Display errors if it failed.
+        
+		
+		if (response.status != 200) {
 			
 			const div = document.querySelector("#posts-page div")
 			const p = document.createElement("p")
-			p.innerText = "200"
+			p.innerText = "The request failed with the following status code: " + response.status
 			div.appendChild(p)
 		}
 		
@@ -189,17 +184,16 @@ function fetchSixLatestPosts() {
             p.innerText = "Title: " + post.title + "\nContent: " + post.content 
 			li.appendChild(p)
             
-            // const anchor = document.createElement("a")
-			// anchor.innerText = post.name
-			// anchor.setAttribute("href", '/pets/'+pet.id)
-			// li.appendChild(anchor)
+            const deleteAnchor = document.createElement("a")
+			deleteAnchor.innerText = "Delete"
+			anchor.setAttribute("href", '/posts/'+posts.id) // this id is called id or postID and it differs between the dals :(
+			anchor.classList.add()
+			li.appendChild(anchor)
             
             ul.append(li)
 		}
     })
-    
-
-		
+    	
 
     .catch(function(error){
 		console.log(error)
