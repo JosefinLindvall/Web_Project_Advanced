@@ -33,4 +33,11 @@ services:
     ports:  
       - "5432:5432"
 
+  spa:
+    build: "./SPA"
+    ports:
+      - "3000:80"
+    volumes:
+      - "./SPA/static-files:/usr/local/apache2/htdocs/"
+
       
