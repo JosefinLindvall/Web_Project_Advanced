@@ -47,7 +47,11 @@ body.isLoggedOut .showIfLoggedIn{
 	display: none;
 }
 
-body.isLoggedIn .showIfLoggedOut{
+body.isLoggedInAsAdmin .showIfLoggedOut{
+	display: none;
+}
+
+body.isLoggedInAsUser .showIfLoggedOut{
 	display: none;
 }
 

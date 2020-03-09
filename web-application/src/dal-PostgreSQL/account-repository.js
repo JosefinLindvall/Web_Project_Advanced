@@ -34,7 +34,7 @@ module.exports = function ({ db }) {
             }).then(function (dataPackage) { 
                 callback(null, dataPackage.password, dataPackage.typeOfUser, dataPackage.id) 
             }).catch(function (error) {
-                callback(error, null)
+                callback(["Database error."], null, null, null)
             })
         },
 

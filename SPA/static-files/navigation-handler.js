@@ -1,6 +1,5 @@
 // TODO: Don't write all JS code in the same file.
 document.addEventListener("DOMContentLoaded", function() {
-    
 
 	changeToPage(location.pathname)
 	
@@ -58,29 +57,33 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	document.querySelector("#login-page form").addEventListener("submit", function(event) {
 		event.preventDefault()
-		
-		const username = document.querySelector("#login-page .username").value
-		const password = document.querySelector("#login-page .password").value
 	
+		const email = document.querySelector("#login-page .username").value
+		const password = document.querySelector("#login-page .password").value
+		
+		console.log(email)
+		console.log(password)
+
 		fetch(
-			
-			"http://localhost:8080/tokens", {
+			"http://192.168.99.100:8080/tokens", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
-				body: "grant_type=password&username="+username+"&password="+password
+				body: "grant_type=password&email="+email+"&password="+password
 			})
 			
 			.then(function(response){
+				console.log(response)
+
 				// TODO: Check status code to see if it succeeded. Display errors if it failed.
 				return response.json()
 			})
 			
 			.then(function(body){
 				// TODO: Read out information about the user account from the id_token.
-				login(body.access_token)
-				console.log(accessToken)
+				console.log(body)
+				login(body.access_token, body.typeOfUser)
 		})
 		
 		.catch(function(error) {
@@ -109,6 +112,7 @@ function goToPage(url) {
 function changeToPage(url) {
 	
 	const currentPageDiv = document.getElementsByClassName("current-page")[0]
+	
 	if(currentPageDiv) {
 		currentPageDiv.classList.remove("current-page")
 	}
@@ -128,6 +132,11 @@ function changeToPage(url) {
 
     else if (url == "/login") {
 		document.getElementById("login-page").classList.add("current-page")
+    }
+
+	else if (url == "/logout") {
+		document.getElementById("home-page").classList.add("current-page")
+		logout()
     }
 
     else if (new RegExp("^/pets/[0-9]+$").test(url)) {
@@ -152,14 +161,13 @@ function changeToPage(url) {
 function fetchSixLatestPosts() {
 	
 	fetch(
-		"http://192.168.99.100:8080/posts" //get req by default?
-    )
-    
-    .then(function(response) {
+		"http://192.168.99.100:8080/posts" //get req by default?	
+	)
+	
+	.then(function(response) {
 		
 		// TODO: Check status code to see if it succeeded. Display errors if it failed.
-        
-		
+    
 		if (response.status != 200) {
 			
 			const div = document.querySelector("#posts-page div")
@@ -177,19 +185,27 @@ function fetchSixLatestPosts() {
         const ul = document.querySelector("#posts-page ul")
 		ul.innerText = ""
         
-        for(const post of data.posts) {
-            
+        for(const post of data.posts) {			
+			console.log(post)
+
+			//creating li for each post
             const li = document.createElement("li")
-            const p = document.createElement("p")
-            p.innerText = "Title: " + post.title + "\nContent: " + post.content 
+			
+			//Adding info text to li
+			const p = document.createElement("p")
+			p.innerText = "Title: " + post.title + "\nContent: " + post.content 
 			li.appendChild(p)
-            
-            const deleteAnchor = document.createElement("a")
-			deleteAnchor.innerText = "Delete"
-			anchor.setAttribute("href", '/posts/'+posts.id) // this id is called id or postID and it differs between the dals :(
-			anchor.classList.add()
-			li.appendChild(anchor)
-            
+			
+			//Adding delete button to li
+            const deleteButton = document.createElement("button")
+			deleteButton.innerText = "Delete"
+			deleteButton.classList.add("showIfLoggedIn") //will this work????
+			deleteButton.classList.add("deletePostButton")	
+			addDeleteActionToButton (post.postID)
+			
+
+			//Appending li
+			li.appendChild(deleteButton)
             ul.append(li)
 		}
     })
@@ -219,14 +235,31 @@ function fetchPet(id){
 	
 }
 
-function login(accessToken){
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function login(accessToken, typeOfUser) {
+	
 	localStorage.accessToken = accessToken
 	document.body.classList.remove("isLoggedOut")
-	document.body.classList.add("isLoggedIn")
+	
+	if (typeOfUser == "Admin") {
+		document.body.classList.add("isLoggedInAsAdmin")
+	}
+	
+	else {	
+		document.body.classList.add("isLoggedInAsUser")
+	}
 }
 
-function logout(){
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function logout() {
 	localStorage.accessToken = ""
-	document.body.classList.remove("isLoggedIn")
+	localStorage.typeOfUser = ""
+
+	document.body.classList.remove("isLoggedInAsAdmin") //krashar detta om bodyn inte har denna klassen???
+	document.body.classList.remove("isLoggedInAsUser")
 	document.body.classList.add("isLoggedOut")
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

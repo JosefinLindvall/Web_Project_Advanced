@@ -58,8 +58,20 @@ module.exports = function({}){
             })
 
             const Post = sequelize.define('post', {
-                title: {type: Sequelize.TEXT, allowNull:false},
-                content: {type: Sequelize.TEXT, allowNull:false},
+                postID: {
+                    primaryKey: true,
+                    autoIncrement: true,
+                    allowNull: false, 
+                    type: Sequelize.INTEGER
+                },
+                title: {
+                    type: Sequelize.TEXT, 
+                    allowNull:false
+                },
+                content: {
+                    type: Sequelize.TEXT, 
+                    allowNull:false
+                },
             }) 
 
             Account.hasMany(Post,{ // ett account har många post  , The post table should have a foreign key accountID

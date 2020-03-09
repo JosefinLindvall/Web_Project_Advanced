@@ -21,14 +21,10 @@ module.exports = function ({postManager}) {
 
 		const accessToken = request.body.access_token
 		var accountID = -1
-		var typeOfUser = "invalide user type"
-		
 		  
 		try {
 			const payload = jwt.verify(accessToken, serverSecret) 
-	
-			accountID = payload.id
-			typeOfUser = payload.name
+			accountID = payload.accountID
 		}
 
 		catch (error) {
@@ -81,7 +77,7 @@ module.exports = function ({postManager}) {
 		
 		try {
 			const payload = jwt.verify(accessToken, serverSecret) 
-			typeOfUser = payload.name
+			typeOfUser = payload.typeOfUser
 		}
 
 		catch (error) { // User is not logged in at all
@@ -126,7 +122,7 @@ module.exports = function ({postManager}) {
 	
 		try {
 			const payload = jwt.verify(accessToken, serverSecret) 
-			typeOfUser = payload.name
+			typeOfUser = payload.typeOfUser
 		}
 
 		catch (error) { //No access token, not logged in at all

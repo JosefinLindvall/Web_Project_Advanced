@@ -72,7 +72,7 @@ const container = awilix.createContainer()
 
 // Requiring functions for the currently used database
 
-const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
+const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository') 
@@ -80,7 +80,6 @@ if (currentDb == "mySQL") {
     var contactMessageRepoFun = require('../dal-MySQL/contact-message-repository')
     var locationRepoFun = require('../dal-MySQL/location-repository')
     var postRepoFun = require('../dal-MySQL/post-repository')
-
 }
 
 else if (currentDb == "PostgreSQL") {
@@ -89,8 +88,6 @@ else if (currentDb == "PostgreSQL") {
     container.register('db', awilix.asFunction(dbFun))
     const theDb = container.resolve('db')
     theDb.createAllTables()
-
-
 
     var accountRepoFun = require('../dal-PostgreSQL/account-repository') 
     var categoryRepoFun = require('../dal-PostgreSQL/category-repository')
