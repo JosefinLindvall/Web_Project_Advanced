@@ -1,6 +1,7 @@
 // TODO: Don't write all JS code in the same file.
 document.addEventListener("DOMContentLoaded", function() {
 
+	//Move this to account-handler
 	changeToPage(location.pathname)
 	
 	if (localStorage.accessToken) {
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	//stay here??
 	document.body.addEventListener("click", function(event) {
 		if(event.target.tagName == "A") {
 			event.preventDefault()
@@ -22,6 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+
+	// Turn this into create post?
 	document.querySelector("#create-pet-page form").addEventListener("submit", function(event) {
 		event.preventDefault()
 		
@@ -55,15 +59,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	//Move to account-handler
 	document.querySelector("#login-page form").addEventListener("submit", function(event) {
 		event.preventDefault()
 	
 		const email = document.querySelector("#login-page .username").value
 		const password = document.querySelector("#login-page .password").value
-		
-		console.log(email)
-		console.log(password)
-
+	
 		fetch(
 			"http://192.168.99.100:8080/tokens", {
 				method: "POST",
@@ -71,44 +73,38 @@ document.addEventListener("DOMContentLoaded", function() {
 					"Content-Type": "application/x-www-form-urlencoded"
 				}, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
 				body: "grant_type=password&email="+email+"&password="+password
-			})
 			
-			.then(function(response){
-				console.log(response)
+			}).then(function(response){
 
 				// TODO: Check status code to see if it succeeded. Display errors if it failed.
 				return response.json()
-			})
 			
-			.then(function(body){
-				// TODO: Read out information about the user account from the id_token.
-				console.log(body)
+			}).then(function(body){
+				// TODO: Read out information about the user account from the id_token.	
 				login(body.access_token, body.typeOfUser)
-		})
-		
-		.catch(function(error) {
+			
+			}).catch(function(error) {
 			console.log(error)
 		})
-		
 	})
-	
 })
 
+// Not sure what this does? but seem to stay here
 window.addEventListener("popstate", function(event){
     const url = location.pathname
     this.console.log(url)
 	changeToPage(url)
 })
 
+//not sure what this does but seem to stay here
 function goToPage(url) { 
-	
 	changeToPage(url)
 	history.pushState({}, "", url)
-	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// stay here
 function changeToPage(url) {
 	
 	const currentPageDiv = document.getElementsByClassName("current-page")[0]
@@ -158,85 +154,83 @@ function changeToPage(url) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//Move to post handler
 function fetchSixLatestPosts() {
 	
 	fetch(
 		"http://192.168.99.100:8080/posts" //get req by default?	
-	)
-	
-	.then(function(response) {
+			
+		).then(function(response) {
 		
-		// TODO: Check status code to see if it succeeded. Display errors if it failed.
-    
-		if (response.status != 200) {
+			// TODO: Check status code to see if it succeeded. Display errors if it failed.
+			if (response.status != 200) {
+				const div = document.querySelector("#posts-page div")
+				const p = document.createElement("p")
+				p.innerText = "The request failed with the following status code: " + response.status
+				div.appendChild(p)
+			}
 			
-			const div = document.querySelector("#posts-page div")
-			const p = document.createElement("p")
-			p.innerText = "The request failed with the following status code: " + response.status
-			div.appendChild(p)
-		}
+			return response.json()
 		
-		return response.json()
-       
-    })
-    
-    .then(function(data) {
+		}).then(function(data) {
 
-        const ul = document.querySelector("#posts-page ul")
-		ul.innerText = ""
-        
-        for(const post of data.posts) {			
-			console.log(post)
-
-			//creating li for each post
-            const li = document.createElement("li")
+			const ul = document.querySelector("#posts-page ul")
+			ul.innerText = ""
 			
-			//Adding info text to li
-			const p = document.createElement("p")
-			p.innerText = "Title: " + post.title + "\nContent: " + post.content 
-			li.appendChild(p)
-			
-			//Adding delete button to li
-            const deleteButton = document.createElement("button")
-			deleteButton.innerText = "Delete"
-			deleteButton.classList.add("showIfLoggedIn") //will this work????
-			deleteButton.classList.add("deletePostButton")	
-			addDeleteActionToButton (post.postID)
-			
+			for(const post of data.posts) {			
+				console.log(post)
 
-			//Appending li
-			li.appendChild(deleteButton)
-            ul.append(li)
-		}
-    })
-    	
+				//creating li for each post
+				const li = document.createElement("li")
+				
+				//Adding info text to li
+				const p = document.createElement("p")
+				p.innerText = "Title: " + post.title + "\nContent: " + post.content 
+				li.appendChild(p)
+				
+				//Adding delete button to li
+				const deleteButton = document.createElement("button")
+				deleteButton.innerText = "Delete"
+				deleteButton.classList.add("showIfLoggedIn") //will this work????
+				deleteButton.classList.add("deletePostButton")	
+				addDeleteActionToButton (post.postID)
+				
 
-    .catch(function(error){
+				//Appending li
+				li.appendChild(deleteButton)
+				ul.append(li)
+			}
+		
+		}).catch(function(error) {	
 		console.log(error)
 	})
-	
 }
 
-function fetchPet(id){
+// not using
+function fetchPet(id) {
 	
 	fetch(
 		"http://localhost:8080/pets/"+id
-	).then(function(response){
-		// TODO: Check status code to see if it succeeded. Display errors if it failed.
-		return response.json()
-	}).then(function(pet){
-		const nameSpan = document.querySelector("#pet-page .name")
-		const idSpan = document.querySelector("#pet-page .id")
-		nameSpan.innerText = pet.name
-		idSpan.innerText = pet.id
-	}).catch(function(error){
-		console.log(error)
-	})
-	
-}
+		
+		).then(function(response) {
+			// TODO: Check status code to see if it succeeded. Display errors if it failed.
+			return response.json()
+		
+		}).then(function(pet) {
+			const nameSpan = document.querySelector("#pet-page .name")
+			const idSpan = document.querySelector("#pet-page .id")
+			
+			nameSpan.innerText = pet.name
+			idSpan.innerText = pet.id
+		
+		}).catch(function(error){
+			console.log(error)
+		})
+	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Move to account-handler
 function login(accessToken, typeOfUser) {
 	
 	localStorage.accessToken = accessToken
@@ -253,6 +247,8 @@ function login(accessToken, typeOfUser) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+// Move to account-handler
 function logout() {
 	localStorage.accessToken = ""
 	localStorage.typeOfUser = ""
