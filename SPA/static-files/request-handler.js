@@ -1,24 +1,54 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function createPost(post) {      
+function createPost(post, accessToken) {   
+    console.log("inside post function", post)   
+
     fetch(
-        "http://localhost:8080/posts", {
+        "http://192.168.99.100:8080/posts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer "+localStorage.accessToken
             },
-            body: JSON.stringify(pet)
+            body: JSON.stringify(post, accessToken)
         }
     ).then(function(response) {
         // TODO: Check status code to see if it succeeded. Display errors if it failed.
         // TODO: Update the view somehow.
         console.log(response)
+        console.log("you got inside create post")
+
+        if (response.status == 500) {
+            const div = document.querySelector("#create-post-page div")
+            const p = document.createElement("p")
+            p.innerText = "The request failed with the following status code: " + response.status
+            div.appendChild(p)
+        }
+
+        else if (response.status == 400) {
+            const div = document.querySelector("#create-post-page div")
+            const p = document.createElement("p")
+            p.innerText = "The request failed with the following status code: " + response.status
+            div.appendChild(p)
+        }
+
+        else if (response.status == 401) {
+            const div = document.querySelector("#create-post-page div")
+            const p = document.createElement("p")
+            p.innerText = "The request failed with the following status code: " + response.status
+            div.appendChild(p)
+        }
+
+        return response.json()
+        
+    }).then(function(data) {
+        console.log("inside then", data)
+
     }).catch(function(error) {
-        // TODO: Update the view and display error.
         console.log(error)
     })
+
 }
 
 
@@ -43,13 +73,12 @@ function fetchSixLatestPosts() {
 			return response.json()
 		
 		}).then(function(data) {
-
+           
 			const ul = document.querySelector("#posts-page ul")
 			ul.innerText = ""
 			
 			for(const post of data.posts) {			
-			
-
+		
 				//creating li for each post
 				const li = document.createElement("li")
 				
@@ -63,9 +92,7 @@ function fetchSixLatestPosts() {
 				deleteButton.innerText = "Delete"
 				deleteButton.classList.add("showIfLoggedIn") //will this work????
 				deleteButton.classList.add("deletePostButton")	
-				addDeleteActionToButton (post.postID)
-				
-
+            
 				//Appending li
 				li.appendChild(deleteButton)
 				ul.append(li)
@@ -123,6 +150,7 @@ function putAllCategoriesInForm() {
             return response.json()
         
         }).then(function(data) {
+
             const selectCategory = document.querySelector("#category-select")
 
             for (const category of data.categories) {

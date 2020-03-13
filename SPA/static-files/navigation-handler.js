@@ -115,8 +115,14 @@ document.addEventListener("DOMContentLoaded", function() {
 			const categoryID = document.querySelector("#create-post-page .categoryID").value
 			const locationID = document.querySelector("#create-post-page .locationID").value
 	
-			const accessToken = localStorage.accessToken
+			console.log(title)
+			console.log(content)
+			console.log(categoryID)
+			console.log(locationID)
 			
+			const accessToken = localStorage.accessToken
+			console.log("you have an accesstoken", accessToken)
+
 			const post = {
 				title,
 				content,
@@ -129,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		})
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+		//
 		document.querySelector("#goToCreatePostButton").addEventListener("click", function(event) {
 			event.preventDefault()
 
@@ -139,8 +145,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			putAllLocationsInForm()
 			putAllCategoriesInForm()
-			
-
 		})
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

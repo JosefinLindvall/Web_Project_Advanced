@@ -20,6 +20,7 @@ module.exports = function ({postManager}) {
 		const post = {title: title, content: content, categoryID: categoryID, locationID: locationID}
 
 		const accessToken = request.body.access_token
+		console.log("inside REST token: ", accessToken)
 		var accountID = -1
 		  
 		try {
