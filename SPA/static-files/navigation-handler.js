@@ -137,10 +137,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			
 			document.getElementById("create-post-page").classList.add("current-page")
 
-
-			putAllCategoriesInForm()
-
 			putAllLocationsInForm()
+			putAllCategoriesInForm()
+			
 
 		})
 

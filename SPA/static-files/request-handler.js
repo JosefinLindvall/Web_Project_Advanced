@@ -114,7 +114,10 @@ function putAllCategoriesInForm() {
         }).then(function(response) {
 
             if (response.status != 200) {
-				// db error
+                const div = document.querySelector("#create-post-page div")
+				const p = document.createElement("p")
+				p.innerText = "The request failed with the following status code: " + response.status
+				div.appendChild(p)
             }
             
             return response.json()
@@ -133,7 +136,7 @@ function putAllCategoriesInForm() {
             } 
 
         }).catch(function(error) {
-            // do something 
+            console.log(error) 
     })
 }
 
@@ -144,18 +147,29 @@ function putAllLocationsInForm() {
         "http://192.168.99.100:8080/locations", {
 
         }).then(function(response) {
-            // TODO: Check status code to see if it succeeded. Display errors if it failed.
             
             if (response.status != 200) {
-				// db error
+				const div = document.querySelector("#create-post-page div")
+				const p = document.createElement("p")
+				p.innerText = "The request failed with the following status code: " + response.status
+				div.appendChild(p)
             }
-            
             return response.json()
         
         }).then(function(data) {
-            // TODO: Read out information about the user account from the id_token.	
-          
-        
+            
+            const selectLocation = document.querySelector("#location-select")
+
+            for (const location of data.locations) {
+
+                const option = document.createElement("option")
+
+                option.value = location.locationID
+                option.text = location.location
+
+                selectLocation.appendChild(option)
+            } 
+
         }).catch(function(error) {
         console.log(error)
     })
