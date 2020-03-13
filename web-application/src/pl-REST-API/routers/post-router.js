@@ -11,7 +11,7 @@ module.exports = function ({postManager}) {
 	router.post("/posts", function (request, response) {
 
 		//const post = request.body.post // can we do this????
-
+	
 		const title = request.body.title
 		const content = request.body.content
 		const categoryID = request.body.categoryID
@@ -19,8 +19,9 @@ module.exports = function ({postManager}) {
 		
 		const post = {title: title, content: content, categoryID: categoryID, locationID: locationID}
 
-		const accessToken = request.body.access_token
-		console.log("inside REST token: ", accessToken)
+		const authorizationHeader = request.get('authorization')
+		const accessToken = authorizationHeader.substr("Bearer ".length)
+	
 		var accountID = -1
 		  
 		try {
@@ -54,7 +55,6 @@ module.exports = function ({postManager}) {
 	
 	router.get('/posts', function (request, response) {
 
-   
 		postManager.getSixLatestPosts(function (error, posts) {
 
 			if (error) {
@@ -64,21 +64,23 @@ module.exports = function ({postManager}) {
 			else {
 				response.status(200).json({posts: posts}) 
 			}
-		})
-        
-       
+		})   
     })
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	router.delete('/posts/:id', function(request, response) {
 
-		const accessToken = request.body.access_token
+		console.log("do we even get inside rest ")
 		var typeOfUser = "invalide user type"
+
+		const authorizationHeader = request.get('authorization')
+		const accessToken = authorizationHeader.substr("Bearer ".length)
 		
 		try {
 			const payload = jwt.verify(accessToken, serverSecret) 
 			typeOfUser = payload.typeOfUser
+			console.log(typeOfUser)
 		}
 
 		catch (error) { // User is not logged in at all
@@ -89,6 +91,7 @@ module.exports = function ({postManager}) {
 		if (typeOfUser == "Admin") {
 			
 			const postId = request.params.id
+			console.log(postId)
 
 			postManager.deletePost(postId, function(error) {
 

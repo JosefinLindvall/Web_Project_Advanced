@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//stay here??
 	document.body.addEventListener("click", function(event) {
 		if(event.target.tagName == "A") {
 			event.preventDefault()
@@ -24,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Not sure what this does? but seem to stay here
 	window.addEventListener("popstate", function(event){
 		const url = location.pathname
 		this.console.log(url)
@@ -33,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//not sure what this does but seem to stay here
 	function goToPage(url) { 
 		changeToPage(url)
 		history.pushState({}, "", url)
@@ -52,8 +49,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// stay here
-	
 	function changeToPage(url) {
 		
 		removeCurrentPage()
@@ -80,14 +75,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			logout()
 		}
 
-		else if (new RegExp("^/pets/[0-9]+$").test(url)) {
-			document.getElementById("pet-page").classList.add("current-page")
+		else if (new RegExp("^/posts/[0-9]+$").test(url)) {
+			document.getElementById("post-page").classList.add("current-page")
 			const id = url.split("/")[2]
 			fetchPet(id)
 		}
 
-
-		else{
+		else {
 			document.getElementById("error-page").classList.add("current-page")
 		}
 		
@@ -114,15 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			const content = document.querySelector("#create-post-page .content").value
 			const categoryID = document.querySelector("#create-post-page .categoryID").value
 			const locationID = document.querySelector("#create-post-page .locationID").value
-	
-			console.log(title)
-			console.log(content)
-			console.log(categoryID)
-			console.log(locationID)
-			
-			const accessToken = localStorage.accessToken
-			console.log("you have an accesstoken", accessToken)
-
+		
 			const post = {
 				title,
 				content,
@@ -130,9 +116,18 @@ document.addEventListener("DOMContentLoaded", function() {
 				locationID
 			}
 			
-			createPost(post, accessToken)
-			
+			createPost(post)
 		})
+
+		// document.querySelector(".delete-post-form").addEventListener("submit", function(event) {
+		// 	event.preventDefault()
+			
+		// 	console.log("you clicked on a delete button")
+		// 	deletePost()
+			
+		// })
+
+	
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//
@@ -146,6 +141,18 @@ document.addEventListener("DOMContentLoaded", function() {
 			putAllLocationsInForm()
 			putAllCategoriesInForm()
 		})
+
+
+		// The problem is that he can't find the class that we created dynamically because DOM-content
+		// doesn't wait for us to create this....
+		// document.querySelector("#delete-div").addEventListener("submit", function(event) {
+		// 	event.preventDefault()
+			
+		// 	const postID = document.querySelector(".delete-post-form button").value
+		// 	console.log(postID)
+
+		// 	deletePost(postID)
+		// })
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 })

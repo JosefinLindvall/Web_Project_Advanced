@@ -1,9 +1,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-function createPost(post, accessToken) {   
-    console.log("inside post function", post)   
-
+// do we need to somehow update the fields after you have sent a post??????
+function createPost(post) {   
+  
     fetch(
         "http://192.168.99.100:8080/posts", {
             method: "POST",
@@ -11,13 +10,11 @@ function createPost(post, accessToken) {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer "+localStorage.accessToken
             },
-            body: JSON.stringify(post, accessToken)
+            body: JSON.stringify(post)
         }
-    ).then(function(response) {
-        // TODO: Check status code to see if it succeeded. Display errors if it failed.
-        // TODO: Update the view somehow.
-        console.log(response)
-        console.log("you got inside create post")
+    )
+    
+    .then(function(response) {
 
         if (response.status == 500) {
             const div = document.querySelector("#create-post-page div")
@@ -38,17 +35,10 @@ function createPost(post, accessToken) {
             const p = document.createElement("p")
             p.innerText = "The request failed with the following status code: " + response.status
             div.appendChild(p)
-        }
-
-        return response.json()
-        
-    }).then(function(data) {
-        console.log("inside then", data)
-
+        }    
     }).catch(function(error) {
         console.log(error)
     })
-
 }
 
 
@@ -73,28 +63,43 @@ function fetchSixLatestPosts() {
 			return response.json()
 		
 		}).then(function(data) {
-           
-			const ul = document.querySelector("#posts-page ul")
+       
+            const ul = document.querySelector("#posts-page ul")
+          
 			ul.innerText = ""
-			
+            
+            // create an href instead of a button that will lead to another page, pass id onto that link
+            // split it and send it to the fetch method for delete.
 			for(const post of data.posts) {			
 		
 				//creating li for each post
-				const li = document.createElement("li")
-				
+                const li = document.createElement("li")
+
 				//Adding info text to li
 				const p = document.createElement("p")
 				p.innerText = "Title: " + post.title + "\nContent: " + post.content 
-				li.appendChild(p)
-				
-				//Adding delete button to li
-				const deleteButton = document.createElement("button")
-				deleteButton.innerText = "Delete"
-				deleteButton.classList.add("showIfLoggedIn") //will this work????
-				deleteButton.classList.add("deletePostButton")	
-            
-				//Appending li
-				li.appendChild(deleteButton)
+                li.appendChild(p)
+          
+                //Adding a form with class "delete-post-form" 
+                // const form = document.createElement("form")
+                // const deleteButton = document.createElement("button")
+                
+                // form.classList.add("delete-post-form")
+                
+                // deleteButton.innerText = "Delete"
+                // deleteButton.classList.add("showIfLoggedIn")
+                // deleteButton.type = "submit"
+                // deleteButton.value = post.postID
+
+                // form.appendChild(deleteButton)
+                // li.appendChild(form)
+         
+
+                const anchor = document.createElement("a")
+                anchor.innerText = "Go to post"
+                anchor.setAttribute("href", '/posts/'+post.postID)
+                
+                li.appendChild(anchor)
 				ul.append(li)
 			}
 		
@@ -103,7 +108,65 @@ function fetchSixLatestPosts() {
 	})
 }
 
+// function deletePost(postID) {
+//     console.log("inside delete post function")
+//     fetch(
+//         "http://192.168.99.100:8080/posts/"+postID, {
+//             method: "DELETE",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Authorization": "Bearer "+localStorage.accessToken
+//             }, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
+//             // do we need a body in delete? no??
+        
+//         }).then(function(response) {
+//             console.log(response)
 
+//             if (response.status == 500) {
+//                 const div = document.querySelector("#post-page div")
+//                 const p = document.createElement("p")
+//                 p.innerText = "The request failed with the following status code: " + response.status
+//                 div.appendChild(p)
+//             }
+    
+//             else if (response.status == 400) {
+//                 const div = document.querySelector("#post-page div")
+//                 const p = document.createElement("p")
+//                 p.innerText = "The request failed with the following status code: " + response.status
+//                 div.appendChild(p)
+//             }
+    
+//             else if (response.status == 401) {
+//                 const div = document.querySelector("#post-page div")
+//                 const p = document.createElement("p")
+//                 p.innerText = "The request failed with the following status code: " + response.status
+//                 div.appendChild(p)
+//             }
+
+//         }).catch(function(error) {
+//         console.log(error)
+//     })
+// }
+
+
+
+function fetchPet(id){
+	
+	fetch(
+		"http://localhost:8080/pets/"+id
+	).then(function(response) {
+		// TODO: Check status code to see if it succeeded. Display errors if it failed.
+		return response.json()
+	}).then(function(pet){
+		const nameSpan = document.querySelector("#pet-page .name")
+		const idSpan = document.querySelector("#pet-page .id")
+		nameSpan.innerText = pet.name
+		idSpan.innerText = pet.id
+	}).catch(function(error){
+		console.log(error)
+	})
+	
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
