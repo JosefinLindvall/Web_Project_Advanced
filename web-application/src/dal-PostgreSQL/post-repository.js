@@ -1,12 +1,8 @@
-//const sequelize = require('./db')
-//const db = require('./db')
 
 module.exports = function ({db}) {
 
 	return {
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		createPost: function (post, accountID, callback) {
 		
 			db.getPostTable().create({
@@ -15,42 +11,50 @@ module.exports = function ({db}) {
 				categoryID: post.categoryID, 
 				locationID: post.locationID, 
 				accountID: accountID 
-			}).then(function() {
+			})
+			
+			.then(function() {
 				callback(null)
-			}).catch(function(error){
+			})
+			
+			.catch(function(error) {
 				callback(error)
 			})
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		getSixLatestPosts: function (callback) {
 			
 			db.getPostTable().findAll( { order: [['createdAt', 'DESC']], limit: 6, raw: true})
-			.then(function(posts){
+			
+			.then(function(posts) {
 				callback(null, posts)
 			})
 
-			.catch(function(){
-				callback(['Database error when fetching latest posts.'], null)
+			.catch(function() {
+				callback(['Database error.'], null)
 			})
-			
-		
 		},
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
-			db.getPostTable().findAll( { where: {categoryID : categoryId, locationID: locationId}, order: [['createdAt', 'DESC']], raw: true})
+			db.getPostTable().findAll({ 
+				where: {
+					categoryID : categoryId, 
+					locationID: locationId
+				}, 
+				order: [['createdAt', 'DESC']], 
+				raw: true
+			})
+			
 			.then(function(posts){
-				
 				callback(null, posts)
 			})
 
 			.catch(function(){
-				callback(['Database error when fetching posts.'], null) //['Database error when fetching matching posts.']
+				callback(['Database error.'], null)
 			})
 
 		},
@@ -91,7 +95,5 @@ module.exports = function ({db}) {
 				callback('Database error.')
 			})
 		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

@@ -13,7 +13,7 @@ module.exports = function ({ }) {
 			db.query(query, values, function (error) {
 
 				if (error) {
-					callback(['databaseError'])
+					callback(['Database error.'])
 				}
 				else {
 					callback(null)
@@ -29,7 +29,7 @@ module.exports = function ({ }) {
 
 			db.query(query, values, function (databaseError, posts) {
 				if (databaseError) {
-					callback(['Databse error when fetching latest posts.'], null)
+					callback(['Database error.'], null)
 				}
 
 				else {
@@ -47,7 +47,7 @@ module.exports = function ({ }) {
 
 			db.query(query, values, function (databaseError, posts) {
 				if (databaseError) {
-					callback(['Databse error when fetching matching posts.'], null)
+					callback(['Database error.'], null)
 				}
 
 				else {
@@ -65,7 +65,7 @@ module.exports = function ({ }) {
 			db.query(query, values, function(databaseError) {
 				
 				if (databaseError) {
-					callback(['Databse error when trying to delete post.'])
+					callback(['Database error.'])
 				}
 
 				else {

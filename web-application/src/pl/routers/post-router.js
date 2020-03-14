@@ -1,49 +1,50 @@
 const express = require('express')
 
-
 module.exports = function ({ postManager, categoryManager, locationManager, sessionHandler }) {
 
 	const router = express.Router()
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Retrieves location and category from the database 
-	 * and renders it in createPost.hbs
-	 */
 	router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
 
-		locationManager.getAllLocations(function (error, location) {
+		try {
+			locationManager.getAllLocations(function (error, location) {
 
-			if (error) {
-				const model = {
-					error: error,
+				if (error) {
+					const model = {
+						error: error,
+					}
+					response.render("createPost.hbs", model)
 				}
-				response.render("createPost.hbs", model)
-			}
-			else {
-				categoryManager.getAllCategories(function (error, category) {
+				else {
+					categoryManager.getAllCategories(function (error, category) {
 
-					if (error) {
-						const model = {
-							error: error,
+						if (error) {
+							const model = {
+								error: error,
+							}
+							response.render("createPost.hbs", model)
 						}
-						response.render("createPost.hbs", model)
-					}
-					else {
-						const model = {
-							location: location,
-							category: category
+						else {
+							const model = {
+								location: location,
+								category: category
+							}
+							response.render("createPost.hbs", model)
 						}
-						response.render("createPost.hbs", model)
-					}
-				})
+					})
+				}
+			})
+		}
+
+		catch (error) { //this error is a router error
+
+			const model = {
+				routerError: error
 			}
-		})
+
+			response.render("routerError.hbs", model)
+		}
 	})
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Post request for creating a post and insert it into the POST table
@@ -53,47 +54,57 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 		const post = request.body
 		const accountID = request.session.accountID
-	
 
-		postManager.createPost(post, accountID, function (error) {
-			if (error) {
-				const model = {
-					error: error,
+		try {
+
+			postManager.createPost(post, accountID, function (error) {
+				if (error) {
+					const model = {
+						error: error,
+					}
+					response.render("createPost.hbs", model)
 				}
-				response.render("createPost.hbs", model)
-			}
-			else {
-				locationManager.getAllLocations(function (error, location) {
-					if (error) {
-						const model = {
-							error: error
+				else {
+					locationManager.getAllLocations(function (error, location) {
+						if (error) {
+							const model = {
+								error: error
+							}
+							response.render("createPost.hbs", model)
 						}
-						response.render("createPost.hbs", model)
-					}
-					else {
-						categoryManager.getAllCategories(function (error, category) {
-							if (error) {
-								const model = {
-									error: error
+						else {
+							categoryManager.getAllCategories(function (error, category) {
+								if (error) {
+									const model = {
+										error: error
+									}
+									response.render("createPost.hbs", model)
 								}
-								response.render("createPost.hbs", model)
-							}
-							else {
-								const model = {
-									location: location,
-									category: category
+								else {
+									const model = {
+										location: location,
+										category: category
+									}
+									response.render("createPost.hbs", model)
 								}
-								response.render("createPost.hbs", model)
-							}
-						})
-					}
-				})
+							})
+						}
+					})
+				}
+			})
+		}
+
+		catch (error) { //this error is a router error
+
+			const model = {
+				routerError: error
 			}
-		})
+
+			response.render("routerError.hbs", model)
+		}
 	})
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//This get request is sent when just rendering the page, and no search has been made
+	////////////////////////////////////////////////////////////////////////////////////
 	router.get("/search-posts", function (request, response) {
 
 		try {
@@ -125,11 +136,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 						}
 					})
 				}
-
 			})
-
 		}
-
 
 		catch (error) { //this error is a router error
 
@@ -138,15 +146,11 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			}
 
 			response.render("routerError.hbs", model)
-
 		}
-
 	})
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//This get request is sent when a search has been made!
 	router.get("/execute-search", function (request, response) {
 
 		const categoryId = request.query.categoryID
@@ -198,20 +202,14 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			})
 		}
 
-
 		catch (error) { //this error is a router error
 
 			const model = {
 				routerError: error
 			}
-
 			response.render("routerError.hbs", model)
-
 		}
-
 	})
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	return router
 }

@@ -1,7 +1,7 @@
 module.exports = function ({ }) {
 
     return {
-
+//ändra så de står check
         checkedIfLoggedInAsRegUser: function (request, response, next) {
 
             if (request.session.isLoggedInAsReg == null) {

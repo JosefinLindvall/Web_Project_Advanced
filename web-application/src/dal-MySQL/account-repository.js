@@ -19,7 +19,6 @@ module.exports = function ({ }) {
                 }
 
                 else {
-
                     //Fetching id for the account that was just inserted
                     const query = "SELECT accountID FROM `Account` WHERE email = ?"
                     const values = [account.email]
@@ -33,7 +32,6 @@ module.exports = function ({ }) {
                         else {
                             callback(null, accountID)
                         }
-
                     })
                 }
             })

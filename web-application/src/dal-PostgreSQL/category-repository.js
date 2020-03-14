@@ -6,9 +6,12 @@ module.exports = function({db}){
             db.getCategoryTable().findAll({
                 raw:true,
                 order: [['category']]
-            }).then (function(categories) {
+            })
+            
+            .then (function(categories) {
                 callback(null, categories)
             })
+            
             .catch(function(error) {
                 callback(error, null) 
             })

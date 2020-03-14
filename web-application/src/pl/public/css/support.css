@@ -1,19 +1,19 @@
-.contact-message-title{
+.contact-message-title {
     margin: 2em;
     color: #ff9999;
 }
 
-.send-contact-message-button{
+.send-contact-message-button {
     width: 100%
 }
 
-.pink-centered-bold-text{
+.pink-centered-bold-text {
     text-align: center;
     color: #e57373;
     font-weight: bold;
 }
 
-.pink-centered-text{
+.pink-centered-text {
     color: #e57373;
     text-align: center;
 }

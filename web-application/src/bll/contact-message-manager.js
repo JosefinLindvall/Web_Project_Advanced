@@ -1,17 +1,15 @@
 
 
-module.exports = function({contactMessageRepo, contactMessageValidator}){
+module.exports = function({contactMessageRepo, contactMessageValidator}) {
     
     return {
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-
         getAllContactMessages : function (callback) {
             contactMessageRepo.getAllContactMessages(callback)
         },
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-
         createContactMessage : function (title, content, email, callback) {
 
             const validationErrors = contactMessageValidator.getErrorsForCreateContactMessage(title, content, email)
@@ -24,10 +22,6 @@ module.exports = function({contactMessageRepo, contactMessageValidator}){
             else {
                 contactMessageRepo.createContactMessage(title, content, email, callback)
             }
-
-        }
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-    
+        }    
     }
 }

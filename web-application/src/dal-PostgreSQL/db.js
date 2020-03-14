@@ -5,12 +5,9 @@ module.exports = function({}){
   
     return {
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         createAllTables : function () {
 
             //Creating tables
-
             const Account = sequelize.define('account', {
                 firstName: {type: Sequelize.TEXT, allowNull:false}, 
                 lastName: {type: Sequelize.TEXT, allowNull:false},
@@ -136,34 +133,7 @@ module.exports = function({}){
                 }) 
             })
 
-            // Putting in hard coded data for admin users
-
-            // Account.create({
-            //     firstName: "Dennis",
-            //     lastName: "Andersson",
-            //     password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
-            //     email: "dennisfram@hotmail.com",
-            //     phoneNumber: "0730896460",
-            //     birthDate: "1996-04-28",
-            //     gender: "male",
-            //     typeOfUser: "Admin"
-
-            // })
-
-            // Account.create({
-            //     firstName: "Josefin",
-            //     lastName: "Lindvall",
-            //     password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
-            //     email: "j@j",
-            //     phoneNumber: "0703721510",
-            //     birthDate: "1997-12-26",
-            //     gender: "female",
-            //     typeOfUser: "Admin"
-
-            // })
-
             //Putting in hard coded data for categories
-
             Category.create({
                 category: "Hiking",
             })
@@ -177,7 +147,6 @@ module.exports = function({}){
             })
 
             //Putting in hard coded data for locations
-
             Location.create({
                 location: "Aneby",
             })
@@ -192,7 +161,6 @@ module.exports = function({}){
         },
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
         getAccountTable : function () {
             return sequelize.model("account")
         },
@@ -214,8 +182,3 @@ module.exports = function({}){
         },
     }
 }
-
-
-
-
-

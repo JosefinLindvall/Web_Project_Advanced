@@ -28,22 +28,16 @@ module.exports = function ({ postManager }) {
         }
 
         catch (error) {
-
             const model = {
                 routerError: error
             }
-
             response.render("routerError.hbs", model)
         }
     })
 
-
-
     router.get('/about-us', function (request, response) {
         response.render("about.hbs")
     })
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return router
 }

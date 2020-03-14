@@ -1,15 +1,10 @@
-
-
 const bcrypt = require('bcrypt')
 
 module.exports = function ({ accountRepo, accountValidator }) {
 
-    
-
     return {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         createAccount: function (account, callback) {
             const errors = accountValidator.getErrorsNewAccount(account)
             const password = account.password
@@ -27,7 +22,6 @@ module.exports = function ({ accountRepo, accountValidator }) {
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         logInAccount: function (typedEmail, typedPassword, callback) {
 
             const errors = accountValidator.checkAccountInformation(typedEmail, typedPassword)
@@ -50,34 +44,9 @@ module.exports = function ({ accountRepo, accountValidator }) {
         },
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         getUserInformation: function (accountID, callback) {
             accountRepo.getUserInformation(accountID, callback)
         },
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // att ha den här inne ger error?
-        // comparePassword : function (typedPassword, databasePassword, typeOfUser, accountID, callback) {
-
-        //     bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
-
-        //         if (err) {
-        //             callback(['bcrypt error'], null, null)
-        //         }
-
-        //         else if (isMatch == true) {
-        //             callback(null, typeOfUser, accountID)
-        //         }
-
-        //         else {
-        //             callback(['Invalid password!'], null, null)
-        //         }
-        //     });
-        // }
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     }
 }
 

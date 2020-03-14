@@ -1,11 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/support.css">
 
-
-{{!---------------------------------------------------------------------------------------}}
-
-
 <h3 class="center-align contact-message-title">Have a question about Friendy?</h3>
-
 
 <div class="row align-form">
     <div class="col s12 m4 offset-m4">
@@ -35,27 +30,22 @@
                     </div><br>
 
                     <div class="form-field">
-                        <button class="btn-large wave-effect waves-dark red lighten-2 send-contact-message-button" type="submit" >Send</button>
+                        <button class="btn-large wave-effect waves-dark red lighten-2 send-contact-message-button"
+                            type="submit">Send</button>
                     </div><br>
 
                 </form>
-
-
             </div>
         </div>
     </div>
 </div>
-
-
-{{!---------------------------------------------------------------------------------------}}
-
 
 {{#if errors.length}} {{!-- These errors are either database errors or validation errors.  --}}
 <div class="error-div">
     <p class="pink-centered-bold-text">The following errors occured when trying to send your message: </p>
     <ul>
         {{#each errors}}
-            <li class="pink-centered-text">{{this}}</li>
+        <li class="pink-centered-text">{{this}}</li>
         {{/each}}
     </ul>
 </div>

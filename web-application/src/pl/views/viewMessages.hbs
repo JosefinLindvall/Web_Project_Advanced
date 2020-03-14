@@ -4,14 +4,10 @@
 <p>There was a database error, cannot fetch contact messages :( </p>
 {{/if}}
 
-
-
-
 {{#if contactMessages.length}}
 
 <div="search-result-div">
     <div class="row">
-
 
         {{#each contactMessages}}
 
@@ -29,17 +25,15 @@
                     <br>
                     <p class="card-text">{{email}}.</p>
                 </div>
-
             </div>
         </div>
 
         {{/each}}
-
     </div>
     </div>
 
-{{else}}
+    {{else}}
 
     <p>No contact messages available!</p>
 
-{{/if}}
+    {{/if}}
