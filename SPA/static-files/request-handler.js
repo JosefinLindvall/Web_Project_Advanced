@@ -2,7 +2,7 @@
 
 // do we need to somehow update the fields after you have sent a post??????
 function createPost(post) {   
-  
+
     fetch(
         "http://192.168.99.100:8080/posts", {
             method: "POST",
@@ -15,28 +15,28 @@ function createPost(post) {
     )
     
     .then(function(response) {
+        
+        
+        //create-post-page 
+        const div = document.querySelector("#message-to-user-div")
+        
+        //Create new message
+        const p = document.createElement("p")
+      
 
-        if (response.status == 500) {
-            const div = document.querySelector("#create-post-page div")
-            const p = document.createElement("p")
-            p.innerText = "The request failed with the following status code: " + response.status
-            div.appendChild(p)
+        if (response.status == 201) {
+            p.innerText = "Successfully created post!"
         }
 
-        else if (response.status == 400) {
-            const div = document.querySelector("#create-post-page div")
-            const p = document.createElement("p")
+        else {
             p.innerText = "The request failed with the following status code: " + response.status
-            div.appendChild(p)
         }
 
-        else if (response.status == 401) {
-            const div = document.querySelector("#create-post-page div")
-            const p = document.createElement("p")
-            p.innerText = "The request failed with the following status code: " + response.status
-            div.appendChild(p)
-        }    
-    }).catch(function(error) {
+        div.appendChild(p)
+    
+    })
+    
+    .catch(function(error) {
         console.log(error)
     })
 }
@@ -47,10 +47,9 @@ function createPost(post) {
 
 function fetchSixLatestPosts() {
 	
-	fetch(
-		"http://192.168.99.100:8080/posts" //get req by default?	
-			
-		).then(function(response) {
+	fetch("http://192.168.99.100:8080/posts" )
+        
+        .then(function(response) {
 		
 			// TODO: Check status code to see if it succeeded. Display errors if it failed.
 			if (response.status != 200) {
@@ -62,51 +61,42 @@ function fetchSixLatestPosts() {
 			
 			return response.json()
 		
-		}).then(function(data) {
+        })
+        
+        .then(function(data) {
        
             const ul = document.querySelector("#posts-page ul")
           
 			ul.innerText = ""
             
-            // create an href instead of a button that will lead to another page, pass id onto that link
-            // split it and send it to the fetch method for delete.
 			for(const post of data.posts) {			
 		
 				//creating li for each post
                 const li = document.createElement("li")
 
-				//Adding info text to li
+				//Adding title and content text to li
 				const p = document.createElement("p")
 				p.innerText = "Title: " + post.title + "\nContent: " + post.content 
                 li.appendChild(p)
-          
-                //Adding a form with class "delete-post-form" 
-                // const form = document.createElement("form")
-                // const deleteButton = document.createElement("button")
-                
-                // form.classList.add("delete-post-form")
-                
-                // deleteButton.innerText = "Delete"
-                // deleteButton.classList.add("showIfLoggedIn")
-                // deleteButton.type = "submit"
-                // deleteButton.value = post.postID
-
-                // form.appendChild(deleteButton)
-                // li.appendChild(form)
-         
-
+        
+                // Adding href to li
                 const anchor = document.createElement("a")
                 anchor.innerText = "Go to post"
                 anchor.setAttribute("href", '/posts/'+post.postID)
-                
                 li.appendChild(anchor)
+
+                //Appending li to ul
 				ul.append(li)
 			}
 		
-		}).catch(function(error) {	
+        })
+        
+        .catch(function(error) {	
 		console.log(error)
 	})
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // function deletePost(postID) {
 //     console.log("inside delete post function")
@@ -148,21 +138,30 @@ function fetchSixLatestPosts() {
 //     })
 // }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function fetchPet(id){
+function fetchPost(id){
 	
 	fetch(
-		"http://localhost:8080/pets/"+id
-	).then(function(response) {
+		"http://localhost:8080/posts/"+id
+    )
+    
+    .then(function(response) {
 		// TODO: Check status code to see if it succeeded. Display errors if it failed.
 		return response.json()
-	}).then(function(pet){
-		const nameSpan = document.querySelector("#pet-page .name")
-		const idSpan = document.querySelector("#pet-page .id")
-		nameSpan.innerText = pet.name
+    }
+    
+    ).then(function(pet){
+        
+        const name = document.querySelector("#post-page .name")
+		const id = document.querySelector("#post-page .id")
+        
+        nameSpan.innerText = pet.name
 		idSpan.innerText = pet.id
-	}).catch(function(error){
+    })
+    
+    .catch(function(error){
 		console.log(error)
 	})
 	
@@ -181,16 +180,22 @@ function getTokensAndLogin (email, password) {
             }, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
             body: "grant_type=password&email="+email+"&password="+password
         
-        }).then(function(response){
+        })
+        
+        .then(function(response){
 
             // TODO: Check status code to see if it succeeded. Display errors if it failed.
             return response.json()
         
-        }).then(function(body){
+        })
+        
+        .then(function(body){
             // TODO: Read out information about the user account from the id_token.	
             login(body.access_token, body.typeOfUser)
         
-        }).catch(function(error) {
+        })
+        
+        .catch(function(error) {
         console.log(error)
     })
 }
@@ -201,7 +206,9 @@ function putAllCategoriesInForm() {
     fetch(
         "http://192.168.99.100:8080/categories", {
             
-        }).then(function(response) {
+        })
+        
+        .then(function(response) {
 
             if (response.status != 200) {
                 const div = document.querySelector("#create-post-page div")
@@ -212,7 +219,9 @@ function putAllCategoriesInForm() {
             
             return response.json()
         
-        }).then(function(data) {
+        })
+        
+        .then(function(data) {
 
             const selectCategory = document.querySelector("#category-select")
 
@@ -226,7 +235,9 @@ function putAllCategoriesInForm() {
                 selectCategory.appendChild(option)
             } 
 
-        }).catch(function(error) {
+        })
+        
+        .catch(function(error) {
             console.log(error) 
     })
 }
@@ -237,7 +248,9 @@ function putAllLocationsInForm() {
     fetch(
         "http://192.168.99.100:8080/locations", {
 
-        }).then(function(response) {
+        })
+        
+        .then(function(response) {
             
             if (response.status != 200) {
 				const div = document.querySelector("#create-post-page div")
@@ -247,7 +260,9 @@ function putAllLocationsInForm() {
             }
             return response.json()
         
-        }).then(function(data) {
+        })
+        
+        .then(function(data) {
             
             const selectLocation = document.querySelector("#location-select")
 
@@ -261,7 +276,9 @@ function putAllLocationsInForm() {
                 selectLocation.appendChild(option)
             } 
 
-        }).catch(function(error) {
+        })
+        
+        .catch(function(error) {
         console.log(error)
     })
 }
