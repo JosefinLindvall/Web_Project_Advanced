@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		else if (new RegExp("^/posts/[0-9]+$").test(url)) {
 			document.getElementById("post-page").classList.add("current-page")
 			const id = url.split("/")[2]
-			fetchPet(id)
+			fetchPost(id)
 		}
 
 		else {

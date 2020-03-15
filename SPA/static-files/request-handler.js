@@ -82,7 +82,7 @@ function fetchSixLatestPosts() {
                 // Adding href to li
                 const anchor = document.createElement("a")
                 anchor.innerText = "Go to post"
-                anchor.setAttribute("href", '/posts/'+post.postID)
+                anchor.setAttribute("href", "/posts/"+post.postID)
                 li.appendChild(anchor)
 
                 //Appending li to ul
@@ -141,24 +141,37 @@ function fetchSixLatestPosts() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function fetchPost(id){
+function fetchPost(id) {
+
+    console.log(id)
 	
-	fetch(
-		"http://localhost:8080/posts/"+id
-    )
+	fetch("http://192.168.99.100:8080/posts/" + id)
     
     .then(function(response) {
-		// TODO: Check status code to see if it succeeded. Display errors if it failed.
+        // TODO: Check status code to see if it succeeded. Display errors if it failed.
+        
+        if (response.status != 200) {
+            const p = document.querySelector("#post-page-error-p")
+            p.innerText = "The request failed with the following status code: " + response.status
+        }
+
 		return response.json()
     }
     
     ).then(function(pet){
         
-        const name = document.querySelector("#post-page .name")
-		const id = document.querySelector("#post-page .id")
+        //const name = document.querySelector("#post-page .name")
+		//const id = document.querySelector("#post-page .id")
+        //nameSpan.innerText = pet.name
+        //idSpan.innerText = pet.id
+
+        console.log(post.title)
         
-        nameSpan.innerText = pet.name
-		idSpan.innerText = pet.id
+        const postTitle = post.title
+        const postContent = post.content
+
+        document.querySelector("#post-title-p").innerText = postTitle
+        document.querySelector("#post-title-p").innerText = postContent
     })
     
     .catch(function(error){
@@ -203,10 +216,8 @@ function getTokensAndLogin (email, password) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function putAllCategoriesInForm() {
-    fetch(
-        "http://192.168.99.100:8080/categories", {
-            
-        })
+    
+    fetch("http://192.168.99.100:8080/categories", {})
         
         .then(function(response) {
 
