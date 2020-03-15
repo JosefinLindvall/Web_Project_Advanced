@@ -37,7 +37,12 @@
                         {{#if isLoggedInAsReg}}
 
                         <form class="form-display" action="/account/logout" method="post">
-                            <li> <a href="/home"><button class="btn red" type="submit">Logout</button></a> </li>
+                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                            <li>
+                                <a href="/home">
+                                    <button class="btn red" type="submit">Logout</button>
+                                </a>
+                            </li>
                         </form>
 
                         <li><a href="/post/create-post">Create Post</a></li>
@@ -80,6 +85,7 @@
     <main>
         {{{body}}}
     </main>
-    
+
 </body>
+
 </html>

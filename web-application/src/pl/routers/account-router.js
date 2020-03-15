@@ -7,10 +7,14 @@ module.exports = function ({ accountManager, sessionHandler }) {
 	//LOG IN
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.get('/login', function (request, response) {
-		response.render("login.hbs")
+
+		const model = {
+			csrfToken: request.csrfToken()
+		};
+
+		response.render("login.hbs", model)
 	})
 
-	//Post request to log in a user should it have ID with it? 
 	router.post('/login', function (request, response) {
 
 		const typedEmail = request.body.email
@@ -22,11 +26,13 @@ module.exports = function ({ accountManager, sessionHandler }) {
 				if (error) {
 					const model = {
 						error: error,
+						csrfToken: request.csrfToken()
 					}
 					response.render("login.hbs", model)
 				}
 
 				else {
+
 					if (typeOfUser == "Admin") {
 						request.session.isLoggedInAsAdmin = true
 						request.session.isLoggedInAsReg = true
@@ -53,18 +59,24 @@ module.exports = function ({ accountManager, sessionHandler }) {
 	//LOG OUT
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.post('/logout', function (request, response) {
+
 		request.session.isLoggedInAsReg = false
 		request.session.isLoggedInAsAdmin = false
 		request.session.accountID = null
 
-		response.redirect("/")
+		response.redirect("/")	
 	})
 
 
 	//SIGN UP
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.get('/signup', function (request, response) {
-		response.render("signUp.hbs")
+
+		const model = {
+			csrfToken: request.csrfToken()
+		}
+
+		response.render("signUp.hbs", model)
 	})
 
 
@@ -79,6 +91,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 				if (error) {
 					const model = {
 						error: error,
+						csrfToken: request.csrfToken()
 					}
 					response.render("signUp.hbs", model)
 				}
@@ -100,7 +113,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.get('/profile', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const accountID = request.session.accountID
 
@@ -142,10 +155,10 @@ module.exports = function ({ accountManager, sessionHandler }) {
 		}
 	})
 
-	router.get('/profile/:id', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.get('/profile/:id', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const userPostID = request.params.id
-		
+
 		try {
 			accountManager.getUserInformation(userPostID, function (error, currUserInfo) {
 

@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const redis = require('redis')
 const awilix = require('awilix')
+const cookieParser = require("cookie-parser");
 const csrf = require('csurf')
 
 let RedisStore = require('connect-redis')(session)
@@ -32,10 +33,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-app.use(csrf({
-    cookie: true
-}))
-
+// The only allowed origin that we want to use for access-control
 const allowedOrigin = "http://192.168.99.100:3000"
 
 app.use(function (request, response, next) {
@@ -45,6 +43,14 @@ app.use(function (request, response, next) {
     response.setHeader("Access-Control-Expose-Headers", allowedOrigin)
     next()
 })
+
+app.use(cookieParser());
+
+app.use(
+    csrf({
+        cookie: true
+    })
+);
 
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
 app.use(session({  // The function "session" creates random session ids from the secret below
@@ -57,7 +63,6 @@ app.use(session({  // The function "session" creates random session ids from the
 app.use(function (request, response, next) {
     response.locals.isLoggedInAsReg = request.session.isLoggedInAsReg
     response.locals.isLoggedInAsAdmin = request.session.isLoggedInAsAdmin
-    //response.locals.accountID = request.session.accountID
     next()
 })
 
@@ -70,7 +75,7 @@ const container = awilix.createContainer()
 
 // Requiring functions for the currently used database
 
-const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
+const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository')
@@ -190,5 +195,3 @@ app.use("/", thePostRouterRestApi)
 app.listen(8080, function () {
     console.log('Web application listening on port 8080')
 })
-
-

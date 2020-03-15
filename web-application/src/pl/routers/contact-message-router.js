@@ -5,14 +5,14 @@ module.exports = function({contactMessageManager, sessionHandler}) {
    const router = express.Router()
    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    router.get("/view-all-contact-messages", sessionHandler.checkedIfLoggedInAsAdminUser, function (request, response) { 
+    router.get("/view-all-contact-messages", sessionHandler.checkIfLoggedInAsAdminUser, function (request, response) { 
     
         try {
             contactMessageManager.getAllContactMessages(function (databaseError, contactMessages) {
 
                 var model = {}
 
-                if (databaseError){
+                if (databaseError) {
                     model = {databaseError}
                 }
 
@@ -28,14 +28,19 @@ module.exports = function({contactMessageManager, sessionHandler}) {
             const model = {
                 routerError: error
             }
+            
             response.render("routerError.hbs", model)
         }
     })
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    router.get("/support", function (request, response){
+    router.get("/support", function (request, response) {
 
-        response.render("support.hbs")
+        const model = {
+            csrfToken: request.csrfToken()
+          }
+
+        response.render("support.hbs", model)
     })
 
 
@@ -58,13 +63,15 @@ module.exports = function({contactMessageManager, sessionHandler}) {
                         title : title,
                         content : content,
                         email : email,
-                        errors: errors
+                        errors: errors, 
+                        csrfToken: request.csrfToken()
                     }
                 }
 
                 else {
                     model = {
-                        thankYouMessage: thankYouMessage
+                        thankYouMessage: thankYouMessage, 
+                        csrfToken: request.csrfToken()
                     }
                 }
                 response.render("support.hbs", model)

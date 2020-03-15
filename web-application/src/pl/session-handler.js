@@ -1,13 +1,14 @@
 module.exports = function ({ }) {
 
     return {
-//ändra så de står check
-        checkedIfLoggedInAsRegUser: function (request, response, next) {
+
+        checkIfLoggedInAsRegUser: function (request, response, next) {
 
             if (request.session.isLoggedInAsReg == null) {
 
                 const model = {
-                    notLoggedInAsReg: true
+                    notLoggedInAsReg: true,
+                    csrfToken: request.csrfToken()
                 }
 
                 response.render("login.hbs", model)
@@ -21,12 +22,13 @@ module.exports = function ({ }) {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        checkedIfLoggedInAsAdminUser: function (request, response, next) {
+        checkIfLoggedInAsAdminUser: function (request, response, next) {
 
             if (request.session.isLoggedInAsAdmin == null) {
 
                 const model = {
-                    notLoggedInAsAdmin: true
+                    notLoggedInAsAdmin: true, 
+                    csrfToken: request.csrfToken()
                 }
 
                 response.render("login.hbs", model)

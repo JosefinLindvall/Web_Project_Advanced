@@ -13,14 +13,17 @@ module.exports = function ({ postManager }) {
 
                 if (error) {
                     model = {
-                        error: error
+                        error: error,
+                        csrfToken: request.csrfToken()
+                       
                     }
                     response.render("home.hbs", model)
                 }
 
                 else {
                     model = {
-                        posts: posts
+                        posts: posts, 
+                        csrfToken: request.csrfToken()
                     }
                     response.render("home.hbs", model)
                 }

@@ -4,7 +4,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 	const router = express.Router()
 
-	router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.get('/create-post', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		try {
 			locationManager.getAllLocations(function (error, location) {
@@ -12,6 +12,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 				if (error) {
 					const model = {
 						error: error,
+						csrfToken: request.csrfToken()
 					}
 					response.render("createPost.hbs", model)
 				}
@@ -21,13 +22,15 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 						if (error) {
 							const model = {
 								error: error,
+								csrfToken: request.csrfToken()
 							}
 							response.render("createPost.hbs", model)
 						}
 						else {
 							const model = {
 								location: location,
-								category: category
+								category: category, 
+								csrfToken: request.csrfToken()
 							}
 							response.render("createPost.hbs", model)
 						}
@@ -50,7 +53,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 	 * Post request for creating a post and insert it into the POST table
 	 * TODO kanske redirecta till create post istället för att slippa denna härva.
 	 */
-	router.post("/create-post", sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.post("/create-post", sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const post = request.body
 		const accountID = request.session.accountID
@@ -61,6 +64,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 				if (error) {
 					const model = {
 						error: error,
+						csrfToken: request.csrfToken()
 					}
 					response.render("createPost.hbs", model)
 				}
@@ -68,7 +72,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 					locationManager.getAllLocations(function (error, location) {
 						if (error) {
 							const model = {
-								error: error
+								error: error, 
+								csrfToken: request.csrfToken()
 							}
 							response.render("createPost.hbs", model)
 						}
@@ -76,14 +81,16 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 							categoryManager.getAllCategories(function (error, category) {
 								if (error) {
 									const model = {
-										error: error
+										error: error, 
+										csrfToken: request.csrfToken()
 									}
 									response.render("createPost.hbs", model)
 								}
 								else {
 									const model = {
 										location: location,
-										category: category
+										category: category, 
+										csrfToken: request.csrfToken()
 									}
 									response.render("createPost.hbs", model)
 								}
@@ -114,7 +121,11 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			categoryManager.getAllCategories(function (errors, categories) {
 
 				if (errors) {
-					model = { errors }
+
+					model = { 
+						errors
+					 }
+
 					response.render("searchPosts.hbs", model)
 				}
 
@@ -123,15 +134,21 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 					locationManager.getAllLocations(function (errors, locations) {
 
 						if (errors) {
-							model = { errors }
+
+							model = { 
+								errors,
+							}
+
 							response.render("searchPosts.hbs", model)
 						}
 
 						else { //No error fetching locations, ok to go on and render page
+							
 							model = {
 								categories: categories,
-								locations: locations
+								locations: locations, 
 							}
+
 							response.render("searchPosts.hbs", model)
 						}
 					})
@@ -163,7 +180,12 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			categoryManager.getAllCategories(function (errors, categories) {
 
 				if (errors) {
-					model = { errors }
+
+					model = { 
+						errors, 
+		
+					}
+					
 					response.render("searchPosts.hbs", model)
 				}
 
@@ -172,7 +194,12 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 					locationManager.getAllLocations(function (errors, locations) {
 
 						if (errors) {
-							model = { errors }
+
+							model = { 
+								errors,
+				
+							}
+
 							response.render("searchPosts.hbs", model)
 						}
 
@@ -180,7 +207,11 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 							postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function (errors, posts) {
 								if (errors) {
-									model = { errors }
+
+									model = { 
+										errors,
+									}
+
 									response.render("searchPosts.hbs", model)
 								}
 
@@ -190,10 +221,9 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 										categories: categories,
 										locations: locations,
 										posts: posts,
-										searchHasBeenMade: true
+										searchHasBeenMade: true, 
 									}
 									response.render("searchPosts.hbs", model)
-
 								}
 							})
 						}
