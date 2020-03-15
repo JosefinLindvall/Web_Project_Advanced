@@ -43,15 +43,23 @@ main > div.current-page{
 	display: block;
 }
 
-body.isLoggedOut .showIfLoggedIn{
+body.isLoggedOut .showIfLoggedInAsUser{  /* Hiding content available for regular users, when logged out */
+	display: none; 
+}
+
+body.isLoggedOut .showIfLoggedInAsAdmin{  /* Hiding content available for admin users, when logged out */
+	display: none; 
+}
+
+body.isLoggedInAsAdmin .showIfLoggedOut{ /* Hiding content available for logged out users, when logged in as admin */
 	display: none;
 }
 
-body.isLoggedInAsAdmin .showIfLoggedOut{
+body.isLoggedInAsUser .showIfLoggedOut{ /* Hiding content available for logged out users, when logged in as regular user */
 	display: none;
 }
 
-body.isLoggedInAsUser .showIfLoggedOut{
+body.isLoggedInAsUser .showIfLoggedInAsAdmin{ /* Hiding content available for admin users, when logged in as regular user */
 	display: none;
 }
 

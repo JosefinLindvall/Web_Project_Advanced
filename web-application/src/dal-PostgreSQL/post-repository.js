@@ -23,10 +23,26 @@ module.exports = function ({db}) {
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		getPostByPostId: function (postID, callback) {
+			
+			db.getPostTable().findByPk(postID, {raw:true})
+			
+			.then(function (post) {
+                callback(null, post)
+			})
+			
+			.catch(function (error) {
+                callback(error, null)
+            })
+		},
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		getSixLatestPosts: function (callback) {
 			
 			db.getPostTable().findAll( { order: [['createdAt', 'DESC']], limit: 6, raw: true})
+			
 			.then(function(posts){
 				callback(null, posts)
 			})

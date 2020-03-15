@@ -7,7 +7,9 @@
 	<link rel="stylesheet" href="/styles.css">
 
 	<script src="./account-handler.js"></script>
-	<script src="./request-handler.js"></script>
+	<script src="./post-handler.js"></script>
+	<script src="./location-handler.js"></script>
+	<script src="./category-handler.js"></script>
 	<script src="./navigation-handler.js"></script>
 
 </head>
@@ -21,10 +23,10 @@
 		<ul>
 			<li><a href="/">Home</a></li>
 			<li><a href="/posts">View latest posts</a></li>
-			<li><a href="/signup">Sign up</a></li>
-			<li class="showIfLoggedOut"><a href="/login">Login</a></li>
-			<li class="showIfLoggedIn"><a href="/logout">Logout</a></li>
-			<li class="showIfLoggedIn" id="goToCreatePostButton"><button>create post</button></li> 
+			<li class="showIfLoggedOut"><a href="/signup">Sign Up</a></li>
+			<li class="showIfLoggedOut"><a href="/login">Log In</a></li>
+			<li class="showIfLoggedInAsUser"><a href="/logout">Log Out</a></li>
+			<li class="showIfLoggedInAsUser" id="goToCreatePostButton"><button>create post</button></li> 
 		</ul>
 	</nav>
 	
@@ -46,16 +48,19 @@
 				<h5 id="post-title-p"></h5>
 				<br>
 				<p id="post-content-p"></p>
+				<br>
+				<a id = "delete-post-a" href="">Delete post</a>
+				<br>
+				<br>
+				<a id = "update-post-a" href="">Update post</a>
+				<br>
 				<p id = "post-page-error-p"></p>
 			</div>
 		</div>
 		
 		<div id="posts-page">
 			<h1>Posts</h1>
-			<div></div>
-			<div id="delete-div">
-				<ul></ul>
-			</div>
+			<ul></ul>
 		</div>
 		
 		<div id="create-post-page">
@@ -77,22 +82,84 @@
 				</div>
 				<br>
 				<input type="submit" value="Create">
-				<div id = "message-to-user-div"></div>
+			</form>
+			<p id = "create-post-output-paragraph"></p>
+		</div>
+
+
+		<div id="update-post-page">
+			<h1>Update Post</h1>
+			<h3 id = "update-post-page-id-specifier-h3"></h3>
+			<form action="">
+				<div id="update-post-form">
+					 
+					New title: <input type="text" class="title">
+					New content: <input type="text" class="content">
+					<input type="hidden" id="update-post-page-id-input" class = "id" value="">
+
+				</div>
+				<br>
+				<input type="submit" value="Update">
+				<br>
+				<br>
+				<div id = "update-post-page-error-p"></div>
 			</form>
 		</div>
+
 		
 		<div id="login-page">
 			<h1>Login</h1>
 			<form action="">
 				<div>
-					 Username: <input type="text" class="username">
+					 Email: <input type="text" class="email">
 				</div>
 				<div>
-					 Password: <input type="text" class="password">
+					 Password: <input type="password" class="password">
 				</div>
 				<input type="submit" value="Login">
 			</form>
 		</div>
+
+
+		<div id="signup-page">
+			<h1>Sign up at Friendy!</h1>
+			<form action="">
+
+				<div>
+					First name: <input type="text" class="firstName">
+			    </div>
+				<br>
+			    <div>
+					Last name: <input type="text" class="lastName">
+		   		</div>
+				   <br>
+			    <div>
+					Email: <input type="text" class="email">
+			    </div>
+			    <br>
+			    <div>
+					Password: <input type="password" class="password">
+			    </div>
+				<br>
+			    <div>
+					Phone number: <input type="text" class="phoneNumber">
+				</div>
+				<br>
+				<div>
+					Gender: <select name="Gender" class="gender"> 
+					<option value="Female">Female</option>  
+					<option value="Male">Male</option>
+					</select>
+				</div>
+				<br>
+				<br>
+				<input type="submit" value="Sign Up!">
+			</form>
+			<br>
+			<p id = "signup-output-paragraph"></p>
+			<br>
+		</div>
+
 		
 		<div id="error-page">
 			<h1>Error</h1>

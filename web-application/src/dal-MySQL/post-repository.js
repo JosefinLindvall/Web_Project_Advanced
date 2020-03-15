@@ -22,6 +22,30 @@ module.exports = function ({ }) {
 		},
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		getPostByPostId: function (postID, callback) {
+
+			const values = [postID]
+			const query = "SELECT * FROM Post WHERE postID = ?"
+
+			db.query (query, values, function(databaseError, post){
+
+				if (databaseError) {
+					console.log(databaseError)
+					callback(['Database error.'], null)
+				}
+
+				else {
+					callback(null, post)
+				}
+
+			})
+
+
+		},
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		getSixLatestPosts: function (callback) {
 
 			const values = []
@@ -40,6 +64,7 @@ module.exports = function ({ }) {
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
 			const values = [categoryId, locationId]

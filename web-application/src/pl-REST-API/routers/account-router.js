@@ -46,13 +46,16 @@ module.exports = function ({ accountManager }) {
 	//SIGN UP
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// //Post request to send user info into the Account table. 
 	router.post('/accounts', function (request, response) {
 
-		const account = request.body
+		console.log ("in rest apiiiii")
+		const data = request.body
+		console.log(data[0].firstName)
+		console.log(data[0].object)
+		console.log(data[0].object.firstName)
+		console.log(data[0].firstName)
 
 		accountManager.createAccount(account, function (errors, accountID) {
-
 
 			if (errors != null) {
 
@@ -72,7 +75,7 @@ module.exports = function ({ accountManager }) {
 	})
 
 
-	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	return router
 }
