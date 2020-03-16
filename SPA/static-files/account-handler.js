@@ -30,6 +30,7 @@ function logout() {
 
 function getTokensAndLogin (email, password) {
 
+
     fetch(
         "http://192.168.99.100:8080/tokens", {
             method: "POST",
@@ -38,23 +39,41 @@ function getTokensAndLogin (email, password) {
             }, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
             body: "grant_type=password&email="+email+"&password="+password
         
-        })
+    })
         
-	.then(function(response){
+	.then(function(response) {
 
-		// TODO: Check status code to see if it succeeded. Display errors if it failed.
+		p = document.getElementById("login-output-paragraph")
+
+		switch(response.status){
+			case 202:
+				p = "Successfully logged in!"
+			case 500:
+				p = "Could not log in due to database error."
+			case 400:
+				ul = document.getElementById("login-validation-ul")
+				//Show errors in ul!
+			
+			default:
+				p.innerText = "Received unexpected status code: " + response.statuscode
+		}
+		
 		return response.json()
 	
 	})
 	
 	.then(function(body){
-		// TODO: Read out information about the user account from the id_token.	
+		
+		//PUT ID TOKEN IN ACCESS STORAGE HERE
+			
 		login(body.access_token, body.typeOfUser)
 	
 	})
 	
 	.catch(function(error) {
 		console.log(error)
+		p = "Error logging in."
+
 	})
 }
 
@@ -77,20 +96,18 @@ function signUp (newAccount) {
 
 		const p = document.getElementById("signup-output-paragraph")
 
-		if (response == 201) {
-			p.innerText = "Success creating account!"
-		}
-
-		else if (response == 400) {
-			p.innerText = "Could not create account due to validation errors. Please make sure that..." //list validation requirements here?
-		}
-
-		else {
-			p.innerText = "Could not create account due to database error."
+		switch (response.status) {
+			case 201:
+				p.innerText = "Successfully created account!"
+			case 500:
+				p.innerText = "Failed to create account due to database error."
+			case 400:
+				ul = document.getElementById("signup-validation-ul")
+			default:
+				p.innerText = "Received unexpected status code: " + response.statuscode
 		}
 
 		return response.json()
-	
 	})
 	
 	.catch(function(error) {

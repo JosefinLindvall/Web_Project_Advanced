@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		
 		removeCurrentPage()
 		
+
+		//MAKE THIS A SWITCH?
+
 		if (url == "/") {
 			document.getElementById("home-page").classList.add("current-page")
 		}
@@ -65,15 +68,20 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		else if (url == "/posts") {
+			document.getElementById("posts-output-paragraph").innerText = ""
 			document.getElementById("posts-page").classList.add("current-page")
+			
 			fetchSixLatestPosts()
 		}
 
 		else if (url == "/login") {
+			document.getElementById("login-output-paragraph").innerText = ""
 			document.getElementById("login-page").classList.add("current-page")
 		}
 
 		else if (url == "/signup") {
+			document.getElementById("signup-output-paragraph").innerText = ""
+			document.getElementById("signup-validation-ul").innerText = ""
 			document.getElementById("signup-page").classList.add("current-page")
 		}
 
@@ -83,24 +91,25 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 
 		else if (new RegExp("^/posts/[0-9]+$").test(url)) {
+			document.getElementById("post-output-paragraph").innerText = ""
 			document.getElementById("post-page").classList.add("current-page")
+
 			const id = url.split("/")[2]
 			fetchPost(id)
 		}
 
 		else if (new RegExp("^/delete-post/[0-9]+$").test(url)) {
-			
+			document.getElementById("post-output-paragraph").innerText = ""
 			const id = url.split("/")[2]
 			deletePost(id)
-
-			document.getElementById("home-page").classList.add("current-page")
 		}
 
 		else if (new RegExp("^/update-post/[0-9]+$").test(url)) {
-
+			document.getElementById("update-post-output-paragraph").innerText = ""
+			document.getElementById("update-post-validation-ul").innerText = ""
 			document.getElementById("update-post-page").classList.add("current-page")
+			
 			const postID = url.split("/")[2]
-
 			document.getElementById("update-post-page-id-input").value = postID
 			document.getElementById("update-post-page-id-specifier-h3"). innerText = "with id " + postID
 		}

@@ -37,7 +37,8 @@ module.exports = function ({ accountManager }) {
 			else {
 				const payload = { accountID: accountID, typeOfUser: typeOfUser }
 				const accessToken = jwt.sign(payload, serverSecret)
-				response.status(202).json({access_token: accessToken, account_id: accountID, typeOfUser: typeOfUser}) //do we need to pass id token here as well?
+				//TODO : put id token in here as well!
+				response.status(202).json({access_token: accessToken, account_id: accountID, typeOfUser: typeOfUser}) 
 			}
 		})
 	})
@@ -48,13 +49,14 @@ module.exports = function ({ accountManager }) {
 
 	router.post('/accounts', function (request, response) {
 
-		console.log ("in rest apiiiii")
-		const data = request.body
-		console.log(data[0].firstName)
-		console.log(data[0].object)
-		console.log(data[0].object.firstName)
-		console.log(data[0].firstName)
+		// console.log ("in rest apiiiii")
+		// const data = request.body
+		// console.log(data[0].firstName)
+		// console.log(data[0].object)
+		// console.log(data[0].object.firstName)
+		// console.log(data[0].firstName)
 
+		console.log(request.body.account.email)
 		accountManager.createAccount(account, function (errors, accountID) {
 
 			if (errors != null) {

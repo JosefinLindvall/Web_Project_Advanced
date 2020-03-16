@@ -9,8 +9,6 @@ module.exports = function ({postManager}) {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	router.post("/posts", function (request, response) {
-
-		//const post = request.body.post // can we do this????
 	
 		const title = request.body.title
 		const content = request.body.content
@@ -29,7 +27,7 @@ module.exports = function ({postManager}) {
 			accountID = payload.accountID
 		}
 
-		catch (error) {
+		catch (error) { 
 			response.status(401).end()
 			return
 		}
