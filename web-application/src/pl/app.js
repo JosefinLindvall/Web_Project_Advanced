@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const redis = require('redis')
 const awilix = require('awilix')
+const cookieParser = require("cookie-parser");
+const csrf = require('csurf')
 
 let RedisStore = require('connect-redis')(session)
 let redisClient = redis.createClient({ host: "redis" })
@@ -31,42 +33,43 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-// // TODO: Not a good idea to open up to entire world.
-// // Better to only target the frontend application.
-app.use(function(request, response, next) {
-	response.setHeader("Access-Control-Allow-Origin", "*")
-	response.setHeader("Access-Control-Allow-Methods", "*")
-	response.setHeader("Access-Control-Allow-Headers", "*")
-	response.setHeader("Access-Control-Expose-Headers", "*")
-	next()
+// The only allowed origin that we want to use for access-control
+const allowedOrigin = "http://192.168.99.100:3000"
+
+app.use(function (request, response, next) {
+    response.setHeader("Access-Control-Allow-Origin", allowedOrigin)
+    response.setHeader("Access-Control-Allow-Methods", allowedOrigin)
+    response.setHeader("Access-Control-Allow-Headers", allowedOrigin)
+    response.setHeader("Access-Control-Expose-Headers", allowedOrigin)
+    next()
 })
 
+app.use(cookieParser());
+
+app.use(
+    csrf({
+        cookie: true
+    })
+);
+
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
-
 app.use(session({  // The function "session" creates random session ids from the secret below
-
     saveUninitialized: false,
     resave: false,
     secret: 'ksdjfhjksbajshklbvcsaelv',
     store: new RedisStore({ client: redisClient }) //if panic happens; add host:"redis" inside curly brackets
-
-
 }))
 
 app.use(function (request, response, next) {
     response.locals.isLoggedInAsReg = request.session.isLoggedInAsReg
     response.locals.isLoggedInAsAdmin = request.session.isLoggedInAsAdmin
-    //response.locals.accountID = request.session.accountID
     next()
 })
 
 
 //////// AWILIX  //////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 // Creating container
-
 const container = awilix.createContainer()
 
 
@@ -75,7 +78,7 @@ const container = awilix.createContainer()
 const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
-    var accountRepoFun = require('../dal-MySQL/account-repository') 
+    var accountRepoFun = require('../dal-MySQL/account-repository')
     var categoryRepoFun = require('../dal-MySQL/category-repository')
     var contactMessageRepoFun = require('../dal-MySQL/contact-message-repository')
     var locationRepoFun = require('../dal-MySQL/location-repository')
@@ -83,23 +86,22 @@ if (currentDb == "mySQL") {
 }
 
 else if (currentDb == "PostgreSQL") {
-    
+
     const dbFun = require('../dal-PostgreSQL/db')
     container.register('db', awilix.asFunction(dbFun))
+
     const theDb = container.resolve('db')
     theDb.createAllTables()
 
-    var accountRepoFun = require('../dal-PostgreSQL/account-repository') 
+    var accountRepoFun = require('../dal-PostgreSQL/account-repository')
     var categoryRepoFun = require('../dal-PostgreSQL/category-repository')
     var contactMessageRepoFun = require('../dal-PostgreSQL/contact-message-repository')
     var locationRepoFun = require('../dal-PostgreSQL/location-repository')
     var postRepoFun = require('../dal-PostgreSQL/post-repository')
-
 }
 
 
 // Requiring routers for web application
-
 const variousRouter = require('./routers/various-router')
 const accountRouter = require('./routers/account-router')
 const contactMessageRouter = require('./routers/contact-message-router')
@@ -107,7 +109,6 @@ const postRouter = require('./routers/post-router')
 
 
 // Requiring routers for REST API
-
 const accountRouterRestApi = require('../pl-REST-API/routers/account-router')
 const postRouterRestApi = require('../pl-REST-API/routers/post-router')
 const locationRouterRestApi = require('../pl-REST-API/routers/location-router')
@@ -122,21 +123,15 @@ const locationManagerFun = require('../bll/location-manager')
 const postManagerFun = require('../bll/post-manager')
 
 
-
 // Requiring validators
-
 const accountValidatorFun = require('../bll/account-validator')
 const contactMessageValidatorFun = require('../bll/contact-message-validator')
 const postValidatorFun = require('../bll/post-validator')
 
 // Requiring session handler
-
 const sessionHandlerFun = require('./session-handler')
 
-
-
 // Registering the functions as dependencies in the container (web application)
-
 container.register('variousRouter', awilix.asFunction(variousRouter))
 
 container.register('accountRouter', awilix.asFunction(accountRouter))
@@ -165,7 +160,6 @@ container.register('sessionHandler', awilix.asFunction(sessionHandlerFun))
 
 
 // Registering the functions as dependencies in the container (REST-API)
-
 container.register('accountRouterRestApi', awilix.asFunction(accountRouterRestApi))
 container.register('postRouterRestApi', awilix.asFunction(postRouterRestApi))
 container.register('locationRouterRestApi', awilix.asFunction(locationRouterRestApi))
@@ -173,7 +167,6 @@ container.register('categoryRouterRestApi', awilix.asFunction(categoryRouterRest
 
 
 // Resolving routers to be used
-
 const theAccountRouter = container.resolve('accountRouter')
 const theVariousRouter = container.resolve('variousRouter')
 const thePostRouter = container.resolve('postRouter')
@@ -186,25 +179,19 @@ const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 
 // Using routers for web application
-
 app.use("/account", theAccountRouter)
 app.use("/", theVariousRouter)
 app.use("/post", thePostRouter)
 app.use("/contact-message", theContactMessageRouter)
 
 // Using routers for REST-API
-
 app.use("/", theAccountRouterRestApi)
 app.use("/", theCategoryRouterRestApi)
 app.use("/", theLocationRouterRestApi)
 app.use("/", thePostRouterRestApi)
 
 
-
 //////// Listening for incoming HTTP requests! ////////////////////////////////////////////////////////////////////////////////
-
 app.listen(8080, function () {
     console.log('Web application listening on port 8080')
 })
-
-

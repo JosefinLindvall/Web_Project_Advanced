@@ -4,7 +4,6 @@ module.exports = function({db}){
     return {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         getAllContactMessages : function (callback) {
 
             db.getContactMessageTable().findAll({
@@ -16,10 +15,8 @@ module.exports = function({db}){
             })
 
             .catch(function(error) {
-                callback(['Database error when fetching contact messages!'], null)
-            })
-
-            
+                callback(['Database error.'], null)
+            })    
         },
 
 
@@ -29,16 +26,13 @@ module.exports = function({db}){
 
             db.getContactMessageTable().create({title: title, content: content, email: email})
             
-            .then(function(createdContactMessage){
+            .then(function(createdContactMessage) {
                 callback([])
             })
 
-            .catch(function(error){
+            .catch(function(error) {
                 callback(error) //['Database error when creating contact message.']
             })
-
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

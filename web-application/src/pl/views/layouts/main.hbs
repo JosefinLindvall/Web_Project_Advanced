@@ -11,15 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-
-    {{!-- Put this script into an appropriate JS file --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             M.AutoInit();
         });
     </script>
-
 </head>
 
 <body>
@@ -41,7 +37,12 @@
                         {{#if isLoggedInAsReg}}
 
                         <form class="form-display" action="/account/logout" method="post">
-                            <li> <a href="/home"><button class="btn red" type="submit">Logout</button></a> </li>
+                            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                            <li>
+                                <a href="/home">
+                                    <button class="btn red" type="submit">Logout</button>
+                                </a>
+                            </li>
                         </form>
 
                         <li><a href="/post/create-post">Create Post</a></li>
@@ -85,7 +86,6 @@
         {{{body}}}
     </main>
 
-    <footer></footer>
 </body>
 
 </html>

@@ -1,159 +1,200 @@
 const express = require('express')
 
-
 module.exports = function ({ accountManager, sessionHandler }) {
-
 
 	const router = express.Router()
 
-
 	//LOG IN
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	router.get('/login', function (request, response) {
-		response.render("login.hbs")
+
+		const model = {
+			csrfToken: request.csrfToken()
+		};
+
+		response.render("login.hbs", model)
 	})
 
-	//Post request to log in a user should it have ID with it? 
 	router.post('/login', function (request, response) {
 
 		const typedEmail = request.body.email
 		const typedPassword = request.body.password
 
-		accountManager.logInAccount(typedEmail, typedPassword, function (error, typeOfUser, accountID) {
+		try {
+			accountManager.logInAccount(typedEmail, typedPassword, function (error, typeOfUser, accountID) {
 
-			if (error) {
-				const model = {
-					error: error,
+				if (error) {
+					const model = {
+						error: error,
+						csrfToken: request.csrfToken()
+					}
+					response.render("login.hbs", model)
 				}
-				response.render("login.hbs", model)
+
+				else {
+
+					if (typeOfUser == "Admin") {
+						request.session.isLoggedInAsAdmin = true
+						request.session.isLoggedInAsReg = true
+						request.session.accountID = accountID
+					}
+
+					else if (typeOfUser == "User") {
+						request.session.isLoggedInAsReg = true
+						request.session.accountID = accountID
+					}
+					response.redirect("/")
+				}
+			})
+		}
+
+		catch (error) { // This error is a router error
+			const model = {
+				routerError: error
 			}
-
-			else {
-				if (typeOfUser == "Admin") {
-					request.session.isLoggedInAsAdmin = true
-					request.session.isLoggedInAsReg = true
-					request.session.accountID = accountID
-				}
-
-				else if (typeOfUser == "User") {
-					request.session.isLoggedInAsReg = true
-					request.session.accountID = accountID
-				}
-				response.redirect("/")
-			}
-		})
+			response.render("routerError.hbs", model)
+		}
 	})
 
 	//LOG OUT
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	router.post('/logout', function (request, response) {
+
 		request.session.isLoggedInAsReg = false
 		request.session.isLoggedInAsAdmin = false
 		request.session.accountID = null
 
-		response.redirect("/")
+		response.redirect("/")	
 	})
 
 
 	//SIGN UP
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	router.get('/signup', function (request, response) {
-		response.render("signUp.hbs")
+
+		const model = {
+			csrfToken: request.csrfToken()
+		}
+
+		response.render("signUp.hbs", model)
 	})
 
 
 	// //Post request to send user info into the Account table. 
 	router.post('/signup', function (request, response) {
+
 		const account = request.body
 
-		accountManager.createAccount(account, function (error, accountID) {
+		try {
+			accountManager.createAccount(account, function (error, accountID) {
 
-			if (error) {
-				const model = {
-					error: error,
+				if (error) {
+					const model = {
+						error: error,
+						csrfToken: request.csrfToken()
+					}
+					response.render("signUp.hbs", model)
 				}
-				response.render("signUp.hbs", model)
-			}
-			else {
+				else {
+					request.session.isLoggedInAsReg = true
+					request.session.accountID = accountID
+					response.redirect("/")
+				}
+			})
+		}
 
-				request.session.isLoggedInAsReg = true
-				request.session.accountID = accountID
-				response.redirect("/")
+		catch (error) { // This error is a router error
+			const model = {
+				routerError: error
 			}
-		})
+			response.render("routerError.hbs", model)
+		}
 	})
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	router.get('/profile', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.get('/profile', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const accountID = request.session.accountID
-		
-		accountManager.getUserInformation(accountID, function (error, currUserInfo) {
 
-			const firstName = currUserInfo.firstName
-			const lastName = currUserInfo.lastName
-			const email = currUserInfo.email
-			const phoneNumber = currUserInfo.phoneNumber
-			const birthDate = currUserInfo.birthDate
-			const gender = currUserInfo.gender
+		try {
+			accountManager.getUserInformation(accountID, function (error, currUserInfo) {
 
-			
+				const firstName = currUserInfo.firstName
+				const lastName = currUserInfo.lastName
+				const email = currUserInfo.email
+				const phoneNumber = currUserInfo.phoneNumber
+				const birthDate = currUserInfo.birthDate
+				const gender = currUserInfo.gender
 
-			if (error) {
-				const model = {
-					error: error
+				if (error) {
+					const model = {
+						error: error
+					}
+					response.render("profile.hbs", model)
 				}
-				response.render("profile.hbs", model)
-			}
-			else {
-				const model = {
-					firstName: firstName,
-					lastName: lastName,
-					email: email,
-					phoneNumber: phoneNumber,
-					birthDate: birthDate,
-					gender: gender
+				else {
+					const model = {
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						phoneNumber: phoneNumber,
+						birthDate: birthDate,
+						gender: gender
+					}
+					response.render("profile.hbs", model)
 				}
-				response.render("profile.hbs", model)
+			})
+		}
+
+		catch (error) { // This error is a router error
+			const model = {
+				routerError: error
 			}
-		})
+			response.render("routerError.hbs", model)
+		}
 	})
 
-	router.get('/profile/:id', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.get('/profile/:id', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const userPostID = request.params.id
 
-		accountManager.getUserInformation(userPostID, function (error, currUserInfo) {
+		try {
+			accountManager.getUserInformation(userPostID, function (error, currUserInfo) {
 
-			const firstName = currUserInfo.firstName
-			const lastName = currUserInfo.lastName
-			const email = currUserInfo.email
-			const phoneNumber = currUserInfo.phoneNumber
-			const birthDate = currUserInfo.birthDate
-			const gender = currUserInfo.gender
+				const firstName = currUserInfo.firstName
+				const lastName = currUserInfo.lastName
+				const email = currUserInfo.email
+				const phoneNumber = currUserInfo.phoneNumber
+				const birthDate = currUserInfo.birthDate
+				const gender = currUserInfo.gender
 
-			if (error) {
-				const model = {
-					error: error
+				if (error) {
+					const model = {
+						error: error
+					}
+					response.render("profile.hbs", model)
 				}
-				response.render("profile.hbs", model)
-			}
-			else {
-				const model = {
-					firstName: firstName,
-					lastName: lastName,
-					email: email,
-					phoneNumber: phoneNumber,
-					birthDate: birthDate,
-					gender: gender
+				else {
+					const model = {
+						firstName: firstName,
+						lastName: lastName,
+						email: email,
+						phoneNumber: phoneNumber,
+						birthDate: birthDate,
+						gender: gender
+					}
+					response.render("profile.hbs", model)
 				}
-				response.render("profile.hbs", model)
+			})
+		}
+
+		catch (error) { // This error is a router error
+			const model = {
+				routerError: error
 			}
-		})
+			response.render("routerError.hbs", model)
+		}
 	})
 	return router
 }

@@ -1,99 +1,117 @@
 const express = require('express')
 
-
 module.exports = function ({ postManager, categoryManager, locationManager, sessionHandler }) {
 
 	const router = express.Router()
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	router.get('/create-post', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
-	/**
-	 * Retrieves location and category from the database 
-	 * and renders it in createPost.hbs
-	 */
-	router.get('/create-post', sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+		try {
+			locationManager.getAllLocations(function (error, location) {
 
-		locationManager.getAllLocations(function (error, location) {
-
-			if (error) {
-				const model = {
-					error: error,
+				if (error) {
+					const model = {
+						error: error,
+						csrfToken: request.csrfToken()
+					}
+					response.render("createPost.hbs", model)
 				}
-				response.render("createPost.hbs", model)
-			}
-			else {
-				categoryManager.getAllCategories(function (error, category) {
+				else {
+					categoryManager.getAllCategories(function (error, category) {
 
-					if (error) {
-						const model = {
-							error: error,
+						if (error) {
+							const model = {
+								error: error,
+								csrfToken: request.csrfToken()
+							}
+							response.render("createPost.hbs", model)
 						}
-						response.render("createPost.hbs", model)
-					}
-					else {
-						const model = {
-							location: location,
-							category: category
+						else {
+							const model = {
+								location: location,
+								category: category, 
+								csrfToken: request.csrfToken()
+							}
+							response.render("createPost.hbs", model)
 						}
-						response.render("createPost.hbs", model)
-					}
-				})
+					})
+				}
+			})
+		}
+
+		catch (error) { //this error is a router error
+
+			const model = {
+				routerError: error
 			}
-		})
+
+			response.render("routerError.hbs", model)
+		}
 	})
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Post request for creating a post and insert it into the POST table
 	 * TODO kanske redirecta till create post istället för att slippa denna härva.
 	 */
-	router.post("/create-post", sessionHandler.checkedIfLoggedInAsRegUser, function (request, response) {
+	router.post("/create-post", sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const post = request.body
 		const accountID = request.session.accountID
-	
 
-		postManager.createPost(post, accountID, function (error) {
-			if (error) {
-				const model = {
-					error: error,
+		try {
+
+			postManager.createPost(post, accountID, function (error) {
+				if (error) {
+					const model = {
+						error: error,
+						csrfToken: request.csrfToken()
+					}
+					response.render("createPost.hbs", model)
 				}
-				response.render("createPost.hbs", model)
-			}
-			else {
-				locationManager.getAllLocations(function (error, location) {
-					if (error) {
-						const model = {
-							error: error
+				else {
+					locationManager.getAllLocations(function (error, location) {
+						if (error) {
+							const model = {
+								error: error, 
+								csrfToken: request.csrfToken()
+							}
+							response.render("createPost.hbs", model)
 						}
-						response.render("createPost.hbs", model)
-					}
-					else {
-						categoryManager.getAllCategories(function (error, category) {
-							if (error) {
-								const model = {
-									error: error
+						else {
+							categoryManager.getAllCategories(function (error, category) {
+								if (error) {
+									const model = {
+										error: error, 
+										csrfToken: request.csrfToken()
+									}
+									response.render("createPost.hbs", model)
 								}
-								response.render("createPost.hbs", model)
-							}
-							else {
-								const model = {
-									location: location,
-									category: category
+								else {
+									const model = {
+										location: location,
+										category: category, 
+										csrfToken: request.csrfToken()
+									}
+									response.render("createPost.hbs", model)
 								}
-								response.render("createPost.hbs", model)
-							}
-						})
-					}
-				})
+							})
+						}
+					})
+				}
+			})
+		}
+
+		catch (error) { //this error is a router error
+
+			const model = {
+				routerError: error
 			}
-		})
+
+			response.render("routerError.hbs", model)
+		}
 	})
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//This get request is sent when just rendering the page, and no search has been made
+	////////////////////////////////////////////////////////////////////////////////////
 	router.get("/search-posts", function (request, response) {
 
 		try {
@@ -103,7 +121,11 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			categoryManager.getAllCategories(function (errors, categories) {
 
 				if (errors) {
-					model = { errors }
+
+					model = { 
+						errors
+					 }
+
 					response.render("searchPosts.hbs", model)
 				}
 
@@ -112,24 +134,27 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 					locationManager.getAllLocations(function (errors, locations) {
 
 						if (errors) {
-							model = { errors }
+
+							model = { 
+								errors,
+							}
+
 							response.render("searchPosts.hbs", model)
 						}
 
 						else { //No error fetching locations, ok to go on and render page
+							
 							model = {
 								categories: categories,
-								locations: locations
+								locations: locations, 
 							}
+
 							response.render("searchPosts.hbs", model)
 						}
 					})
 				}
-
 			})
-
 		}
-
 
 		catch (error) { //this error is a router error
 
@@ -138,15 +163,11 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			}
 
 			response.render("routerError.hbs", model)
-
 		}
-
 	})
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	//This get request is sent when a search has been made!
 	router.get("/execute-search", function (request, response) {
 
 		const categoryId = request.query.categoryID
@@ -159,7 +180,12 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			categoryManager.getAllCategories(function (errors, categories) {
 
 				if (errors) {
-					model = { errors }
+
+					model = { 
+						errors, 
+		
+					}
+					
 					response.render("searchPosts.hbs", model)
 				}
 
@@ -168,7 +194,12 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 					locationManager.getAllLocations(function (errors, locations) {
 
 						if (errors) {
-							model = { errors }
+
+							model = { 
+								errors,
+				
+							}
+
 							response.render("searchPosts.hbs", model)
 						}
 
@@ -176,7 +207,11 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 							postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function (errors, posts) {
 								if (errors) {
-									model = { errors }
+
+									model = { 
+										errors,
+									}
+
 									response.render("searchPosts.hbs", model)
 								}
 
@@ -186,10 +221,9 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 										categories: categories,
 										locations: locations,
 										posts: posts,
-										searchHasBeenMade: true
+										searchHasBeenMade: true, 
 									}
 									response.render("searchPosts.hbs", model)
-
 								}
 							})
 						}
@@ -198,20 +232,14 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 			})
 		}
 
-
 		catch (error) { //this error is a router error
 
 			const model = {
 				routerError: error
 			}
-
 			response.render("routerError.hbs", model)
-
 		}
-
 	})
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	return router
 }

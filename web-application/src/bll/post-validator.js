@@ -1,9 +1,7 @@
 
-
-module.exports = function({}){
+module.exports = function({}) {
     
     return {
-
         getErrorsNewPost : function (post) {
 
             MAX_TITLE_LENGTH = 30

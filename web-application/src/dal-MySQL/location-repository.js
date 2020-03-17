@@ -5,7 +5,6 @@ module.exports = function({}){
     return {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         getAllLocations : function (callback) {
 
             const query = `SELECT * FROM Location ORDER BY location` 
@@ -14,16 +13,13 @@ module.exports = function({}){
             db.query(query, values, function (databaseError, locations) {
 
                 if (databaseError) {
-                    callback(['Database error when fetching locations.'], null) 
+                    callback(['Database error.'], null) 
                 }
 
                 else {
                     callback(null, locations) 
                 }
             })
-
         }
-        
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

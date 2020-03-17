@@ -1,24 +1,24 @@
 .friendy-headline {
-  margin-bottom: 1em;
-  margin-top: 1em;
-  color: lightcoral;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    color: lightcoral;
 }
 
 .main-text {
-  margin: auto;
-  width: 70%;
+    margin: auto;
+    width: 70%;
 }
 
-.intro-text-div{
-  background-color: lightcoral;
-  margin-left: 5em;
-  margin: 0 auto;
-  width: 80%;
-  border-radius: 5%;
+.intro-text-div {
+    background-color: lightcoral;
+    margin-left: 5em;
+    margin: 0 auto;
+    width: 80%;
+    border-radius: 5%;
 }
 
-.pink-centered-bold-text{
-  text-align: center;
-  color: #e57373;
-  font-weight: bold;
+.pink-centered-bold-text {
+    text-align: center;
+    color: #e57373;
+    font-weight: bold;
 }

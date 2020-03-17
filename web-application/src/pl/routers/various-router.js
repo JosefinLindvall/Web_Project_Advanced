@@ -13,14 +13,17 @@ module.exports = function ({ postManager }) {
 
                 if (error) {
                     model = {
-                        error: error
+                        error: error,
+                        csrfToken: request.csrfToken()
+                       
                     }
                     response.render("home.hbs", model)
                 }
 
                 else {
                     model = {
-                        posts: posts
+                        posts: posts, 
+                        csrfToken: request.csrfToken()
                     }
                     response.render("home.hbs", model)
                 }
@@ -28,22 +31,16 @@ module.exports = function ({ postManager }) {
         }
 
         catch (error) {
-
             const model = {
                 routerError: error
             }
-
             response.render("routerError.hbs", model)
         }
     })
 
-
-
     router.get('/about-us', function (request, response) {
         response.render("about.hbs")
     })
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return router
 }

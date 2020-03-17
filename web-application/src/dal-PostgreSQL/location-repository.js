@@ -8,9 +8,12 @@ module.exports = function({db}){
             db.getLocationTable().findAll({
                 order: [['location']],
                 raw:true
-            }).then (function(locations) {
+            })
+            
+            .then (function(locations) {
                 callback(null, locations)
             })
+            
             .catch(function(error) {
                 callback(error, null) 
             })

@@ -14,7 +14,7 @@ module.exports = function({}){
             db.query(query, values, function (error, contactMessages) {
 
                 if (error) {
-                    callback(['Database error when fetching contact messages.'], null) //this error from the database is passed forward as a hard coded string
+                    callback(['Database error.'], null) //this error from the database is passed forward as a hard coded string
                 }
 
                 else {
@@ -35,7 +35,7 @@ module.exports = function({}){
             db.query(query, values, function (error) {
 
                 if (error) {
-                    callback(['Database error when creating contact message.']) //this error from the database is passed forward as a hard coded string
+                    callback(['Database error.']) //this error from the database is passed forward as a hard coded string
                 }
 
                 else {
