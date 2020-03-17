@@ -22,7 +22,6 @@ module.exports = function ({ postRepo, postValidator }) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
-
             postRepo.getPostsByCategoryIdAndLocationId(categoryId, locationId, callback)
         },
 

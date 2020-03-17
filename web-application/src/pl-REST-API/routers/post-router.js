@@ -142,8 +142,6 @@ module.exports = function ({postManager}) {
 		try {
 			const payload = jwt.verify(accessToken, serverSecret) 
 			typeOfUser = payload.typeOfUser
-			console.log("typeOfUser")
-			console.log(typeOfUser)
 		}
 
 		catch (error) { //No access token, not logged in at all
@@ -180,7 +178,6 @@ module.exports = function ({postManager}) {
 		}
 
 		else { //Not logged in as Admin!
-			console.log("not admin")
 			response.status(401).end()
 		}
 		

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +14,13 @@
 	<script src="./navigation-handler.js"></script>
 
 </head>
+
 <body>
-	
+
 	<header>
 		Friendy🦄
 	</header>
-	
+
 	<nav>
 		<ul>
 			<li><a href="/">Home</a></li>
@@ -26,17 +28,17 @@
 			<li class="showIfLoggedOut"><a href="/signup">Sign Up</a></li>
 			<li class="showIfLoggedOut"><a href="/login">Log In</a></li>
 			<li class="showIfLoggedInAsUser"><a href="/logout">Log Out</a></li>
-			<li class="showIfLoggedInAsUser" id="goToCreatePostButton"><button>create post</button></li> 
+			<li class="showIfLoggedInAsUser" id="goToCreatePostButton"><button>create post</button></li>
 		</ul>
 	</nav>
-	
+
 	<main>
-		
+
 		<div id="home-page">
 			<h1>Home</h1>
 			<p>This is the home page...</p>
 		</div>
-		
+
 		<div id="about-page">
 			<h1>About</h1>
 			<p>This is the about page...</p>
@@ -49,78 +51,78 @@
 				<br>
 				<p id="post-content-p"></p>
 				<br>
-				<a id = "delete-post-a" href="">Delete post</a>
+				<a id="delete-post-a" href="">Delete post</a>
 				<br>
 				<br>
-				<a id = "update-post-a" href="">Update post</a>
+				<a id="update-post-a" href="">Update post</a>
 				<br>
-				<p id = "post-output-paragraph"></p>
+				<p id="post-output-paragraph"></p>
 			</div>
 		</div>
-		
+
 		<div id="posts-page">
 			<h1>Posts</h1>
 			<ul></ul>
-			<p id = "posts-output-paragraph"></p>
+			<p id="posts-output-paragraph"></p>
 		</div>
-		
+
 		<div id="create-post-page">
 			<h1>Create Post</h1>
 			<form action="">
 				<div id="create-post-form">
-					 
+
 					Title: <input type="text" class="title">
 					Content: <input type="text" class="content">
 
 					<select id="category-select" name="categoryID" class="categoryID">
-						<option value="" selected disabled hidden>Category</option>  
+						<option value="" selected disabled hidden>Category</option>
 					</select>
 
 					<select id="location-select" name="locationID" class="locationID">
-						<option value="" selected disabled hidden>Location</option>  
+						<option value="" selected disabled hidden>Location</option>
 					</select>
 
 				</div>
 				<br>
 				<input type="submit" value="Create">
 			</form>
-			<p id = "create-post-output-paragraph"></p>
-			<ul id = "create-post-validation-ul"></ul>
+			<p id="create-post-output-paragraph"></p>
+			<ul id="create-post-validation-ul"></ul>
 		</div>
 
 
 		<div id="update-post-page">
 			<h1>Update Post</h1>
-			<h3 id = "update-post-page-id-specifier-h3"></h3>
+			<h3 id="update-post-page-id-specifier-h3"></h3>
 			<form action="">
 				<div id="update-post-form">
-					 
+
 					New title: <input type="text" class="title">
 					New content: <input type="text" class="content">
-					<input type="hidden" id="update-post-page-id-input" class = "id" value="">
+					<input type="hidden" id="update-post-page-id-input" class="id" value="">
 
 				</div>
 				<br>
 				<input type="submit" value="Update">
 				<br>
 			</form>
-			<div id = "update-post-output-paragraph"></div>
-			<ul id = "update-post-validation-ul"></ul>
+			<div id="update-post-output-paragraph"></div>
+			<ul id="update-post-validation-ul"></ul>
 		</div>
 
-		
+
 		<div id="login-page">
 			<h1>Login</h1>
 			<form action="">
 				<div>
-					 Email: <input type="text" class="email">
+					Email: <input type="text" class="email">
 				</div>
 				<div>
-					 Password: <input type="password" class="password">
+					Password: <input type="password" class="password" autocomplete="on">
 				</div>
 				<input type="submit" value="Login">
 			</form>
-			<p id = "login-output-paragraph"></p>
+			<p id="login-output-paragraph"></p>
 		</div>
 
 
@@ -130,28 +132,28 @@
 
 				<div>
 					First name: <input type="text" class="firstName">
-			    </div>
+				</div>
 				<br>
-			    <div>
+				<div>
 					Last name: <input type="text" class="lastName">
-		   		</div>
-				   <br>
-			    <div>
-					Email: <input type="text" class="email">
-			    </div>
-			    <br>
-			    <div>
-					Password: <input type="password" class="password">
-			    </div>
+				</div>
 				<br>
-			    <div>
+				<div>
+					Email: <input type="text" class="email">
+				</div>
+				<br>
+				<div>
+					Password: <input type="password" class="password" autocomplete="on">
+				</div>
+				<br>
+				<div>
 					Phone number: <input type="text" class="phoneNumber">
 				</div>
 				<br>
 				<div>
-					Gender: <select name="Gender" class="gender"> 
-					<option value="Female">Female</option>  
-					<option value="Male">Male</option>
+					Gender: <select name="Gender" class="gender">
+						<option value="Female">Female</option>
+						<option value="Male">Male</option>
 					</select>
 				</div>
 				<br>
@@ -159,24 +161,36 @@
 				<input type="submit" value="Sign Up!">
 			</form>
 			<br>
-			<p id = "signup-output-paragraph"></p>
-			<ul id = "signup-validation-ul"></ul>
+			<p id="signup-output-paragraph"></p>
+			<ul id="signup-validation-ul"></ul>
 			<br>
 		</div>
 
-		
 		<div id="error-page">
 			<h1>Error</h1>
 			<p>Oups, something went wrong ^^'</p>
 		</div>
-		
+
+		<div id="error-page">
+			<h1>Error</h1>
+			<p>Oups, something went wrong with the connection to the server ^^'</p>
+		</div>
+
+		<div id="error-div">
+			<h1>errors</h1>
+			<ul id="ulWithErrors">
+
+			</ul>
+		</div>
+
 	</main>
-	
+
 	<footer>
 		Friendy |
 		Copyright 2020 Dennis & Josefin |
 		<a href="/about">About</a>
 	</footer>
-	
+
 </body>
+
 </html>

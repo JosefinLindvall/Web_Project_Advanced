@@ -1,32 +1,32 @@
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
 	//////////   HANDLING NAVIGATION      ///////////////////////////////////////////////////////////////////////////////////////////
 
 
 	changeToPage(location.pathname)
-	
+
 	if (localStorage.accessToken) {
 		login(localStorage.accessToken)
-    }
-    else {
+	}
+	else {
 		logout()
 	}
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	document.body.addEventListener("click", function(event) {
-		if(event.target.tagName == "A") {
+
+	document.body.addEventListener("click", function (event) {
+		if (event.target.tagName == "A") {
 			event.preventDefault()
 			const url = event.target.getAttribute("href")
 			goToPage(url)
 		}
 	})
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	window.addEventListener("popstate", function(event){
+	window.addEventListener("popstate", function (event) {
 		const url = location.pathname
 		this.console.log(url)
 		changeToPage(url)
@@ -34,28 +34,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	function goToPage(url) { 
+	function goToPage(url) {
 		changeToPage(url)
 		history.pushState({}, "", url)
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	function removeCurrentPage() {	
+	function removeCurrentPage() {
 		const currentPageDiv = document.getElementsByClassName("current-page")[0]
-		
-		if(currentPageDiv) {
+
+		if (currentPageDiv) {
 			currentPageDiv.classList.remove("current-page")
-		}	
+		}
 	}
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	function changeToPage(url) {
-		
+
 		removeCurrentPage()
-		
+
 
 		//MAKE THIS A SWITCH?
 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		else if (url == "/posts") {
 			document.getElementById("posts-output-paragraph").innerText = ""
 			document.getElementById("posts-page").classList.add("current-page")
-			
+
 			fetchSixLatestPosts()
 		}
 
@@ -108,36 +108,36 @@ document.addEventListener("DOMContentLoaded", function() {
 			document.getElementById("update-post-output-paragraph").innerText = ""
 			document.getElementById("update-post-validation-ul").innerText = ""
 			document.getElementById("update-post-page").classList.add("current-page")
-			
+
 			const postID = url.split("/")[2]
 			document.getElementById("update-post-page-id-input").value = postID
-			document.getElementById("update-post-page-id-specifier-h3"). innerText = "with id " + postID
+			document.getElementById("update-post-page-id-specifier-h3").innerText = "with id " + postID
 		}
 
 		else {
 			document.getElementById("error-page").classList.add("current-page")
 		}
-		
+
 	}
 
 
 	//////////   EVENT LISTENERS FOR FORMS      //////////////////////////////////////////////////////////////////////////////////////
 
-	document.querySelector("#login-page form").addEventListener("submit", function(event) {
+	document.querySelector("#login-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
-	
+
 		const email = document.querySelector("#login-page .email").value
 		const password = document.querySelector("#login-page .password").value
-	
+
 		getTokensAndLogin(email, password)
 	})
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	document.querySelector("#signup-page form").addEventListener("submit", function(event) {
+	document.querySelector("#signup-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
 		console.log("heloo???")
-		
+
 		const firstName = document.querySelector("#signup-page .firstName").value
 		const lastName = document.querySelector("#signup-page .lastName").value
 		const email = document.querySelector("#signup-page .email").value
@@ -145,45 +145,45 @@ document.addEventListener("DOMContentLoaded", function() {
 		const phoneNumber = document.querySelector("#signup-page .phoneNumber").value
 		const gender = document.querySelector("#signup-page .gender").value
 
-		newAccount = {firstName, lastName, email, password, phoneNumber, gender}
-	
+		newAccount = { firstName, lastName, email, password, phoneNumber, gender }
+
 		signUp(newAccount)
 	})
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	document.querySelector("#create-post-page form").addEventListener("submit", function(event) {
+	document.querySelector("#create-post-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
-		
+
 		const title = document.querySelector("#create-post-page .title").value
 		const content = document.querySelector("#create-post-page .content").value
 		const categoryID = document.querySelector("#create-post-page .categoryID").value
 		const locationID = document.querySelector("#create-post-page .locationID").value
-	
+
 		const post = {
 			title,
 			content,
 			categoryID,
 			locationID
 		}
-		
+
 		createPost(post)
 	})
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	document.querySelector("#update-post-page form").addEventListener("submit", function(event) {
+	document.querySelector("#update-post-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
-		
-		const postID =  document.querySelector("#update-post-page .id").value
+
+		const postID = document.querySelector("#update-post-page .id").value
 		const title = document.querySelector("#update-post-page .title").value
 		const content = document.querySelector("#update-post-page .content").value
-		
+
 		const updatedPost = {
 			title,
 			content
 		}
-		
+
 		updatePost(postID, updatedPost)
 
 	})
@@ -191,12 +191,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	//////////   EVENT LISTENERS FOR BUTTONS      ///////////////////////////////////////////////////////////////////////////////////
 
-	
-	document.querySelector("#goToCreatePostButton").addEventListener("click", function(event) {
+
+	document.querySelector("#goToCreatePostButton").addEventListener("click", function (event) {
 		event.preventDefault()
 
 		document.getElementById("create-post-output-paragraph").innerText = ""
-	
+
 		removeCurrentPage()
 		document.getElementById("create-post-page").classList.add("current-page")
 
@@ -204,7 +204,34 @@ document.addEventListener("DOMContentLoaded", function() {
 		putAllCategoriesInForm()
 	})
 
+})
+
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-})
+
+	function showErrors(errors) {
+
+		const ulWithErrors = document.getElementById("ulWithErrors")
+		ulWithErrors.innerText = "";
+
+		for (i = 0; i < errors.length; i++) {
+
+			const liError = document.createElement("li")
+			ulWithErrors.appendChild(liError)
+			liError.innerText = errors[0]
+		}
+
+		document.getElementById("error-div").classList.add("current-page")
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	function hideErrors() {
+		document.getElementById("error-div").classList.remove("current-page")
+	}
+
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
