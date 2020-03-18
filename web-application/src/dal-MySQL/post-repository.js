@@ -31,7 +31,6 @@ module.exports = function ({ }) {
 			db.query (query, values, function(databaseError, post){
 
 				if (databaseError) {
-					console.log(databaseError)
 					callback(['Database error.'], null)
 				}
 

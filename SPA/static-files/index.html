@@ -51,10 +51,10 @@
 				<br>
 				<p id="post-content-p"></p>
 				<br>
-				<a id="delete-post-a" href="">Delete post</a>
+				<a id="delete-post-a" class="showIfLoggedInAsAdmin" href="">Delete post</a>
 				<br>
 				<br>
-				<a id="update-post-a" href="">Update post</a>
+				<a id="update-post-a" class="showIfLoggedInAsAdmin" href="">Update post</a>
 				<br>
 				<p id="post-output-paragraph"></p>
 			</div>
@@ -155,6 +155,11 @@
 						<option value="Female">Female</option>
 						<option value="Male">Male</option>
 					</select>
+				</div>
+
+				<div>
+					<input type="date" class="birthday" >
+					<label for="birthday">BirthDay</label>
 				</div>
 				
 				

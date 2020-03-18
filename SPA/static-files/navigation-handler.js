@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	window.addEventListener("popstate", function (event) {
 		const url = location.pathname
-		this.console.log(url)
 		changeToPage(url)
 	})
 
@@ -136,16 +135,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	document.querySelector("#signup-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
-		console.log("heloo???")
-
+		
 		const firstName = document.querySelector("#signup-page .firstName").value
 		const lastName = document.querySelector("#signup-page .lastName").value
 		const email = document.querySelector("#signup-page .email").value
 		const password = document.querySelector("#signup-page .password").value
 		const phoneNumber = document.querySelector("#signup-page .phoneNumber").value
 		const gender = document.querySelector("#signup-page .gender").value
+		const birthday = document.querySelector("#signup-page .birthday").value
 
-		newAccount = { firstName, lastName, email, password, phoneNumber, gender }
+		newAccount = { firstName, lastName, email, password, phoneNumber, gender, birthday }
 
 		signUp(newAccount)
 	})
@@ -159,10 +158,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		const content = document.querySelector("#create-post-page .content").value
 		const categoryID = document.querySelector("#create-post-page .categoryID").value
 		const locationID = document.querySelector("#create-post-page .locationID").value
-
-		
-		console.log("inne i post")
-		console.log(title)
 
 		const post = {
 			title,
@@ -213,28 +208,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	function showErrors(errors) {
+	function showValidationErrors(validationErrors, validationUl) {
 
-		const ulWithErrors = document.getElementById("ulWithErrors")
-		ulWithErrors.innerText = "";
+		//const ulWithErrors = document.getElementById("ulWithErrors")
+		//ulWithErrors.innerText = ""
 
-		for (i = 0; i < errors.length; i++) {
+		validationUl.innerText = ""
 
+		for (i = 0; i < validationErrors.length; i++) {
 			const liError = document.createElement("li")
-			ulWithErrors.appendChild(liError)
-			liError.innerText = errors[0]
+			validationUl.appendChild(liError)
+			liError.innerText = validationErrors[0]
 		}
-
-		document.getElementById("error-div").classList.add("current-page")
 	}
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	function hideErrors() {
-		document.getElementById("error-div").classList.remove("current-page")
-	}
+	// function hideErrors() {
+	// 	document.getElementById("error-div").classList.remove("current-page")
+	// }
 
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -49,8 +49,6 @@ function createPost(post) {
 
 function fetchPost(id) {
 
-    console.log(id)
-
     fetch("http://192.168.99.100:8080/posts/" + id)
 
         .then(function (response) {
@@ -190,10 +188,9 @@ function updatePost(postID, updatedPost) {
         .then(function (response) {
 
             const p = document.getElementById("update-post-output-paragraph")
-
-            console.log(response)
             
-
+            console.log(response.status)
+            
             switch (response.status) {
                 case 204:
                     p.innerText = "Update was successful!"
@@ -204,9 +201,13 @@ function updatePost(postID, updatedPost) {
                 case 401:
                     p.innerText = "You are not authorized to update this post! This action is only available for admin users."
                     break
-                case 400:
-                    validationErrors = response.errors //This is probably not accurate 
+                case 400:        
+                    const validationErrors = response.errors //This is probably not accurate 
+                    console.log(validationErrors)
+                
                     ul = document.getElementById("update-post-validation-ul")
+                    showValidationErrors(validationErrors, ul)
+                    
                     break
                 default:
                     p.innerText = "Received unexpected status code: " + response.statuscode

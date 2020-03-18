@@ -135,7 +135,7 @@ module.exports = function ({postManager}) {
 
 		//Validating user before proceeding to update post
 
-		var typeOfUser = "invalide user type"
+		var typeOfUser = "invalid user type"
 		const authorizationHeader = request.get('authorization')
 		const accessToken = authorizationHeader.substr("Bearer ".length)
 	
@@ -166,7 +166,11 @@ module.exports = function ({postManager}) {
 					}
 					
 					else { //These errors are validation errors!
-						response.status(400).json(errors)
+						console.log(errors)
+						//response.status(400).json(errors)
+					//	response.status(400).json({"errors": errors})
+						response.status(400).json({errors})
+						
 					}
 				}
 				

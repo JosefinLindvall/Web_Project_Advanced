@@ -43,10 +43,6 @@ function getTokensAndLogin (email, password) {
         
 	.then(function(response) {
 
-		console.log(response)
-		console.log(response.status)
-		console.log()
-
 		p = document.getElementById("login-output-paragraph")
 
 		switch(response.status){
@@ -78,7 +74,6 @@ function getTokensAndLogin (email, password) {
 	})
 	
 	.catch(function(error) {
-		console.log(error)
 		p = "Error logging in."
 
 	})
@@ -87,14 +82,12 @@ function getTokensAndLogin (email, password) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function signUp (newAccount) {
-	console.log("innan rest")
-	console.log(newAccount)
-	console.log(JSON.stringify(newAccount))
+	
 	fetch(
         "http://192.168.99.100:8080/accounts", {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/json"
             }, 
 		   body: JSON.stringify(newAccount)
         
@@ -117,6 +110,7 @@ function signUp (newAccount) {
 				break
 			default:
 				p.innerText = "Received unexpected status code: " + response.statuscode
+				break
 		}
 
 		return response.json()

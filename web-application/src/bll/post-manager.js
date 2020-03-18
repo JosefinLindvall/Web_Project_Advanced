@@ -42,12 +42,22 @@ module.exports = function ({ postRepo, postValidator }) {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         updatePost: function (updatedPost, typeOfUser, callback) {
 
-            const errors = postValidator.validateUserAsAdmin(typeOfUser)
-
-            if (errors.length > 0) {
-                callback(errors, null)
+            const validationErrors = postValidator.validateUserAsAdmin(typeOfUser)
+            
+            if (validationErrors.length > 0) {
+                callback(validationErrors, null)
                 return
+            }   
+            else {
+                
+                const authorizationErrors = postValidator.getErrorsNewPost(updatedPost)
+        
+                if (authorizationErrors.length > 0) {
+                    callback(authorizationErrors, null)
+                    return
+                }   
             }
+
             postRepo.updatePost(updatedPost, callback)
         }
     }
