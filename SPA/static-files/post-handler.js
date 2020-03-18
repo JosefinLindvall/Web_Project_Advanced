@@ -192,7 +192,7 @@ function updatePost(postID, updatedPost) {
             const p = document.getElementById("update-post-output-paragraph")
 
             console.log(response)
-            console.log(error)
+            
 
             switch (response.status) {
                 case 204:

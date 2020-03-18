@@ -33,24 +33,24 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
+// app.use(cookieParser())
+
+// app.use(
+//     csrf({
+//         cookie: true
+//     })
+// );
+
 // The only allowed origin that we want to use for access-control
 const allowedOrigin = "http://192.168.99.100:3000"
 
 app.use(function (request, response, next) {
-    response.setHeader("Access-Control-Allow-Origin", allowedOrigin)
-    response.setHeader("Access-Control-Allow-Methods", allowedOrigin)
-    response.setHeader("Access-Control-Allow-Headers", allowedOrigin)
-    response.setHeader("Access-Control-Expose-Headers", allowedOrigin)
+    response.setHeader("Access-Control-Allow-Origin", '*')
+    response.setHeader("Access-Control-Allow-Methods", '*')
+    response.setHeader("Access-Control-Allow-Headers", '*')
+    response.setHeader("Access-Control-Expose-Headers", '*')
     next()
 })
-
-app.use(cookieParser());
-
-app.use(
-    csrf({
-        cookie: true
-    })
-);
 
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
 app.use(session({  // The function "session" creates random session ids from the secret below
@@ -178,11 +178,18 @@ const theCategoryRouterRestApi = container.resolve('locationRouterRestApi')
 const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 
-// Using routers for web application
+// // Using routers for web application
 app.use("/account", theAccountRouter)
 app.use("/", theVariousRouter)
 app.use("/post", thePostRouter)
 app.use("/contact-message", theContactMessageRouter)
+
+
+// app.use('/account', csrf({ cookie: true}), theAccountRouter)
+// app.use('/', csrf({ cookie: true}), theVariousRouter)
+// app.use('/post', csrf({ cookie: true}), thePostRouter)
+// app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
+
 
 // Using routers for REST-API
 app.use("/", theAccountRouterRestApi)

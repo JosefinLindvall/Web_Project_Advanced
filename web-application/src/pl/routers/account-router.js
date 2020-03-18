@@ -10,7 +10,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		const model = {
 			csrfToken: request.csrfToken()
-		};
+		}
 
 		response.render("login.hbs", model)
 	})

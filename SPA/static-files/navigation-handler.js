@@ -160,6 +160,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		const categoryID = document.querySelector("#create-post-page .categoryID").value
 		const locationID = document.querySelector("#create-post-page .locationID").value
 
+		
+		console.log("inne i post")
+		console.log(title)
+
 		const post = {
 			title,
 			content,

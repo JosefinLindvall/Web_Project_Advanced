@@ -43,15 +43,22 @@ function getTokensAndLogin (email, password) {
         
 	.then(function(response) {
 
+		console.log(response)
+		console.log(response.status)
+		console.log()
+
 		p = document.getElementById("login-output-paragraph")
 
 		switch(response.status){
 			case 202:
 				p = "Successfully logged in!"
+				break
 			case 500:
 				p = "Could not log in due to database error."
+				break
 			case 400:
 				ul = document.getElementById("login-validation-ul")
+				break
 				//Show errors in ul!
 			
 			default:
@@ -80,14 +87,16 @@ function getTokensAndLogin (email, password) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function signUp (newAccount) {
-
+	console.log("innan rest")
+	console.log(newAccount)
+	console.log(JSON.stringify(newAccount))
 	fetch(
         "http://192.168.99.100:8080/accounts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }, 
-            body: JSON.stringify(newAccount)
+		   body: JSON.stringify(newAccount)
         
 		}
 	)
@@ -99,10 +108,13 @@ function signUp (newAccount) {
 		switch (response.status) {
 			case 201:
 				p.innerText = "Successfully created account!"
+				break
 			case 500:
 				p.innerText = "Failed to create account due to database error."
+				break
 			case 400:
 				ul = document.getElementById("signup-validation-ul")
+				break
 			default:
 				p.innerText = "Received unexpected status code: " + response.statuscode
 		}
