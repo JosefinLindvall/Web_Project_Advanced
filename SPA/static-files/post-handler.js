@@ -172,10 +172,56 @@ function deletePost(postID) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function updatePost(postID, updatedPost) {
+// function updatePost(postID, updatedPost) {
 
-    fetch(
+//     fetch(
 
+//         "http://192.168.99.100:8080/posts/" + postID, {
+//         method: "PUT",
+//         headers: {
+//             "Content-Type": "application/json",
+//             "Authorization": "Bearer " + localStorage.accessToken
+//         },
+//         body: JSON.stringify(updatedPost)
+//     })
+
+//         .then(function (response) {
+
+//             const p = document.getElementById("update-post-output-paragraph")
+
+//             console.log(response.status)
+
+//             switch (response.status) {
+//                 case 204:
+//                     p.innerText = "Update was successful!"
+//                     break
+//                 case 500:
+//                     p.innerText = "Update failed because of database error."
+//                     break
+//                 case 401:
+//                     p.innerText = "You are not authorized to update this post! This action is only available for admin users."
+//                     break
+//                 case 400:
+//                     const validationErrors = response.json()
+//                     ul = document.getElementById("update-post-validation-ul")
+                   
+//                     showValidationErrors(validationErrors, ul)
+//                     break
+//                 default:
+//                     p.innerText = "Received unexpected status code: " + response.statuscode
+//             }
+//         })
+//         .catch(function (error) {
+//             console.log(error)
+//         })
+
+// }
+
+
+async function updatePost(postID, updatedPost) {
+    
+    try {
+        const response = await fetch(
         "http://192.168.99.100:8080/posts/" + postID, {
         method: "PUT",
         headers: {
@@ -185,40 +231,31 @@ function updatePost(postID, updatedPost) {
         body: JSON.stringify(updatedPost)
     })
 
-        .then(function (response) {
+        const p = document.getElementById("update-post-output-paragraph")
 
-            const p = document.getElementById("update-post-output-paragraph")
-            
-            console.log(response.status)
-            
-            switch (response.status) {
-                case 204:
-                    p.innerText = "Update was successful!"
-                    break
-                case 500:
-                    p.innerText = "Update failed because of database error."
-                    break
-                case 401:
-                    p.innerText = "You are not authorized to update this post! This action is only available for admin users."
-                    break
-                case 400:        
-                    const validationErrors = response.errors //This is probably not accurate 
-                    console.log(validationErrors)
+        switch (response.status) {
+            case 204:
+                p.innerText = "Update was successful!"
+                break
+            case 500:
+                p.innerText = "Update failed because of database error."
+                break
+            case 401:
+                p.innerText = "You are not authorized to update this post! This action is only available for admin users."
+                break
+            case 400:
+                const validationErrors = await response.json()
+                ul = document.getElementById("update-post-validation-ul")
                 
-                    ul = document.getElementById("update-post-validation-ul")
-                    showValidationErrors(validationErrors, ul)
-                    
-                    break
-                default:
-                    p.innerText = "Received unexpected status code: " + response.statuscode
-            }
-
-        })
-
-        .catch(function (error) {
-            console.log(error)
-        })
-
+                showValidationErrors(validationErrors, ul)
+                break
+            default:
+                p.innerText = "Received unexpected status code: " + response.statuscode
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
 
 

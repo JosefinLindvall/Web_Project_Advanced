@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	document.querySelector("#signup-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
-		
+
 		const firstName = document.querySelector("#signup-page .firstName").value
 		const lastName = document.querySelector("#signup-page .lastName").value
 		const email = document.querySelector("#signup-page .email").value
@@ -206,21 +206,22 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	function showValidationErrors(validationErrors, validationUl) {
+function showValidationErrors(validationErrors, validationUl) {
 
-		//const ulWithErrors = document.getElementById("ulWithErrors")
-		//ulWithErrors.innerText = ""
+	validationUl.innerText = ""
 
-		validationUl.innerText = ""
+	console.log(validationErrors)
+	console.log("inside showvalidationerrors")
 
-		for (i = 0; i < validationErrors.length; i++) {
-			const liError = document.createElement("li")
-			validationUl.appendChild(liError)
-			liError.innerText = validationErrors[0]
-		}
+	for (i = 0; i < validationErrors.length; i++) {
+		const liError = document.createElement("li")
+		validationUl.appendChild(liError)
+		liError.innerText = validationErrors[i]
+		console.log(validationErrors[i])
 	}
+}
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,6 +231,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	// 	document.getElementById("error-div").classList.remove("current-page")
 	// }
 
-	
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

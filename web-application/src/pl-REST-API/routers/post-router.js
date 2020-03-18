@@ -165,12 +165,9 @@ module.exports = function ({postManager}) {
 						response.status(401).end()
 					}
 					
-					else { //These errors are validation errors!
-						console.log(errors)
-						//response.status(400).json(errors)
-					//	response.status(400).json({"errors": errors})
-						response.status(400).json({errors})
-						
+					else { 
+						console.log(errors)  // ger tillbaka detta: [ 'Need to enter a title', 'Need to enter some content' ]
+						response.status(400).json(errors)		
 					}
 				}
 				
@@ -184,8 +181,6 @@ module.exports = function ({postManager}) {
 		else { //Not logged in as Admin!
 			response.status(401).end()
 		}
-		
-
 	})
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
