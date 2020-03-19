@@ -1,12 +1,20 @@
+const sequelize = require('./dbConnection')
 
-module.exports = function({db}){
+module.exports = function({}){
     
     return {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        getContactMessageTable : function () { 
+            return sequelize.model("contactMessage")
+        },
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         getAllContactMessages : function (callback) {
 
-            db.getContactMessageTable().findAll({
+            getContactMessageTable().findAll({
                 order: [['createdAt', 'DESC']], raw: true
             })
             
@@ -24,7 +32,7 @@ module.exports = function({db}){
 
         createContactMessage : function (title, content, email, callback) {
 
-            db.getContactMessageTable().create({title: title, content: content, email: email})
+            getContactMessageTable().create({title: title, content: content, email: email})
             
             .then(function(createdContactMessage) {
                 callback([])

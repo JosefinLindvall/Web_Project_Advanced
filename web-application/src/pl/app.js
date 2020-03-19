@@ -70,7 +70,7 @@ const container = awilix.createContainer()
 
 // Requiring functions for the currently used database
 
-const currentDb = "mySQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
+const currentDb = "PostgreSQL" // Set this to "mySQL" or "PostgreSQL" depending on which is the currently used db
 
 if (currentDb == "mySQL") {
     var accountRepoFun = require('../dal-MySQL/account-repository')
@@ -81,12 +81,6 @@ if (currentDb == "mySQL") {
 }
 
 else if (currentDb == "PostgreSQL") {
-
-    const dbFun = require('../dal-PostgreSQL/db')
-    container.register('db', awilix.asFunction(dbFun))
-
-    const theDb = container.resolve('db')
-    theDb.createAllTables()
 
     var accountRepoFun = require('../dal-PostgreSQL/account-repository')
     var categoryRepoFun = require('../dal-PostgreSQL/category-repository')
@@ -175,16 +169,16 @@ const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 //  Using routers for web application
 
-app.use("/account", theAccountRouter)
-app.use("/", theVariousRouter)
-app.use("/post", thePostRouter)
-app.use("/contact-message", theContactMessageRouter)
+// app.use("/account", theAccountRouter)
+// app.use("/", theVariousRouter)
+// app.use("/post", thePostRouter)
+// app.use("/contact-message", theContactMessageRouter)
 
 
-// app.use('/account', csrf({ cookie: true}), theAccountRouter)
-// app.use('/', csrf({ cookie: true}), theVariousRouter)
-// app.use('/post', csrf({ cookie: true}), thePostRouter)
-// app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
+app.use('/account', csrf({ cookie: true}), theAccountRouter)
+app.use('/', csrf({ cookie: true}), theVariousRouter)
+app.use('/post', csrf({ cookie: true}), thePostRouter)
+app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
 
 
 // Using routers for REST-API

@@ -1,23 +1,26 @@
-// const Sequelize = require('sequelize')
-// const sequelize = new Sequelize('postgres://friendy:5555@postgres:5432/webAppPostgreSQLDb')
+const Sequelize = require('sequelize')
+const sequelize = new Sequelize('postgres://friendy:5555@postgres:5432/webAppPostgreSQLDb')
 
-// const db = require('./db')
+const db = require('./db')
+console.log("this is db   ", db)
 
-// const tryToAuth = function (sequelize) {
-//     sequelize
-//     .authenticate()
-//     .then(() => {
-//         db(sequelize, Sequelize).then(function (tables) {
-//             console.log("Connection has been established successfully")
-//             clearInterval(interval)
-//         })
-//     })
+const tryToAuth = function (sequelize) {
+    sequelize
+        .authenticate()
+        .then(() => {
+            console.log("db: ", db(sequelize, Sequelize))
+            db(sequelize, Sequelize)
+                .then(function () {
+                    console.log("Connection with PostgreSQL database successfully established.")
+                    clearInterval(interval)
+                })
+        })
 
-//     .catch(error => {
-//         console.error("unable to connect to the database:", error)
-//     })
-// }
+        .catch(error => {
+            console.error("Unable to connect to PostgreSQL database:", error)
+        })
+}
 
-// var interval = setInterval(tryToAuth, 1000, sequelize)
+var interval = setInterval(tryToAuth, 1000, sequelize)
 
-// module.exports = sequelize
+module.exports = sequelize

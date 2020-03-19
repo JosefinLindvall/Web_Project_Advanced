@@ -1,11 +1,17 @@
 
-module.exports = function({db}){
+const sequelize = require('./dbConnection')
+
+module.exports = function({}){
     
     return {
 
+        getLocationTable : function () { 
+            return sequelize.model("location")
+        },
+
         getAllLocations : function (callback) {
 
-            db.getLocationTable().findAll({
+            getLocationTable().findAll({
                 order: [['location']],
                 raw:true
             })

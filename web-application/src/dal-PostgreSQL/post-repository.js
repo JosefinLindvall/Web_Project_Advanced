@@ -1,11 +1,20 @@
+const sequelize = require('./dbConnection')
 
-module.exports = function ({db}) {
+module.exports = function ({}) {
 
 	return {
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		getPostTable : function () { 
+            return sequelize.model("post")
+		},
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		createPost: function (post, accountID, callback) {
 		
-			db.getPostTable().create({
+			getPostTable().create({
 				title: post.title, 
 				content: post.content, 
 				categoryID: post.categoryID, 
@@ -26,7 +35,7 @@ module.exports = function ({db}) {
 
 		getPostByPostId: function (postID, callback) {
 			
-			db.getPostTable().findByPk(postID, {raw:true})
+			getPostTable().findByPk(postID, {raw:true})
 			
 			.then(function (post) {
                 callback(null, post)
@@ -41,7 +50,7 @@ module.exports = function ({db}) {
 		
 		getSixLatestPosts: function (callback) {
 			
-			db.getPostTable().findAll( { order: [['createdAt', 'DESC']], limit: 6, raw: true})
+			getPostTable().findAll( { order: [['createdAt', 'DESC']], limit: 6, raw: true})
 			
 			.then(function(posts){
 				callback(null, posts)
@@ -56,7 +65,7 @@ module.exports = function ({db}) {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
-			db.getPostTable().findAll({ 
+			getPostTable().findAll({ 
 				where: {
 					categoryID : categoryId, 
 					locationID: locationId
@@ -79,7 +88,7 @@ module.exports = function ({db}) {
 		
 		deletePost: function (postId, callback) {
 
-			db.getPostTable().destroy({
+			getPostTable().destroy({
 				where: {id: postId}
 			})
 			
@@ -96,7 +105,7 @@ module.exports = function ({db}) {
 
 		updatePost: function (updatedPost, callback) {
 
-			db.getPostTable().update({
+			getPostTable().update({
 				title: updatedPost.title,
 				content: updatedPost.content,
 			}, {

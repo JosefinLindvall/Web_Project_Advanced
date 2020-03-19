@@ -1,11 +1,16 @@
+const sequelize = require('./dbConnection')
 
-module.exports = function ({ db }) {
+module.exports = function ({}) {
 
     return {
 
+        getAccountTable : function () {
+            return sequelize.model("account")
+        },
+
         createAccount: function (account, hash, callback) {
 
-            db.getAccountTable().create({
+            getAccountTable().create({
                 firstName: account.firstName,
                 lastName: account.lastName,
                 password: hash,
@@ -18,7 +23,7 @@ module.exports = function ({ db }) {
             })
             
             .then(function (account) {
-                db.getAccountTable().findOne({
+                getAccountTable().findOne({
                     where: { email: account.email }
                 }).then(function (account) {
                     callback(null, account.id)
@@ -34,7 +39,7 @@ module.exports = function ({ db }) {
         //dubbelkolla hur detta kommer bli för vi parsar ju objektet och stoppar in fler parameterar 
         logInAccount: function (typedEmail, callback) {
             
-            db.getAccountTable().findOne({
+            getAccountTable().findOne({
                 where: { email: typedEmail }
             })
             
@@ -49,7 +54,7 @@ module.exports = function ({ db }) {
 
         getUserInformation: function (accountID, callback) {
             
-            db.getAccountTable().findByPk(
+            getAccountTable().findByPk(
                 accountID,
                 {raw:true}
             )
