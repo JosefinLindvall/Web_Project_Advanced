@@ -1,67 +1,65 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function createPost(post) {
+async function createPost(post) {
 
-    fetch(
-        "http://192.168.99.100:8080/posts", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.accessToken
-        },
-        body: JSON.stringify(post)
+    try {
+        
+        const response = await fetch(
+            "http://192.168.99.100:8080/posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.accessToken
+            },
+            body: JSON.stringify(post)
+        })
+
+
+        const p = document.getElementById("create-post-output-paragraph")
+        ul = document.getElementById("create-post-validation-ul")
+        hideValidationErrors(ul)
+
+        switch (response.status) {
+            case 201:
+                p.innerText = "Successfully created post!"
+                break
+            case 401:
+                p.innerText = "You are not logged in and are unauthorized to create a post! Please log in or sign up for an account at Friendy!"
+                break
+            case 500:
+                p.innerText = "Could not create post due to database error."
+                break
+            case 400:
+                const validationErrors = await response.json()
+                showValidationErrors(validationErrors, ul)
+                break
+            default:
+                p.innerText = "Received unexpected status code: " + response.statuscode
+        }
+
     }
-    )
-
-        .then(function (response) {
-
-            const p = document.getElementById("create-post-output-paragraph")
-
-            switch (response.status) {
-                case 201:
-                    p.innerText = "Successfully created post!"
-                    break
-                case 401:
-                    p.innerText = "You are not logged in and are unauthorized to create a post! Please log in or sign up for an account at Friendy!"
-                    break
-                case 500:
-                    p.innerText = "Could not create post due to database error."
-                    break
-                case 400:
-                    ul = document.getElementById("create-post-validation-ul")
-                    break
-                //Display validation errors here!
-
-                default:
-                    p.innerText = "Received unexpected status code: " + response.statuscode
-            }
-
-        })
-
-        .catch(function (error) {
-            console.log(error)
-        })
+     
+    catch(error) {
+        console.log(error)
+    }
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function fetchPost(id) {
+async function fetchPost(id) {
 
-    fetch("http://192.168.99.100:8080/posts/" + id)
+    try {
 
-        .then(function (response) {
+        const response = await fetch("http://192.168.99.100:8080/posts/" + id)
 
             if (response.status == 500) {
                 document.getElementById("post-output-paragraph").innerText = "Could not fetch post due to database error."
             }
 
-            return response.json()
-        })
-
-        .then(function (data) {
-
+            const data = await response.json()
+        
             const postTitle = data.post[0].title
             const postContent = data.post[0].content
             const postID = data.post[0].postID
@@ -70,102 +68,96 @@ function fetchPost(id) {
             document.querySelector("#post-content-p").innerText = postContent
             document.querySelector("#delete-post-a").href = "/delete-post/" + postID
             document.querySelector("#update-post-a").href = "/update-post/" + postID
-        })
 
-        .catch(function (error) {
-            console.log(error)
-        })
+    }
+
+    catch (error) {
+        console.log(error)
+    }
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function fetchSixLatestPosts() {
+async function fetchSixLatestPosts() {
 
-    fetch("http://192.168.99.100:8080/posts")
+    try {
+        
+        const response = await fetch("http://192.168.99.100:8080/posts", {})
 
-        .then(function (response) {
-
-            if (response.status == 500) {
-                document.getElementById("posts-output-paragraph").innerText = "Could not fetch posts due to database error."
-            }
-
-            return response.json()
-
-        })
-
-        .then(function (data) {
-
-            const ul = document.querySelector("#posts-page ul")
-
-            ul.innerText = ""
-
-            for (const post of data.posts) {
-
-                //creating li for each post
-                const li = document.createElement("li")
-
-                //Adding title and content text to li
-                const p = document.createElement("p")
-                p.innerText = "Title: " + post.title + "\nContent: " + post.content
-                li.appendChild(p)
-
-                // Adding href to li
-                const anchor = document.createElement("a")
-                anchor.innerText = "Go to post"
-                anchor.setAttribute("href", "/posts/" + post.postID)
-                li.appendChild(anchor)
-
-                //Appending li to ul
-                ul.append(li)
-            }
-
-        })
-
-        .catch(function (error) {
-            console.log(error)
-        })
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function deletePost(postID) {
-
-
-    fetch(
-
-        "http://192.168.99.100:8080/posts/" + postID, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.accessToken
+        if (response.status == 500) {
+            document.getElementById("posts-output-paragraph").innerText = "Could not fetch posts due to database error."
         }
-    })
 
-        .then(function (response) {
+        const data = await response.json()
 
-            p = document.getElementById("post-output-paragraph")
+        const ul = document.querySelector("#posts-page ul")
 
-            switch (response.status) {
-                case 204:
-                    p.innerText = "Successfully deleted post!"
-                    break
-                case 401:
-                    p.innerText = "You are not authorized to delete this post! This action is only available for admin users."
-                    break
-                case 500:
-                    p.innerText = "Failed to delete post due to database error."
-                    break
-                default:
-                    p.innerText = "Received unexpected status code: " + response.statuscode
+        ul.innerText = ""
 
+        for (const post of data.posts) {
+
+            //creating li for each post
+            const li = document.createElement("li")
+
+            //Adding title and content text to li
+            const p = document.createElement("p")
+            p.innerText = "Title: " + post.title + "\nContent: " + post.content
+            li.appendChild(p)
+
+            // Adding href to li
+            const anchor = document.createElement("a")
+            anchor.innerText = "Go to post"
+            anchor.setAttribute("href", "/posts/" + post.postID)
+            li.appendChild(anchor)
+
+            //Appending li to ul
+            ul.append(li)
+        }
+    }
+
+    catch(error) {
+        console.log(error)
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function deletePost(postID) {
+
+    try {
+
+        const response = await fetch(
+
+            "http://192.168.99.100:8080/posts/" + postID, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.accessToken
             }
+        }) 
 
-        })
+        p = document.getElementById("post-output-paragraph")
 
-        .catch(function (error) {
-            console.log(error)
-        })
+        switch (response.status) {
+            case 204:
+                p.innerText = "Successfully deleted post!"
+                break
+            case 401:
+                p.innerText = "You are not authorized to delete this post! This action is only available for admin users."
+                break
+            case 500:
+                p.innerText = "Failed to delete post due to database error."
+                break
+            default:
+                p.innerText = "Received unexpected status code: " + response.statuscode
+
+        }
+    }
+
+    catch (error) {
+        console.log(error)
+    }
 
 }
 
@@ -221,17 +213,22 @@ function deletePost(postID) {
 async function updatePost(postID, updatedPost) {
     
     try {
+        
         const response = await fetch(
         "http://192.168.99.100:8080/posts/" + postID, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.accessToken
-        },
-        body: JSON.stringify(updatedPost)
-    })
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.accessToken
+            },
+            
+            body: JSON.stringify(updatedPost)
+            
+        })
 
         const p = document.getElementById("update-post-output-paragraph")
+        ul = document.getElementById("update-post-validation-ul")
+        hideValidationErrors(ul)
 
         switch (response.status) {
             case 204:
@@ -245,14 +242,13 @@ async function updatePost(postID, updatedPost) {
                 break
             case 400:
                 const validationErrors = await response.json()
-                ul = document.getElementById("update-post-validation-ul")
-                
                 showValidationErrors(validationErrors, ul)
                 break
             default:
                 p.innerText = "Received unexpected status code: " + response.statuscode
         }
     }
+
     catch (error) {
         console.log(error)
     }

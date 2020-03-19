@@ -55,7 +55,7 @@ comparePassword = function (typedPassword, databasePassword, typeOfUser, account
     bcrypt.compare(typedPassword, databasePassword, function (err, isMatch) {
         
         if (err) {
-            callback(['bcrypt error'], null, null)
+            callback(['Bcrypt error.'], null, null)
         }
 
         else if (isMatch == true) {

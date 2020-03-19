@@ -1,38 +1,35 @@
-function putAllLocationsInForm() {
-    fetch(
-        "http://192.168.99.100:8080/locations", {
-
-        })
+async function putAllLocationsInForm() {
+    
+    try {
+    
+        const response = await fetch("http://192.168.99.100:8080/locations", {})
         
-        .then(function(response) {
-            
-            if (response.status != 200) {
-                document.getElementById("create-post-output-paragraph").innerText = "The get request for getting location options failed due to database error."
-            }
-            
-            return response.json()
         
-        })
+        if (response.status != 200) {
+            document.getElementById("create-post-output-paragraph").innerText = "The get request for getting location options failed due to database error."
+        }
         
-        .then(function(data) {
-            
-            const selectLocation = document.querySelector("#location-select")
+        const data = await response.json()
 
-            for (const location of data.locations) {
+        const locationSelect = document.querySelector("#location-select")
 
-                const option = document.createElement("option")
+        for (const location of data.locations) {
 
-                option.value = location.locationID
-                option.text = location.location
+            const option = document.createElement("option")
 
-                selectLocation.appendChild(option)
-            } 
+            option.value = location.locationID
+            option.text = location.location
 
-        })
+            locationSelect.appendChild(option)
+        } 
+
+
+
+    }
         
-        .catch(function(error) {
-            console.log(error)
-    })
+    catch(error) {
+        console.log(error)
+    }
 }
 
 

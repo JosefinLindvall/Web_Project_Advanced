@@ -206,31 +206,3 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function showValidationErrors(validationErrors, validationUl) {
-
-	validationUl.innerText = ""
-
-	console.log(validationErrors)
-	console.log("inside showvalidationerrors")
-
-	for (i = 0; i < validationErrors.length; i++) {
-		const liError = document.createElement("li")
-		validationUl.appendChild(liError)
-		liError.innerText = validationErrors[i]
-		console.log(validationErrors[i])
-	}
-}
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	// function hideErrors() {
-	// 	document.getElementById("error-div").classList.remove("current-page")
-	// }
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

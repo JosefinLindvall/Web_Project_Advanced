@@ -16,7 +16,7 @@ module.exports = function ({ accountManager }) {
 		const grantType = request.body.grant_type
 		const typedEmail = request.body.email
 		const typedPassword = request.body.password
-	
+
 		if (grantType != "password") {
 			response.status(400).json({ error: "unsupported_grant_type" })
 		}

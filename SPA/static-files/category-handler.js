@@ -1,38 +1,35 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function putAllCategoriesInForm() {
+async function putAllCategoriesInForm() {
+
+    try {
     
-    fetch("http://192.168.99.100:8080/categories", {})
-        
-        .then(function(response) {
-
-            if (response.status != 200) {
-                document.getElementById("create-post-output-paragraph").innerText = "The get request for getting category options failed due to database error."
-            }
+        const response = fetch("http://192.168.99.100:8080/categories", {})
             
-            return response.json()
+
+        if (response.status != 200) {
+            document.getElementById("create-post-output-paragraph").innerText = "The get request for getting category options failed due to database error."
+        }
         
-        })
+        const data = await response.json()
+
+        const categorySelect = document.querySelector("#category-select")
+
+        for (const category of data.categories) {
+
+            const option = document.createElement("option")
+
+            option.value = category.categoryID
+            option.text = category.category
+
+            categorySelect.appendChild(option)
+        } 
+      
+    }
         
-        .then(function(data) {
-
-            const selectCategory = document.querySelector("#category-select")
-
-            for (const category of data.categories) {
-
-                const option = document.createElement("option")
-
-                option.value = category.categoryID
-                option.text = category.category
-
-                selectCategory.appendChild(option)
-            } 
-
-        })
-        
-        .catch(function(error) {
-            console.log(error) 
-    })
+    catch(error) {
+        console.log(error) 
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
