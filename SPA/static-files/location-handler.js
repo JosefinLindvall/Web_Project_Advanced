@@ -1,4 +1,7 @@
 async function putAllLocationsInForm() {
+
+    const locationSelect = document.querySelector("#location-select")
+    locationSelect.innerText = ""
     
     try {
     
@@ -10,8 +13,6 @@ async function putAllLocationsInForm() {
         }
         
         const data = await response.json()
-
-        const locationSelect = document.querySelector("#location-select")
 
         for (const location of data.locations) {
 

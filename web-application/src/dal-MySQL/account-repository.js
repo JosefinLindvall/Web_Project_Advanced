@@ -8,6 +8,8 @@ module.exports = function ({ }) {
 
         createAccount: function (account, hash, callback) {
 
+            console.log("account in dal", account)
+
             //Inserting the account
             const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, typeOfUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
             const values = [account.firstName, account.lastName, hash, account.email, account.phoneNumber, account.birthday, account.gender, "User"]
@@ -15,6 +17,7 @@ module.exports = function ({ }) {
             db.query(query, values, function (error, account) {
 
                 if (error) {
+                    console.log(error)
                     callback(['Database error.'], null) //Database error when inserting account
                 }
 

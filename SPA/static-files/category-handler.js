@@ -2,9 +2,12 @@
 
 async function putAllCategoriesInForm() {
 
+    const categorySelect = document.querySelector("#category-select")
+    categorySelect.innerText = ""
+
     try {
     
-        const response = fetch("http://192.168.99.100:8080/categories", {})
+        const response = await fetch("http://192.168.99.100:8080/categories", {})
             
 
         if (response.status != 200) {
@@ -13,8 +16,7 @@ async function putAllCategoriesInForm() {
         
         const data = await response.json()
 
-        const categorySelect = document.querySelector("#category-select")
-
+     
         for (const category of data.categories) {
 
             const option = document.createElement("option")

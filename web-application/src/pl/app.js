@@ -33,19 +33,14 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 
-// app.use(cookieParser())
+app.use(cookieParser())
 
-// app.use(
-//     csrf({
-//         cookie: true
-//     })
-// );
 
 // The only allowed origin that we want to use for access-control
 const allowedOrigin = "http://192.168.99.100:3000"
 
 app.use(function (request, response, next) {
-    response.setHeader("Access-Control-Allow-Origin", '*')
+    response.setHeader("Access-Control-Allow-Origin", allowedOrigin)
     response.setHeader("Access-Control-Allow-Methods", '*')
     response.setHeader("Access-Control-Allow-Headers", '*')
     response.setHeader("Access-Control-Expose-Headers", '*')
@@ -53,11 +48,11 @@ app.use(function (request, response, next) {
 })
 
 //////// Handling sessions ////////////////////////////////////////////////////////////////////////////////
-app.use(session({  // The function "session" creates random session ids from the secret below
+app.use(session({ 
     saveUninitialized: false,
     resave: false,
     secret: 'ksdjfhjksbajshklbvcsaelv',
-    store: new RedisStore({ client: redisClient }) //if panic happens; add host:"redis" inside curly brackets
+    store: new RedisStore({ client: redisClient }) 
 }))
 
 app.use(function (request, response, next) {
@@ -178,17 +173,18 @@ const theCategoryRouterRestApi = container.resolve('locationRouterRestApi')
 const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 
-// // Using routers for web application
-app.use("/account", theAccountRouter)
-app.use("/", theVariousRouter)
-app.use("/post", thePostRouter)
-app.use("/contact-message", theContactMessageRouter)
+//  Using routers for web application
+
+// app.use("/account", theAccountRouter)
+// app.use("/", theVariousRouter)
+// app.use("/post", thePostRouter)
+// app.use("/contact-message", theContactMessageRouter)
 
 
-// app.use('/account', csrf({ cookie: true}), theAccountRouter)
-// app.use('/', csrf({ cookie: true}), theVariousRouter)
-// app.use('/post', csrf({ cookie: true}), thePostRouter)
-// app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
+app.use('/account', csrf({ cookie: true}), theAccountRouter)
+app.use('/', csrf({ cookie: true}), theVariousRouter)
+app.use('/post', csrf({ cookie: true}), thePostRouter)
+app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
 
 
 // Using routers for REST-API

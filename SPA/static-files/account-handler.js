@@ -34,8 +34,6 @@ async function getTokensAndLogin (email, password) {
 
 	try {
 
-		console.log ("before fetch")
-
 		const response = await fetch(
 			"http://192.168.99.100:8080/tokens", {
 				method: "POST",
@@ -46,28 +44,23 @@ async function getTokensAndLogin (email, password) {
 			}
 		)
 		
-		console.log (response.status)
-
+		
 		p = document.getElementById("login-output-paragraph")
-		//ul = document.getElementById("login-validation-ul")
-		//hideValidationErrors(ul)
+		ul = document.getElementById("login-validation-ul")
+		hideValidationErrors(ul)
 
-		console.log("innan switch")
-
-		switch(response.status){
+		const data = await response.json()
+		switch(response.status) {
 			case 202:
-				console.log("in the 202 case ")
-				p = "Successfully logged in!"
-				console.log(body.typeOfUser)
-				console.log(response.typeOfUser)
-				login(body.access_token, body.typeOfUser)
+				p.innerText = "Successfully logged in!"
+				login(data.access_token, data.typeOfUser)
 				//PUT ID TOKEN IN ACCESS STORAGE HERE
 				break
 			case 500:
-				p = "Could not log in due to database error."
+				p.innerText = "Could not log in due to database error."
 				break
 			case 400:
-				const validationErrors = await response.json()
+				const validationErrors = data.errors
 				showValidationErrors(ul, validationErrors)
 				break
 			default:
@@ -86,7 +79,8 @@ async function getTokensAndLogin (email, password) {
 async function signUp (newAccount) {
 	
 	try {
-		const response = fetch(
+		
+		const response = await fetch(
 			"http://192.168.99.100:8080/accounts", {
 				method: "POST",
 				headers: {
@@ -96,7 +90,6 @@ async function signUp (newAccount) {
 			
 			}
 		)
-			
 
 		const p = document.getElementById("signup-output-paragraph")
 		ul = document.getElementById("signup-validation-ul")
@@ -107,18 +100,16 @@ async function signUp (newAccount) {
 				p.innerText = "Successfully created account!"
 				break
 			case 500:
-				p.innerText = "Failed to create account due to database error."
+				p.innerText = "Database error when creating account. This could be beacuse the email entered already belongs to an account."
 				break
 			case 400:
 				const validationErrors = await response.json()
-				showValidationErrors(validationErrors)
+				showValidationErrors(validationErrors, ul)
 				break
 			default:
 				p.innerText = "Received unexpected status code: " + response.statuscode
 				break
 		}
-
-		
 
 	}
 	

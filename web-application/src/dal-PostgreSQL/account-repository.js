@@ -26,7 +26,7 @@ module.exports = function ({ db }) {
             })
             
             .catch(function (error) {
-                callback(error, null)
+                callback(["Database error."], null)
 
             })
         },
