@@ -175,16 +175,16 @@ const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 //  Using routers for web application
 
-// app.use("/account", theAccountRouter)
-// app.use("/", theVariousRouter)
-// app.use("/post", thePostRouter)
-// app.use("/contact-message", theContactMessageRouter)
+app.use("/account", theAccountRouter)
+app.use("/", theVariousRouter)
+app.use("/post", thePostRouter)
+app.use("/contact-message", theContactMessageRouter)
 
 
-app.use('/account', csrf({ cookie: true}), theAccountRouter)
-app.use('/', csrf({ cookie: true}), theVariousRouter)
-app.use('/post', csrf({ cookie: true}), thePostRouter)
-app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
+// app.use('/account', csrf({ cookie: true}), theAccountRouter)
+// app.use('/', csrf({ cookie: true}), theVariousRouter)
+// app.use('/post', csrf({ cookie: true}), thePostRouter)
+// app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
 
 
 // Using routers for REST-API

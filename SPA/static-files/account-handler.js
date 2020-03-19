@@ -1,11 +1,14 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function login(accessToken, typeOfUser) {
+function login(accessToken, idToken) {
 
-	console.log(typeOfUser)
-	console.log(accessToken)
 	localStorage.accessToken = accessToken
+	localStorage.idToken = idToken
+
 	document.body.classList.remove("isLoggedOut")
+
+	const typeOfUser = JSON.parse(atob(idToken.split('.')[1])).typeOfUser
+
 	
 	if (typeOfUser == "Admin") {
 		document.body.classList.add("isLoggedInAsAdmin")
@@ -53,8 +56,8 @@ async function getTokensAndLogin (email, password) {
 		switch(response.status) {
 			case 202:
 				p.innerText = "Successfully logged in!"
-				login(data.access_token, data.typeOfUser)
-				//PUT ID TOKEN IN ACCESS STORAGE HERE
+				console.log(data.id_token)
+				login(data.access_token, data.id_token)
 				break
 			case 500:
 				p.innerText = "Could not log in due to database error."

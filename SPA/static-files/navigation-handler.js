@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	changeToPage(location.pathname)
 
-	if (localStorage.accessToken) {
-		login(localStorage.accessToken)
+	if (localStorage.accessToken && localStorage.idToken) {
+		login(localStorage.accessToken, localStorage.idToken)
 	}
 	else {
 		logout()

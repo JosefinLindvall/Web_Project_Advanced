@@ -37,8 +37,11 @@ module.exports = function ({ accountManager }) {
 			else {
 				const payload = { accountID: accountID, typeOfUser: typeOfUser }
 				const accessToken = jwt.sign(payload, serverSecret)
-				//TODO : put id token in here as well!
-				response.status(202).json({access_token: accessToken, account_id: accountID, typeOfUser: typeOfUser}) 
+				const idToken = jwt.sign({typeOfUser: typeOfUser}, "dhgfshjkfunicornhhfkjdgh")
+			
+				//response.status(202).json({access_token: accessToken, account_id: accountID, typeOfUser: typeOfUser}) 
+				response.status(202).json({access_token: accessToken, id_token: idToken}) 
+
 			}
 		})
 	})
