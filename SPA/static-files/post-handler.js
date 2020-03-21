@@ -1,5 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 async function createPost(post) {
 
@@ -16,6 +14,7 @@ async function createPost(post) {
 
         const p = document.getElementById("create-post-output-paragraph")
         ul = document.getElementById("create-post-validation-ul")
+        
         hideValidationErrors(ul)
 
         switch (response.status) {
@@ -43,9 +42,6 @@ async function createPost(post) {
     }
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 async function fetchPost(id) {
 
     try {
@@ -61,15 +57,7 @@ async function fetchPost(id) {
         const postTitle = data.post.title
         const postContent = data.post.content
         const postID = data.post.postID
-        console.log("rest", data)
-
-        // const postTitle = data.title
-        // const postContent = data.content
-        // const postID = data.postID
-
-        console.log(postTitle)
-        console.log(data.title)
-
+        
         document.getElementById("post-title-p").innerText = postTitle
         document.querySelector("#post-content-p").innerText = postContent
         document.querySelector("#delete-post-a").href = "/delete-post/" + postID
@@ -81,8 +69,6 @@ async function fetchPost(id) {
     }
 
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function fetchSixLatestPosts() {
 
@@ -102,21 +88,18 @@ async function fetchSixLatestPosts() {
 
         for (const post of data.posts) {
 
-            //creating li for each post
             const li = document.createElement("li")
-
-            //Adding title and content text to li
             const p = document.createElement("p")
+            
             p.innerText = "Title: " + post.title + "\nContent: " + post.content
             li.appendChild(p)
 
-            // Adding href to li
             const anchor = document.createElement("a")
+            
             anchor.innerText = "Go to post"
             anchor.setAttribute("href", "/posts/" + post.postID)
+            
             li.appendChild(anchor)
-
-            //Appending li to ul
             ul.append(li)
         }
     }
@@ -126,14 +109,11 @@ async function fetchSixLatestPosts() {
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 async function deletePost(postID) {
 
     try {
 
         const response = await fetch(
-
             "http://192.168.99.100:8080/posts/" + postID, {
             method: "DELETE",
             headers: {
@@ -159,61 +139,10 @@ async function deletePost(postID) {
 
         }
     }
-
     catch (error) {
         console.log(error)
     }
-
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// function updatePost(postID, updatedPost) {
-
-//     fetch(
-
-//         "http://192.168.99.100:8080/posts/" + postID, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": "application/json",
-//             "Authorization": "Bearer " + localStorage.accessToken
-//         },
-//         body: JSON.stringify(updatedPost)
-//     })
-
-//         .then(function (response) {
-
-//             const p = document.getElementById("update-post-output-paragraph")
-
-//             console.log(response.status)
-
-//             switch (response.status) {
-//                 case 204:
-//                     p.innerText = "Update was successful!"
-//                     break
-//                 case 500:
-//                     p.innerText = "Update failed because of database error."
-//                     break
-//                 case 401:
-//                     p.innerText = "You are not authorized to update this post! This action is only available for admin users."
-//                     break
-//                 case 400:
-//                     const validationErrors = response.json()
-//                     ul = document.getElementById("update-post-validation-ul")
-                   
-//                     showValidationErrors(validationErrors, ul)
-//                     break
-//                 default:
-//                     p.innerText = "Received unexpected status code: " + response.statuscode
-//             }
-//         })
-//         .catch(function (error) {
-//             console.log(error)
-//         })
-
-// }
-
 
 async function updatePost(postID, updatedPost) {
     
@@ -258,7 +187,3 @@ async function updatePost(postID, updatedPost) {
         console.log(error)
     }
 }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

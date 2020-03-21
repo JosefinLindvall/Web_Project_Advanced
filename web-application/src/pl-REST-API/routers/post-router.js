@@ -6,8 +6,6 @@ module.exports = function ({postManager}) {
 
 	const router = express.Router()
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	router.post("/posts", function (request, response) {
 	
 		const title = request.body.title
@@ -39,7 +37,7 @@ module.exports = function ({postManager}) {
                 if (errors.includes("Database error.")) { 
 					response.status(500).end()
 				}   
-                else { //These errors are validation errors!
+                else { 
 					response.status(400).json(errors)
 				}
 			}
@@ -49,14 +47,12 @@ module.exports = function ({postManager}) {
 		})
 	})
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	router.get('/posts', function (request, response) {
 
 		postManager.getSixLatestPosts(function (error, posts) {
 
 			if (error) {
-				response.status(500).end() //db error!
+				response.status(500).end() 
 			}
 
 			else {
@@ -65,9 +61,6 @@ module.exports = function ({postManager}) {
 		})   
 	})
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		
 	router.get('/posts/:id', function (request, response) {
 
 		const postID = request.params.id
@@ -78,7 +71,7 @@ module.exports = function ({postManager}) {
 
 			if (error) {
 				console.log(error)
-				response.status(500).end() //db error!
+				response.status(500).end() 
 			}
 
 			else {
@@ -86,8 +79,6 @@ module.exports = function ({postManager}) {
 			}
 		})   
     })
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	router.delete('/posts/:id', function(request, response) {
 
@@ -101,7 +92,7 @@ module.exports = function ({postManager}) {
 			typeOfUser = payload.typeOfUser
 		}
 
-		catch (error) { // User is not logged in at all
+		catch (error) { 
 			response.status(401).end()
 			return
 		}
@@ -121,23 +112,18 @@ module.exports = function ({postManager}) {
 			})
 		}
 		
-		else {  // not logged in as admin
+		else {  
 			response.status(401).end()
 		} 
 	})
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	router.put('/posts/:id', function(request, response){
-
-		//Reading values from uri and body 
 
 		const postID = request.params.id
 		const title = request.body.title
 		const content = request.body.content
 
 		//Validating user before proceeding to update post
-
 		var typeOfUser = "invalid user type"
 		const authorizationHeader = request.get('authorization')
 		const accessToken = authorizationHeader.substr("Bearer ".length)
@@ -147,7 +133,7 @@ module.exports = function ({postManager}) {
 			typeOfUser = payload.typeOfUser
 		}
 
-		catch (error) { //No access token, not logged in at all
+		catch (error) { 
 			response.status(401).end() 
 			return
 		}
@@ -160,33 +146,30 @@ module.exports = function ({postManager}) {
 				
 				if (errors != null) {
 
-					if (errors.includes("Database error.")) { // Database error
+					if (errors.includes("Database error.")) { 
 						response.status(500).end()
 					}   
 
-					else if (errors.includes("Unauthorized to update post.")) { // Not logged in as admin
+					else if (errors.includes("Unauthorized to update post.")) { 
 						response.status(401).end()
 					}
 					
 					else { 
-						console.log(errors)  // ger tillbaka detta: [ 'Need to enter a title', 'Need to enter some content' ]
+						console.log(errors)  
 						response.status(400).json(errors)		
 					}
 				}
 				
-				else { //No errors!
+				else {
 					response.status(204).end()
 				}
 			})
 
 		}
 
-		else { //Not logged in as Admin!
+		else { 
 			response.status(401).end()
 		}
 	})
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	return router
 }

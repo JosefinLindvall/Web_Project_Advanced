@@ -1,10 +1,7 @@
 
-
 document.addEventListener("DOMContentLoaded", function () {
 
 	//////////   HANDLING NAVIGATION      ///////////////////////////////////////////////////////////////////////////////////////////
-
-
 	changeToPage(location.pathname)
 
 	if (localStorage.accessToken && localStorage.idToken) {
@@ -14,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		logout()
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	document.body.addEventListener("click", function (event) {
 		if (event.target.tagName == "A") {
 			event.preventDefault()
@@ -24,21 +19,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	})
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	window.addEventListener("popstate", function (event) {
 		const url = location.pathname
 		changeToPage(url)
 	})
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	function goToPage(url) {
 		changeToPage(url)
 		history.pushState({}, "", url)
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	function removeCurrentPage() {
 		const currentPageDiv = document.getElementsByClassName("current-page")[0]
@@ -48,15 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	function changeToPage(url) {
 
 		removeCurrentPage()
-
-
-		//MAKE THIS A SWITCH?
 
 		if (url == "/") {
 			document.getElementById("home-page").classList.add("current-page")
@@ -116,12 +99,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		else {
 			document.getElementById("error-page").classList.add("current-page")
 		}
-
 	}
 
 
 	//////////   EVENT LISTENERS FOR FORMS      //////////////////////////////////////////////////////////////////////////////////////
-
 	document.querySelector("#login-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
 
@@ -130,8 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		getTokensAndLogin(email, password)
 	})
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	document.querySelector("#signup-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
@@ -148,8 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		signUp(newAccount)
 	})
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	document.querySelector("#create-post-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
@@ -169,8 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		createPost(post)
 	})
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	document.querySelector("#update-post-page form").addEventListener("submit", function (event) {
 		event.preventDefault()
 
@@ -184,13 +159,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 
 		updatePost(postID, updatedPost)
-
 	})
 
 
 	//////////   EVENT LISTENERS FOR BUTTONS      ///////////////////////////////////////////////////////////////////////////////////
-
-
 	document.querySelector("#goToCreatePostButton").addEventListener("click", function (event) {
 		event.preventDefault()
 
@@ -204,5 +176,3 @@ document.addEventListener("DOMContentLoaded", function () {
 	})
 
 })
-
-

@@ -4,8 +4,6 @@ module.exports = function({}){
     
     return {
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         getAllContactMessages : function (callback) {
 
             const query = `SELECT * FROM ContactMessage ORDER BY createdAt DESC`
@@ -14,7 +12,7 @@ module.exports = function({}){
             db.query(query, values, function (error, contactMessages) {
 
                 if (error) {
-                    callback(['Database error.'], null) //this error from the database is passed forward as a hard coded string
+                    callback(['Database error.'], null)
                 }
 
                 else {
@@ -24,9 +22,6 @@ module.exports = function({}){
 
         },
 
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         createContactMessage : function (title, content, email, callback) {
 
             const query = `INSERT INTO ContactMessage (title, content, email) VALUES (?,?,?)`
@@ -35,7 +30,7 @@ module.exports = function({}){
             db.query(query, values, function (error) {
 
                 if (error) {
-                    callback(['Database error.']) //this error from the database is passed forward as a hard coded string
+                    callback(['Database error.'])
                 }
 
                 else {
@@ -44,7 +39,5 @@ module.exports = function({}){
             })
 
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

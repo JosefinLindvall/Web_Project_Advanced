@@ -3,8 +3,7 @@ const db = require('./db')
 module.exports = function({}){
     
     return {
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         getAllLocations : function (callback) {
 
             const query = `SELECT * FROM Location ORDER BY location` 

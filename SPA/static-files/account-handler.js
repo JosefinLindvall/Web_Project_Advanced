@@ -1,4 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function login(accessToken, idToken) {
 
@@ -9,7 +8,6 @@ function login(accessToken, idToken) {
 
 	const typeOfUser = JSON.parse(atob(idToken.split('.')[1])).typeOfUser
 
-	
 	if (typeOfUser == "Admin") {
 		document.body.classList.add("isLoggedInAsAdmin")
 	}
@@ -19,19 +17,14 @@ function login(accessToken, idToken) {
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function logout() {
 	localStorage.accessToken = ""
 	localStorage.typeOfUser = ""
 
-	document.body.classList.remove("isLoggedInAsAdmin") //krashar detta om bodyn inte har denna klassen???
+	document.body.classList.remove("isLoggedInAsAdmin") 
 	document.body.classList.remove("isLoggedInAsUser")
 	document.body.classList.add("isLoggedOut")
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 async function getTokensAndLogin (email, password) {
 
@@ -42,17 +35,18 @@ async function getTokensAndLogin (email, password) {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/x-www-form-urlencoded"
-				}, // TODO: Escape username and password in case they contained reserved characters in the x-www-form-urlencoded format.
+				}, 
 				body: "grant_type=password&email="+encodeURIComponent(email)+"&password="+encodeURIComponent(password)
 			}
 		)
-		
-		
+			
 		p = document.getElementById("login-output-paragraph")
 		ul = document.getElementById("login-validation-ul")
+		
 		hideValidationErrors(ul)
 
 		const data = await response.json()
+		
 		switch(response.status) {
 			case 202:
 				p.innerText = "Successfully logged in!"
@@ -69,15 +63,12 @@ async function getTokensAndLogin (email, password) {
 			default:
 				p.innerText = "Received unexpected status code: " + response.statuscode
 		}
-	
 	}
 	
 	catch(error) {
 		p = "Error logging in."
 	}
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 async function signUp (newAccount) {
 	
@@ -120,9 +111,3 @@ async function signUp (newAccount) {
 		console.log(error)
 	}
 }
-
-
-
-
-
-

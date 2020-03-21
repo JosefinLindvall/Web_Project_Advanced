@@ -1,9 +1,7 @@
 
-
 module.exports = function(sequelize, Sequelize) {
 
     //Creating tables and setting relations
-    
     const Account = sequelize.define('account', {
         firstName: {type: Sequelize.TEXT, allowNull:false}, 
         lastName: {type: Sequelize.TEXT, allowNull:false},
@@ -93,17 +91,14 @@ module.exports = function(sequelize, Sequelize) {
                 dataWasInserted = false   
                 return dataWasInserted      
             }
-
         }) 
     })
-
 
     .then (function(dataWasInserted) {
 
         if (!dataWasInserted) {
        
             // Inserting hard coded data for admin accounts
-
             Account.create({
                 firstName: "Dennis",
                 lastName: "Andersson",
@@ -128,12 +123,9 @@ module.exports = function(sequelize, Sequelize) {
 
 
             //Putting in hard coded data for categories
-            
-    
             Category.create({
                 category: "Hiking",
             })
-            
             
             Category.create({
                 category: "Cinema",
@@ -155,11 +147,6 @@ module.exports = function(sequelize, Sequelize) {
             Location.create({
                 location: "Lund",
             })
-            
-            console.log("just before returning from db function")
-
         }
     })
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

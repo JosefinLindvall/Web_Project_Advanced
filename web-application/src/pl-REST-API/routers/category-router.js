@@ -9,7 +9,7 @@ module.exports = function ({categoryManager}) {
 		categoryManager.getAllCategories(function (errors, categories) {
 
 			if (errors) {
-				response.status(500).end() //db errors!
+				response.status(500).end() 
 			}
 			
 			else {	

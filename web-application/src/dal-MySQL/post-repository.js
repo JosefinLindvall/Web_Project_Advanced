@@ -4,7 +4,6 @@ module.exports = function ({ }) {
 
 	return {
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		createPost: function (post, accountID, callback) {
 
 			const query = "INSERT INTO Post (title, content, categoryID, locationID, accountID) VALUES (?, ?, ?, ?, ?)"
@@ -20,8 +19,6 @@ module.exports = function ({ }) {
 				}
 			})
 		},
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		getPostByPostId: function (postID, callback) {
 
@@ -40,12 +37,8 @@ module.exports = function ({ }) {
 				}
 
 			})
-
-
 		},
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		getSixLatestPosts: function (callback) {
 
 			const values = []
@@ -62,9 +55,6 @@ module.exports = function ({ }) {
 			})
 		},
 
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
 			const values = [categoryId, locationId]
@@ -80,8 +70,6 @@ module.exports = function ({ }) {
 				}
 			})
 		},
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		deletePost: function (postId, callback) {
 			const values = [postId]
@@ -99,8 +87,6 @@ module.exports = function ({ }) {
 			})
 		},
 		
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		updatePost: function (updatedPost, callback) {
 			
 			const values = [updatedPost.title, updatedPost.content, updatedPost.postID]
@@ -117,7 +103,5 @@ module.exports = function ({ }) {
 				}
 			})
 		}
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
-
 }

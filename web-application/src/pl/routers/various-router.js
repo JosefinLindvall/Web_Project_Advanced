@@ -46,6 +46,5 @@ module.exports = function ({ postManager }) {
         
         response.render("about.hbs", model)
     })
-
     return router
 }

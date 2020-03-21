@@ -14,12 +14,12 @@ module.exports = function ({locationManager}) {
 					response.status(500).end()
 				}
                 
-                else { //These errors are validation errors!
+                else { 
 					response.status(400).json(errors)
 				}
 			}
 			else {	
-				response.status(200).json({locations: locations}) //do we need to pass id token here as well?
+				response.status(200).json({locations: locations}) 
 			}
 		})
     })

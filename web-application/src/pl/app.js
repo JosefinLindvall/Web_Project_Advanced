@@ -1,6 +1,5 @@
 
 //////// Requiring npm packages ////////////////////////////////////////////////////////////////////////////////
-
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
@@ -34,7 +33,6 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.use(cookieParser())
-
 
 // The only allowed origin that we want to use for access-control
 const allowedOrigin = "http://192.168.99.100:3000"
@@ -81,7 +79,6 @@ if (currentDb == "mySQL") {
 }
 
 else if (currentDb == "PostgreSQL") {
-
     var accountRepoFun = require('../dal-PostgreSQL/account-repository')
     var categoryRepoFun = require('../dal-PostgreSQL/category-repository')
     var contactMessageRepoFun = require('../dal-PostgreSQL/contact-message-repository')
@@ -167,27 +164,18 @@ const theCategoryRouterRestApi = container.resolve('locationRouterRestApi')
 const theLocationRouterRestApi = container.resolve('categoryRouterRestApi')
 
 
-
-// app.use("/account", theAccountRouter)
-// app.use("/", theVariousRouter)
-// app.use("/post", thePostRouter)
-// app.use("/contact-message", theContactMessageRouter)
-
-
-
 // Using routers for REST-API
 app.use("/", theAccountRouterRestApi)
 app.use("/", theCategoryRouterRestApi)
 app.use("/", theLocationRouterRestApi)
 app.use("/", thePostRouterRestApi)
 
+
 // //  Using routers for web application
 app.use('/account', csrf({ cookie: true}), theAccountRouter)
 app.use('/', csrf({ cookie: true}), theVariousRouter)
 app.use('/post', csrf({ cookie: true}), thePostRouter)
 app.use('/contact-message', csrf({ cookie: true}), theContactMessageRouter)
-
-
 
 //////// Listening for incoming HTTP requests! ////////////////////////////////////////////////////////////////////////////////
 app.listen(8080, function () {

@@ -1,5 +1,5 @@
 
-module.exports = function({categoryRepo}){
+module.exports = function({categoryRepo}) {
     
     return {
         getAllCategories : function (callback) {

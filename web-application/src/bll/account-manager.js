@@ -4,8 +4,8 @@ module.exports = function ({ accountRepo, accountValidator }) {
 
     return {
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         createAccount: function (account, callback) {
+            
             const errors = accountValidator.getErrorsNewAccount(account)
             const password = account.password
             const saltRounds = 10
@@ -20,8 +20,6 @@ module.exports = function ({ accountRepo, accountValidator }) {
             })
         },
 
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         logInAccount: function (typedEmail, typedPassword, callback) {
 
             const errors = accountValidator.checkAccountInformation(typedEmail, typedPassword)
@@ -43,7 +41,6 @@ module.exports = function ({ accountRepo, accountValidator }) {
             })
         },
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         getUserInformation: function (accountID, callback) {
             accountRepo.getUserInformation(accountID, callback)
         },

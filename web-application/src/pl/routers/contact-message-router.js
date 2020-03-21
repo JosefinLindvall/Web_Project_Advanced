@@ -4,7 +4,6 @@ module.exports = function({contactMessageManager, sessionHandler}) {
  
    const router = express.Router()
    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     router.get("/view-all-contact-messages", sessionHandler.checkIfLoggedInAsAdminUser, function (request, response) { 
     
         try {
@@ -31,7 +30,7 @@ module.exports = function({contactMessageManager, sessionHandler}) {
             })
         }
 
-        catch (error) { // This error is a router error 
+        catch (error) { 
 
             const model = {
                 routerError: error,
@@ -42,7 +41,6 @@ module.exports = function({contactMessageManager, sessionHandler}) {
         }
     })
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     router.get("/support", function (request, response) {
 
         const model = {
@@ -52,8 +50,6 @@ module.exports = function({contactMessageManager, sessionHandler}) {
         response.render("support.hbs", model)
     })
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     router.post("/send-contact-message", function (request, response) {
 
         const thankYouMessage = "Thank you for your message! We will get back to you as soon as possible!"
@@ -87,7 +83,7 @@ module.exports = function({contactMessageManager, sessionHandler}) {
             })
         }
 
-        catch (error) { // This error is a router error
+        catch (error) { 
 
             const model = {
                 routerError: error,

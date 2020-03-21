@@ -4,14 +4,10 @@ getContactMessageTable = function () {
     return sequelize.model("contactMessage")
 }
 
-
 module.exports = function({}){
     
     return {
 
-        
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
         getAllContactMessages : function (callback) {
 
             getContactMessageTable().findAll({
@@ -27,9 +23,6 @@ module.exports = function({}){
             })    
         },
 
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         createContactMessage : function (title, content, email, callback) {
 
             getContactMessageTable().create({title: title, content: content, email: email})
@@ -39,7 +32,7 @@ module.exports = function({}){
             })
 
             .catch(function(error) {
-                callback(error) //['Database error when creating contact message.']
+                callback(error) 
             })
         }
     }

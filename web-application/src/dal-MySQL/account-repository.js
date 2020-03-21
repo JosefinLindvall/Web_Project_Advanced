@@ -4,21 +4,15 @@ module.exports = function ({ }) {
 
     return {
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         createAccount: function (account, hash, callback) {
 
-            console.log("account in dal", account)
-
-            //Inserting the account
             const query = "INSERT INTO Account (firstName, lastName, password, email, phoneNumber, birthDate, gender, typeOfUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
             const values = [account.firstName, account.lastName, hash, account.email, account.phoneNumber, account.birthday, account.gender, "User"]
 
             db.query(query, values, function (error, account) {
 
                 if (error) {
-                    console.log(error)
-                    callback(['Database error.'], null) //Database error when inserting account
+                    callback(['Database error.'], null) 
                 }
 
                 else {
@@ -40,8 +34,6 @@ module.exports = function ({ }) {
             })
         },
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         logInAccount: function (typedEmail, callback) {
 
             const query = "SELECT password, typeOfUser, accountID FROM `Account` WHERE email = ?"
@@ -53,7 +45,7 @@ module.exports = function ({ }) {
                 typeOfUser = dataPackage[0].typeOfUser
                 accountID = dataPackage[0].accountID
 
-                if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
+                if (databaseError) { 
                     callback(['Database error.'], null, null, null)
                 }
 
@@ -67,14 +59,13 @@ module.exports = function ({ }) {
             })
         },
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         getUserInformation: function (accountID, callback) {
+            
             const query = "SELECT firstName, lastName, email, phoneNumber, birthDate, gender FROM `Account` WHERE accountID = ?"
             const values = [accountID]
 
             db.query(query, values, function (databaseError, currUserInfo) {
-                if (databaseError) { // This does not mean that no email was found, it means that we have an actual database error
+                if (databaseError) { 
                     callback(['Database error.'], null)
                 }
                 else {

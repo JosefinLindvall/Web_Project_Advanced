@@ -1,9 +1,8 @@
 const db = require('./db')
 
-module.exports = function({}){
+module.exports = function({}) {
     
     return {
-
 
         getAllCategories : function (callback) {
 
@@ -20,7 +19,6 @@ module.exports = function({}){
                     callback(null, categories) 
                 }
             })
-
         }
     }    
 }

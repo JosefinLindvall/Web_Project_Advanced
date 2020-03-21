@@ -2,6 +2,7 @@
 module.exports = function({}) {
     
     return {
+        
         getErrorsNewPost : function (post) {
 
             MAX_TITLE_LENGTH = 30
@@ -12,9 +13,6 @@ module.exports = function({}) {
             content = post.content
             categoryID = post.categoryID
             locationID = post.locationID
-
-            console.log (post)
-            console.log (categoryID)
 
             if (categoryID == null || locationID == null) {
                 errors.push("Need to choose category and location!")
@@ -44,7 +42,7 @@ module.exports = function({}) {
             if (typeOfUser != "Admin") {
                 errors.push("Unauthorized to update post.")
             }
-            
+    
             return errors
         },
 

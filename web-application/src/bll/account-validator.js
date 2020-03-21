@@ -3,7 +3,6 @@ module.exports = function ({ }) {
 
 	return {
 
-		/////////////////////////////////////////////////////////////////////////////////////////////
 		getErrorsNewAccount: function (account) {
 
 			MIN_FIRSTNAME_LENGTH = 2
@@ -57,7 +56,6 @@ module.exports = function ({ }) {
 			return errors
 		},
 
-		/////////////////////////////////////////////////////////////////////////////////////////////
 		checkAccountInformation: function (typedEmail, typedPassword) {
 			const errors = []
 

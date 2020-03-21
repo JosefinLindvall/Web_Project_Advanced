@@ -10,7 +10,6 @@ module.exports = function ({ }) {
                     notLoggedInAsReg: true,
                     csrfToken: request.csrfToken()
                 }
-
                 response.render("login.hbs", model)
             }
 
@@ -18,9 +17,6 @@ module.exports = function ({ }) {
                 next()
             }
         },
-
-
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         checkIfLoggedInAsAdminUser: function (request, response, next) {
 
@@ -30,7 +26,6 @@ module.exports = function ({ }) {
                     notLoggedInAsAdmin: true, 
                     csrfToken: request.csrfToken()
                 }
-
                 response.render("login.hbs", model)
             }
 

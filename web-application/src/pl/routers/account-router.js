@@ -4,8 +4,6 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 	const router = express.Router()
 
-	//LOG IN
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.get('/login', function (request, response) {
 
 		const model = {
@@ -48,7 +46,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 			})
 		}
 
-		catch (error) { // This error is a router error
+		catch (error) { 
 			const model = {
 				routerError: error
 			}
@@ -56,8 +54,6 @@ module.exports = function ({ accountManager, sessionHandler }) {
 		}
 	})
 
-	//LOG OUT
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.post('/logout', function (request, response) {
 
 		request.session.isLoggedInAsReg = false
@@ -67,9 +63,6 @@ module.exports = function ({ accountManager, sessionHandler }) {
 		response.redirect("/")	
 	})
 
-
-	//SIGN UP
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.get('/signup', function (request, response) {
 
 		const model = {
@@ -79,8 +72,6 @@ module.exports = function ({ accountManager, sessionHandler }) {
 		response.render("signUp.hbs", model)
 	})
 
-
-	// //Post request to send user info into the Account table. 
 	router.post('/signup', function (request, response) {
 
 		const account = request.body
@@ -110,7 +101,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 			})
 		}
 
-		catch (error) { // This error is a router error
+		catch (error) { 
 			const model = {
 				routerError: error, 
 				csrfToken: request.csrfToken()
@@ -119,8 +110,6 @@ module.exports = function ({ accountManager, sessionHandler }) {
 		}
 	})
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	router.get('/profile', sessionHandler.checkIfLoggedInAsRegUser, function (request, response) {
 
 		const accountID = request.session.accountID
@@ -158,7 +147,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 			})
 		}
 
-		catch (error) { // This error is a router error
+		catch (error) { 
 			const model = {
 				routerError: error, 
 				csrfToken: request.csrfToken()
@@ -203,7 +192,7 @@ module.exports = function ({ accountManager, sessionHandler }) {
 			})
 		}
 
-		catch (error) { // This error is a router error
+		catch (error) { 
 			const model = {
 				routerError: error,
 				csrfToken: request.csrfToken()

@@ -1,6 +1,5 @@
 const sequelize = require('./dbConnection')
 
-
 getPostTable = function () { 
 	return sequelize.model("post")
 }
@@ -8,8 +7,6 @@ getPostTable = function () {
 module.exports = function ({}) {
 
 	return {
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		createPost: function (post, accountID, callback) {
 		
@@ -30,8 +27,6 @@ module.exports = function ({}) {
 			})
 		},
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		getPostByPostId: function (postID, callback) {
 			
 			getPostTable().findByPk(postID, {raw:true})
@@ -46,8 +41,6 @@ module.exports = function ({}) {
             })
 		},
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		getSixLatestPosts: function (callback) {
 			
 			getPostTable().findAll( { order: [['createdAt', 'DESC']], limit: 6, raw: true})
@@ -61,9 +54,6 @@ module.exports = function ({}) {
 			})
 		},
 
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
 			getPostTable().findAll({ 
@@ -85,8 +75,6 @@ module.exports = function ({}) {
 
 		},
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		deletePost: function (postId, callback) {
 
 			getPostTable().destroy({
@@ -102,8 +90,6 @@ module.exports = function ({}) {
 			})
 		},
 		
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		updatePost: function (updatedPost, callback) {
 
 			getPostTable().update({
@@ -122,7 +108,5 @@ module.exports = function ({}) {
 				callback('Database error.')
 			})
 		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

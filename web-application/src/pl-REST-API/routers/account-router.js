@@ -4,12 +4,7 @@ const jwt = require('jsonwebtoken')
 
 module.exports = function ({ accountManager }) {
 
-
 	const router = express.Router()
-
-
-	//LOG IN
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	router.post('/tokens', function (request, response) {
 
@@ -21,7 +16,6 @@ module.exports = function ({ accountManager }) {
 			response.status(400).json({ error: "unsupported_grant_type" })
 		}
 
-
 		accountManager.logInAccount(typedEmail, typedPassword, function (errors, typeOfUser, accountID) {
 
 			if (errors != null) {
@@ -30,7 +24,7 @@ module.exports = function ({ accountManager }) {
 					response.status(500).end()
 				}
 
-				else { //These errors are validation errors!
+				else { 
 					response.status(400).json(errors)	
 				}
 			}
@@ -39,16 +33,10 @@ module.exports = function ({ accountManager }) {
 				const accessToken = jwt.sign(payload, serverSecret)
 				const idToken = jwt.sign({typeOfUser: typeOfUser}, "dhgfshjkfunicornhhfkjdgh")
 			
-				//response.status(202).json({access_token: accessToken, account_id: accountID, typeOfUser: typeOfUser}) 
 				response.status(202).json({access_token: accessToken, id_token: idToken}) 
-
 			}
 		})
 	})
-
-
-	//SIGN UP
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	router.post('/accounts', function (request, response) {
 
@@ -62,7 +50,7 @@ module.exports = function ({ accountManager }) {
 					response.status(500).end()
 				}
 
-				else { //These errors are validation errors!
+				else { 
 					response.status(400).json(errors)
 				}
 			}
@@ -72,9 +60,5 @@ module.exports = function ({ accountManager }) {
 			}
 		})
 	})
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	return router
 }

@@ -4,12 +4,10 @@ module.exports = function({contactMessageRepo, contactMessageValidator}) {
     
     return {
 
-        /////////////////////////////////////////////////////////////////////////////////////////////
         getAllContactMessages : function (callback) {
             contactMessageRepo.getAllContactMessages(callback)
         },
 
-        /////////////////////////////////////////////////////////////////////////////////////////////
         createContactMessage : function (title, content, email, callback) {
 
             const validationErrors = contactMessageValidator.getErrorsForCreateContactMessage(title, content, email)

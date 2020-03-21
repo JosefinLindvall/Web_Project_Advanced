@@ -1,6 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/searchPosts.css">
 
-{{!---------------------------------------------------------------------------------------}}
 <div class="container-div">
     <h4 class="search-posts-title"> Search Posts</h4>
     <div class="search-div">
@@ -28,8 +27,6 @@
         </form>
     </div>
 </div>
-
-{{!---------------------------------------------------------------------------------------}}
 
 {{#if errors}} {{!-- These errors are database errors either from fetching categories, locations or posts  --}}
 <div class="error-div">
@@ -65,7 +62,6 @@
                     <p class="post-content-paragraph">{{createdAt}}</p>
                 </div>
 
-                {{!-- klicka på contact me - > skicka iväg till /profile:ID så vi får id från param? --}}
                 <div class="card-action">
                     <a href="/account/profile/{{accountID}}">Contact me!</a>
                 </div>
@@ -77,8 +73,6 @@
     </div>
     </div>
 
-    {{!---------------------------------------------------------------------------------------}}
-
     {{else}} {{!-- "posts" is empty which means no posts match the search OR no search has been made yet. --}}
 
     {{#if searchHasBeenMade}}
@@ -89,4 +83,3 @@
     {{/if}}
     {{/if}}
 
-    {{!---------------------------------------------------------------------------------------}}

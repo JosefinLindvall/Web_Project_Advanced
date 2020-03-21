@@ -20,13 +20,15 @@ module.exports = function ({}) {
                 birthDate: account.birthday,
                 gender: account.gender,
                 typeOfUser: "User"
-
             })
             
             .then(function (account) {
+                
                 getAccountTable().findOne({
                     where: { email: account.email }
-                }).then(function (account) {
+                })
+                
+                .then(function (account) {
                     callback(null, account.id)
                 })
             })
@@ -36,7 +38,6 @@ module.exports = function ({}) {
             })
         },
 
-        //dubbelkolla hur detta kommer bli för vi parsar ju objektet och stoppar in fler parameterar 
         logInAccount: function (typedEmail, callback) {
             
             getAccountTable().findOne({
