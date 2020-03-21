@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS ContactMessage (
     content VARCHAR(255),
     email VARCHAR(255), 
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    PRIMARY KEY(ContactMessageID)
+    PRIMARY KEY(contactMessageID)
 );
 
 CREATE TABLE IF NOT EXISTS Category (

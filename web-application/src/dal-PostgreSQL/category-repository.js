@@ -1,13 +1,13 @@
 const sequelize = require('./dbConnection')
 
+getCategoryTable = function () { 
+    return sequelize.model("category")
+}
+
 module.exports = function({}){
     
     return {
 
-        getCategoryTable : function () { 
-            return sequelize.model("category")
-        },
-        
         getAllCategories : function (callback) {
 
             getCategoryTable().findAll({

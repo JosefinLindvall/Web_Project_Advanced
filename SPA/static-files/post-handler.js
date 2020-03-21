@@ -4,7 +4,6 @@
 async function createPost(post) {
 
     try {
-        
         const response = await fetch(
             "http://192.168.99.100:8080/posts", {
             method: "POST",
@@ -14,7 +13,6 @@ async function createPost(post) {
             },
             body: JSON.stringify(post)
         })
-
 
         const p = document.getElementById("create-post-output-paragraph")
         ul = document.getElementById("create-post-validation-ul")
@@ -54,21 +52,28 @@ async function fetchPost(id) {
 
         const response = await fetch("http://192.168.99.100:8080/posts/" + id)
 
-            if (response.status == 500) {
-                document.getElementById("post-output-paragraph").innerText = "Could not fetch post due to database error."
-            }
+        if (response.status == 500) {
+            document.getElementById("post-output-paragraph").innerText = "Could not fetch post due to database error."
+        }
 
-            const data = await response.json()
-        
-            const postTitle = data.post[0].title
-            const postContent = data.post[0].content
-            const postID = data.post[0].postID
+        const data = await response.json()
+     
+        const postTitle = data.post.title
+        const postContent = data.post.content
+        const postID = data.post.postID
+        console.log("rest", data)
 
-            document.querySelector("#post-title-p").innerText = postTitle
-            document.querySelector("#post-content-p").innerText = postContent
-            document.querySelector("#delete-post-a").href = "/delete-post/" + postID
-            document.querySelector("#update-post-a").href = "/update-post/" + postID
+        // const postTitle = data.title
+        // const postContent = data.content
+        // const postID = data.postID
 
+        console.log(postTitle)
+        console.log(data.title)
+
+        document.getElementById("post-title-p").innerText = postTitle
+        document.querySelector("#post-content-p").innerText = postContent
+        document.querySelector("#delete-post-a").href = "/delete-post/" + postID
+        document.querySelector("#update-post-a").href = "/update-post/" + postID
     }
 
     catch (error) {

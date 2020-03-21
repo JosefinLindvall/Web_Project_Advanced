@@ -1,15 +1,16 @@
 const sequelize = require('./dbConnection')
 
+getAccountTable = function () {
+    return sequelize.model("account")
+}
+
+
 module.exports = function ({}) {
 
     return {
 
-        getAccountTable : function () {
-            return sequelize.model("account")
-        },
-
         createAccount: function (account, hash, callback) {
-
+            
             getAccountTable().create({
                 firstName: account.firstName,
                 lastName: account.lastName,
@@ -32,7 +33,6 @@ module.exports = function ({}) {
             
             .catch(function (error) {
                 callback(["Database error."], null)
-
             })
         },
 
@@ -56,7 +56,7 @@ module.exports = function ({}) {
             
             getAccountTable().findByPk(
                 accountID,
-                {raw:true}
+                {raw: true}
             )
             
             .then(function (currUserInfo) {

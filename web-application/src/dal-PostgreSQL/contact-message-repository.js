@@ -1,15 +1,15 @@
 const sequelize = require('./dbConnection')
 
+getContactMessageTable = function () { 
+    return sequelize.model("contactMessage")
+}
+
+
 module.exports = function({}){
     
     return {
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        getContactMessageTable : function () { 
-            return sequelize.model("contactMessage")
-        },
-
+        
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         getAllContactMessages : function (callback) {
@@ -19,7 +19,7 @@ module.exports = function({}){
             })
             
             .then (function(contactMessages) {
-                callback([], contactMessages)
+                callback(null, contactMessages)
             })
 
             .catch(function(error) {

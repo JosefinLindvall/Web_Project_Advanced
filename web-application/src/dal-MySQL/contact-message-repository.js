@@ -39,7 +39,7 @@ module.exports = function({}){
                 }
 
                 else {
-                    callback([]) //should i really return an empty arrray? Why not null? 
+                    callback([])  
                 }
             })
 

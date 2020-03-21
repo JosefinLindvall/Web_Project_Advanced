@@ -1,15 +1,14 @@
 const sequelize = require('./dbConnection')
 
+
+getPostTable = function () { 
+	return sequelize.model("post")
+}
+
 module.exports = function ({}) {
 
 	return {
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		getPostTable : function () { 
-            return sequelize.model("post")
-		},
-		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		createPost: function (post, accountID, callback) {
@@ -38,6 +37,7 @@ module.exports = function ({}) {
 			getPostTable().findByPk(postID, {raw:true})
 			
 			.then(function (post) {
+				console.log("post ", post)
                 callback(null, post)
 			})
 			
@@ -63,6 +63,7 @@ module.exports = function ({}) {
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		getPostsByCategoryIdAndLocationId: function (categoryId, locationId, callback) {
 
 			getPostTable().findAll({ 
@@ -89,7 +90,7 @@ module.exports = function ({}) {
 		deletePost: function (postId, callback) {
 
 			getPostTable().destroy({
-				where: {id: postId}
+				where: {postID: postId}
 			})
 			
 			.then(function() {
@@ -109,16 +110,19 @@ module.exports = function ({}) {
 				title: updatedPost.title,
 				content: updatedPost.content,
 			}, {
-				where: {id: updatedPost.postID}
+				where: {postID: updatedPost.postID}
 			})
 			
 			.then(function() {
 				callback(null)
 			})
 			
-			.catch(function() {
+			.catch(function(error) {
+				console.log("db error", error)
 				callback('Database error.')
 			})
 		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

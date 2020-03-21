@@ -4,7 +4,7 @@ module.exports = function ({ }) {
 
         checkIfLoggedInAsRegUser: function (request, response, next) {
 
-            if (request.session.isLoggedInAsReg == null) {
+            if (request.session.isLoggedInAsReg == false) {
 
                 const model = {
                     notLoggedInAsReg: true,
@@ -24,7 +24,7 @@ module.exports = function ({ }) {
 
         checkIfLoggedInAsAdminUser: function (request, response, next) {
 
-            if (request.session.isLoggedInAsAdmin == null) {
+            if (request.session.isLoggedInAsAdmin == false ) {
 
                 const model = {
                     notLoggedInAsAdmin: true, 

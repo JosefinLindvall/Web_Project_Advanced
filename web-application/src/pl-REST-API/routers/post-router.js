@@ -74,7 +74,10 @@ module.exports = function ({postManager}) {
 
 		postManager.getPostByPostId(postID, function (error, post) {
 
+			console.log(post)
+
 			if (error) {
+				console.log(error)
 				response.status(500).end() //db error!
 			}
 

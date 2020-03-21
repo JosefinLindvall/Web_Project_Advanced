@@ -9,15 +9,23 @@ module.exports = function({contactMessageManager, sessionHandler}) {
     
         try {
             contactMessageManager.getAllContactMessages(function (databaseError, contactMessages) {
-
+                
+                console.log(contactMessages)
+                
                 var model = {}
 
                 if (databaseError) {
-                    model = {databaseError}
+                    model = {
+                        databaseError,
+                        csrfToken: request.csrfToken()
+                    }
                 }
 
                 else {
-                    model = {contactMessages}
+                    model = {
+                        contactMessages,
+                        csrfToken: request.csrfToken()
+                    }
                 }
                 response.render("viewMessages.hbs", model)
             })
@@ -26,7 +34,8 @@ module.exports = function({contactMessageManager, sessionHandler}) {
         catch (error) { // This error is a router error 
 
             const model = {
-                routerError: error
+                routerError: error,
+                csrfToken: request.csrfToken()
             }
             
             response.render("routerError.hbs", model)
@@ -81,7 +90,8 @@ module.exports = function({contactMessageManager, sessionHandler}) {
         catch (error) { // This error is a router error
 
             const model = {
-                routerError: error
+                routerError: error,
+                csrfToken: request.csrfToken()
             }
             response.render("routerError.hbs", model)
         }

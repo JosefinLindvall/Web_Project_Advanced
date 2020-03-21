@@ -39,7 +39,12 @@ module.exports = function ({ postManager }) {
     })
 
     router.get('/about-us', function (request, response) {
-        response.render("about.hbs")
+        
+        model = { 
+            csrfToken: request.csrfToken()
+        }
+        
+        response.render("about.hbs", model)
     })
 
     return router

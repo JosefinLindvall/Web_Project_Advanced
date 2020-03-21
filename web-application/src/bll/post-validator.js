@@ -10,8 +10,15 @@ module.exports = function({}) {
             errors = []
             title = post.title
             content = post.content
-            category = post.category
-            location = post.location
+            categoryID = post.categoryID
+            locationID = post.locationID
+
+            console.log (post)
+            console.log (categoryID)
+
+            if (categoryID == null || locationID == null) {
+                errors.push("Need to choose category and location!")
+            }
 
             if (title == "") {
                 errors.push("Need to enter a title")
@@ -38,6 +45,32 @@ module.exports = function({}) {
                 errors.push("Unauthorized to update post.")
             }
             
+            return errors
+        },
+
+        getErrorsUpdatedPost: function(updatedPost) {
+
+            MAX_TITLE_LENGTH = 30
+            MAX_CONTENT_LENGTH = 500
+
+            errors = []
+            title = updatedPost.title
+            content = updatedPost.content
+
+            if (title == "") {
+                errors.push("Need to enter a title")
+            }
+            else if (title.length > MAX_TITLE_LENGTH) {
+                errors.push("Title can't be more than 10 characters")
+            }
+
+            if (content == "") {
+                errors.push("Need to enter some content")
+            }
+            else if (content.length > MAX_CONTENT_LENGTH) {
+                errors.push("Content message can't be more than 500characters!")
+            }
+
             return errors
         }
     }

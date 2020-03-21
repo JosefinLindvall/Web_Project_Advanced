@@ -42,7 +42,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		catch (error) { //this error is a router error
 
 			const model = {
-				routerError: error
+				routerError: error,
+				csrfToken: request.csrfToken()
 			}
 
 			response.render("routerError.hbs", model)
@@ -58,17 +59,50 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		const post = request.body
 		const accountID = request.session.accountID
 
+
 		try {
 
-			postManager.createPost(post, accountID, function (error) {
-				if (error) {
-					const model = {
-						error: error,
-						csrfToken: request.csrfToken()
-					}
-					response.render("createPost.hbs", model)
+			postManager.createPost(post, accountID, function (errorsWhenCreatingPost) {
+				
+				
+				if (errorsWhenCreatingPost) {
+
+					locationManager.getAllLocations(function (error, location) {
+						if (error) {
+							const model = {
+								error: error, 
+								csrfToken: request.csrfToken()
+							}
+							response.render("createPost.hbs", model)
+						}
+						
+						else {
+							
+							categoryManager.getAllCategories(function (error, category) {
+								if (error) {
+									const model = {
+										error: error, 
+										csrfToken: request.csrfToken()
+									}
+									response.render("createPost.hbs", model)
+								}
+								else {
+									const model = {
+										error: errorsWhenCreatingPost,
+										location: location,
+										category: category, 
+										csrfToken: request.csrfToken()
+									}
+									response.render("createPost.hbs", model)
+								}
+							})
+						}
+					})
 				}
+				
+				
 				else {
+
 					locationManager.getAllLocations(function (error, location) {
 						if (error) {
 							const model = {
@@ -104,14 +138,16 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		catch (error) { //this error is a router error
 
 			const model = {
-				routerError: error
+				routerError: error,
+				csrfToken: request.csrfToken()
 			}
 
 			response.render("routerError.hbs", model)
 		}
 	})
 
-	////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	router.get("/search-posts", function (request, response) {
 
 		try {
@@ -123,7 +159,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 				if (errors) {
 
 					model = { 
-						errors
+						errors,
+						csrfToken: request.csrfToken()
 					 }
 
 					response.render("searchPosts.hbs", model)
@@ -137,6 +174,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 							model = { 
 								errors,
+								csrfToken: request.csrfToken()
 							}
 
 							response.render("searchPosts.hbs", model)
@@ -147,6 +185,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 							model = {
 								categories: categories,
 								locations: locations, 
+								csrfToken: request.csrfToken()
 							}
 
 							response.render("searchPosts.hbs", model)
@@ -159,7 +198,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		catch (error) { //this error is a router error
 
 			const model = {
-				routerError: error
+				routerError: error,
+				csrfToken: request.csrfToken()
 			}
 
 			response.render("routerError.hbs", model)
@@ -168,10 +208,18 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	router.get("/execute-search", function (request, response) {
 
 		const categoryId = request.query.categoryID
 		const locationId = request.query.locationID
+|
+		console.log(categoryId)
+
+		if (categoryId == null || locationId == null) {
+			response.redirect("/post/search-posts")
+			return
+		}
 
 		try {
 
@@ -182,8 +230,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 				if (errors) {
 
 					model = { 
-						errors, 
-		
+						errors,
+						csrfToken: request.csrfToken() 
 					}
 					
 					response.render("searchPosts.hbs", model)
@@ -197,7 +245,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 
 							model = { 
 								errors,
-				
+								csrfToken: request.csrfToken()
 							}
 
 							response.render("searchPosts.hbs", model)
@@ -206,10 +254,12 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 						else { //No error fetching locations, ok to go on and fetch all matching posts
 
 							postManager.getPostsByCategoryIdAndLocationId(categoryId, locationId, function (errors, posts) {
+								
 								if (errors) {
 
 									model = { 
 										errors,
+										csrfToken: request.csrfToken()
 									}
 
 									response.render("searchPosts.hbs", model)
@@ -222,6 +272,7 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 										locations: locations,
 										posts: posts,
 										searchHasBeenMade: true, 
+										csrfToken: request.csrfToken()
 									}
 									response.render("searchPosts.hbs", model)
 								}
@@ -235,7 +286,8 @@ module.exports = function ({ postManager, categoryManager, locationManager, sess
 		catch (error) { //this error is a router error
 
 			const model = {
-				routerError: error
+				routerError: error,
+				csrfToken: request.csrfToken()
 			}
 			response.render("routerError.hbs", model)
 		}

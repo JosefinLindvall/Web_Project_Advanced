@@ -1,6 +1,10 @@
 
 const sequelize = require('./dbConnection')
 
+getLocationTable = function () { 
+    return sequelize.model("location")
+}
+
 module.exports = function({}){
     
     return {

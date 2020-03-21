@@ -28,13 +28,14 @@ module.exports = function ({ }) {
 			const values = [postID]
 			const query = "SELECT * FROM Post WHERE postID = ?"
 
-			db.query (query, values, function(databaseError, post){
+			db.query (query, values, function(databaseError, data){
 
 				if (databaseError) {
 					callback(['Database error.'], null)
 				}
 
 				else {
+					const post = data[0]
 					callback(null, post)
 				}
 

@@ -2,8 +2,7 @@
 
 module.exports = function(sequelize, Sequelize) {
 
-
-    //Creating tables
+    //Creating tables and setting relations
     
     const Account = sequelize.define('account', {
         firstName: {type: Sequelize.TEXT, allowNull:false}, 
@@ -83,79 +82,83 @@ module.exports = function(sequelize, Sequelize) {
     .then(function() { 
         
         return Account.findByPk(1)
-        
         .then(function(account) {
             
             if (account) {
-                return
+                dataWasInserted = true
+                return dataWasInserted
             }
 
             else {
-                Account.create({
-                    firstName: "Dennis",
-                    lastName: "Andersson",
-                    password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
-                    email: "dennisfram@hotmail.com",
-                    phoneNumber: "0730896460",
-                    birthDate: "1996-04-28",
-                    gender: "male",
-                    typeOfUser: "Admin"
-                })            
+                dataWasInserted = false   
+                return dataWasInserted      
             }
+
         }) 
     })
 
 
-    .then(function() { 
-        return Account.findByPk(2).then(function(account) {
-            if (account) {
-                return
-            }
+    .then (function(dataWasInserted) {
 
-            else {
-                Account.create({
-                    firstName: "Josefin",
-                    lastName: "Lindvall",
-                    password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
-                    email: "j@j",
-                    phoneNumber: "0703721510",
-                    birthDate: "1997-12-26",
-                    gender: "female",
-                    typeOfUser: "Admin"
-                })            
-            }
-        }) 
-    })
+        if (!dataWasInserted) {
+       
+            // Inserting hard coded data for admin accounts
 
-    .then (function() {
+            Account.create({
+                firstName: "Dennis",
+                lastName: "Andersson",
+                password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
+                email: "dennisfram@hotmail.com",
+                phoneNumber: "0730896460",
+                birthDate: "1996-04-28",
+                gender: "male",
+                typeOfUser: "Admin"
+            }) 
 
-        //Putting in hard coded data for categories
-        /*Category.create({
-            category: "Hiking",
-        })
+            Account.create({
+                firstName: "Josefin",
+                lastName: "Lindvall",
+                password: "$2b$10$LcOebxeCpIRiFLuZuVfNI.bY4qr88w1Lc4NqtLBtK8czjZP1EVK8e",
+                email: "j@j",
+                phoneNumber: "0703721510",
+                birthDate: "1997-12-26",
+                gender: "female",
+                typeOfUser: "Admin"
+            })    
 
-        Category.create({
-            category: "Cinema",
-        })
 
-        Category.create({
-            category: "Dancing",
-        })
+            //Putting in hard coded data for categories
+            
+    
+            Category.create({
+                category: "Hiking",
+            })
+            
+            
+            Category.create({
+                category: "Cinema",
+            })
 
-        //Putting in hard coded data for locations
-        Location.create({
-            location: "Aneby",
-        })
+            Category.create({
+                category: "Dancing",
+            })
 
-        Location.create({
-            location: "Stockholm",
-        })
+            //Putting in hard coded data for locations
+            Location.create({
+                location: "Aneby",
+            })
 
-        Location.create({
-            location: "Lund",
-        })*/
-        console.log("just before returning from db function")
+            Location.create({
+                location: "Stockholm",
+            })
 
+            Location.create({
+                location: "Lund",
+            })
+            
+            console.log("just before returning from db function")
+
+        }
     })
 }
 

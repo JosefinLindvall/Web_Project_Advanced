@@ -85,10 +85,17 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		const account = request.body
 
+		console.log("account in router", account)
+
 		try {
 			accountManager.createAccount(account, function (error, accountID) {
+				
+				console.log(error)
+				console.log(accountID)
+				
 
 				if (error) {
+					console.log(error)
 					const model = {
 						error: error,
 						csrfToken: request.csrfToken()
@@ -105,7 +112,8 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		catch (error) { // This error is a router error
 			const model = {
-				routerError: error
+				routerError: error, 
+				csrfToken: request.csrfToken()
 			}
 			response.render("routerError.hbs", model)
 		}
@@ -129,8 +137,10 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 				if (error) {
 					const model = {
-						error: error
+						error: error,
+						csrfToken: request.csrfToken()
 					}
+					 	
 					response.render("profile.hbs", model)
 				}
 				else {
@@ -140,7 +150,8 @@ module.exports = function ({ accountManager, sessionHandler }) {
 						email: email,
 						phoneNumber: phoneNumber,
 						birthDate: birthDate,
-						gender: gender
+						gender: gender,
+						csrfToken: request.csrfToken()
 					}
 					response.render("profile.hbs", model)
 				}
@@ -149,7 +160,8 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		catch (error) { // This error is a router error
 			const model = {
-				routerError: error
+				routerError: error, 
+				csrfToken: request.csrfToken()
 			}
 			response.render("routerError.hbs", model)
 		}
@@ -171,7 +183,8 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 				if (error) {
 					const model = {
-						error: error
+						error: error,
+						csrfToken: request.csrfToken()
 					}
 					response.render("profile.hbs", model)
 				}
@@ -182,7 +195,8 @@ module.exports = function ({ accountManager, sessionHandler }) {
 						email: email,
 						phoneNumber: phoneNumber,
 						birthDate: birthDate,
-						gender: gender
+						gender: gender,
+						csrfToken: request.csrfToken()
 					}
 					response.render("profile.hbs", model)
 				}
@@ -191,7 +205,8 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		catch (error) { // This error is a router error
 			const model = {
-				routerError: error
+				routerError: error,
+				csrfToken: request.csrfToken()
 			}
 			response.render("routerError.hbs", model)
 		}
