@@ -76,17 +76,10 @@ module.exports = function ({ accountManager, sessionHandler }) {
 
 		const account = request.body
 
-		console.log("account in router", account)
-
 		try {
 			accountManager.createAccount(account, function (error, accountID) {
 				
-				console.log(error)
-				console.log(accountID)
-				
-
 				if (error) {
-					console.log(error)
 					const model = {
 						error: error,
 						csrfToken: request.csrfToken()

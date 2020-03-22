@@ -32,7 +32,6 @@ module.exports = function ({}) {
 			getPostTable().findByPk(postID, {raw:true})
 			
 			.then(function (post) {
-				console.log("post ", post)
                 callback(null, post)
 			})
 			
@@ -104,7 +103,6 @@ module.exports = function ({}) {
 			})
 			
 			.catch(function(error) {
-				console.log("db error", error)
 				callback('Database error.')
 			})
 		}

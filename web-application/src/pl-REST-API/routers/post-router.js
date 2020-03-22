@@ -67,10 +67,7 @@ module.exports = function ({postManager}) {
 
 		postManager.getPostByPostId(postID, function (error, post) {
 
-			console.log(post)
-
 			if (error) {
-				console.log(error)
 				response.status(500).end() 
 			}
 
@@ -155,7 +152,6 @@ module.exports = function ({postManager}) {
 					}
 					
 					else { 
-						console.log(errors)  
 						response.status(400).json(errors)		
 					}
 				}

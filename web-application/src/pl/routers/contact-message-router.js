@@ -8,9 +8,7 @@ module.exports = function({contactMessageManager, sessionHandler}) {
     
         try {
             contactMessageManager.getAllContactMessages(function (databaseError, contactMessages) {
-                
-                console.log(contactMessages)
-                
+                    
                 var model = {}
 
                 if (databaseError) {

@@ -50,7 +50,6 @@ async function getTokensAndLogin (email, password) {
 		switch(response.status) {
 			case 202:
 				p.innerText = "Successfully logged in!"
-				console.log(data.id_token)
 				login(data.access_token, data.id_token)
 				break
 			case 500:
